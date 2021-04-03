@@ -1,0 +1,29 @@
+/*
+$edgecorner: 20px;
+$edgecorner-sm: 10px;
+$edgecorner-xs: 5px;
+*/
+.float-left { float: left; }
+
+.float-right { float: right; }
+
+.text-center { text-align: center; }
+
+.formset .formitem { padding: 5px; }
+.formset .formitem .textbox { background: #e8ebf5; border: solid 1px #5c8aff; margin-right: 10px; }
+.formset .formitem .textboxsmall { width: 30px; background: #e8ebf5; border: solid 1px #5c8aff; }
+.formset .formitem .textarea { background: #e8ebf5; border: solid 1px #5c8aff; margin-right: 10px; resize: none; width: 100%; height: 65px; }
+.formset .formitem .label-xs { width: 50px; display: inline-block; }
+.formset .formitem .label-sm { width: 65px; display: inline-block; }
+.formset .formitem .label-md { width: 75px; display: inline-block; }
+.formset .formitem .label-lg { width: 90px; display: inline-block; }
+.formset .formitem .label-xl { width: 115px; display: inline-block; }
+.formset .formitem .width-full { width: 100%; }
+.formset .formitem .width-xs { width: 27%; }
+.formset .formitem .width-sm { width: 40%; }
+.formset .formitem .width-md { width: 60%; }
+.formset .formitem .width-lg { width: 80%; }
+.formset .formpic { border: solid 1px #5c8aff; }
+.formset .formpic img { width: 100%; max-height: 500px; }
+
+hr { margin-top: 30px; padding-bottom: 10px; border-color: #DDD; }

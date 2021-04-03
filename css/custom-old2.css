@@ -1,0 +1,170 @@
+body, ul, li, .login, .mainmenu, .mainmenu ul li, .leftpanel, .header, .header .header-content .header-admin .dropdown button, .mainpanel { padding: 0px; margin: 0px auto; }
+
+body { transition: all 500ms ease-IN; -o-transition: all 500ms ease; -ms-transition: all 500ms ease; -moz-transition: all 500ms ease; -webkit-transition: all 500ms ease; background: #e7ecf0; font-size: 20px; line-height: 1.5em; width: 100%; color: #333; overflow-x: hidden; }
+
+.tab-xs { padding-left: 5px; }
+
+.tab-sm { padding-left: 10px; }
+
+.tab-md { padding-left: 15px; }
+
+.tab-lg { padding-left: 20px; }
+
+.tab-xl { padding-left: 25px; }
+
+.visible { visibility: visible; }
+
+.hide { visibility: hidden; }
+
+.anim { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; }
+
+ul, li { list-style: none; }
+
+a { transition: all 150ms ease-IN; -o-transition: all 150ms ease; -ms-transition: all 150ms ease; -moz-transition: all 150ms ease; -webkit-transition: all 150ms ease; }
+a:hover { text-decoration: none; }
+
+.btn { transition: all 500ms ease-IN; -o-transition: all 500ms ease; -ms-transition: all 500ms ease; -moz-transition: all 500ms ease; -webkit-transition: all 500ms ease; padding-left: 25px; padding-right: 25px; }
+.btn:disabled:hover { padding-left: 25px; padding-right: 25px; background: none; }
+
+button { transition: all 100ms ease-IN; -o-transition: all 100ms ease; -ms-transition: all 100ms ease; -moz-transition: all 100ms ease; -webkit-transition: all 100ms ease; }
+
+.container-global { background: #FFF; }
+
+.center-absolute { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+.temporary-container-input { position: absolute; top: 30px; right: 30px; }
+
+.login { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; border-radius: 20px; -o-border-radius: 20px; -ms-border-radius: 20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #FFF; overflow: hidden; }
+.login .login-container { min-width: 600px; }
+.login .login-container .login-head { font-size: 2em; padding: 0 0 0 90px; height: 200px; line-height: 200px; color: #FFF; background: url("../images/signin.jpg") no-repeat center center; }
+.login .login-container .login-innercontainer { padding: 50px; }
+.login .login-container .login-innercontainer .logintext { padding: 15px; margin-bottom: 10px; border: solid 1px #DDD; width: 100%; }
+.login .login-container .login-innercontainer .loginbtn { width: 100%; text-align: center; }
+.login .login-container .login-innercontainer .login-notify { color: #F00; margin-bottom: 10px; }
+
+.mainmenu { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; border-radius: 20px; -o-border-radius: 20px; -ms-border-radius: 20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; background: #FFF; padding: 5px 15px 15px 15px; margin-top: 20px; }
+.mainmenu h2 { font-size: 1.75em; padding: 10px 0px 10px 0px; margin: 0px; margin-bottom: 10px; border-bottom: solid 1px #DDD; color: #555; }
+.mainmenu ul li a { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; border-radius: 10px; -o-border-radius: 10px; -ms-border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; display: block; padding: 5px; }
+.mainmenu ul li a:hover { padding-left: 18px; background: #FA0; color: #FFF; }
+
+.leftpanel { transition: all 250ms ease-IN; -o-transition: all 250ms ease; -ms-transition: all 250ms ease; -moz-transition: all 250ms ease; -webkit-transition: all 250ms ease; background: #373946; position: fixed; top: 0px; left: 0px; width: 220px; height: 100%; z-index: 999; }
+.leftpanel.mobile-nav-show { left: 0px; }
+.leftpanel .head { height: 45px; background: #FFF; width: 100%; border-right: solid 1px #e3e4e4; overflow: hidden; }
+.leftpanel .head img { height: 100%; padding: 8px; float: left; }
+.leftpanel .head button { transition: all 150ms ease-IN; -o-transition: all 150ms ease; -ms-transition: all 150ms ease; -moz-transition: all 150ms ease; -webkit-transition: all 150ms ease; float: right; color: #333; line-height: 45px; padding: 0px 35px; height: 100%; display: block; border: none; color: #FFF; }
+.leftpanel .fa { padding-right: 8px; text-align: center; }
+.leftpanel .mainbuttons { background: rgba(0, 94, 204, 0.5); padding: 15px 0px; }
+.leftpanel .mainbuttons li button { transition: all 150ms ease-IN; -o-transition: all 150ms ease; -ms-transition: all 150ms ease; -moz-transition: all 150ms ease; -webkit-transition: all 150ms ease; border-radius: 0px; -o-border-radius: 0px; -ms-border-radius: 0px; -moz-border-radius: 0px; -webkit-border-radius: 0px; text-align: left; width: 100%; padding: 10px; border: none; color: #FFF; background: none; }
+.leftpanel .mainbuttons li button.active { background: #005ecc; }
+.leftpanel .mainbuttons li button.active:hover { background: #005ecc; }
+.leftpanel .mainbuttons li button:hover { background: #F90; padding-left: 20px; }
+.leftpanel .mainbuttons li button:hover .right { font-size: 1.3em; }
+.leftpanel .mainbuttons li .right { transition: all 150ms ease-IN; -o-transition: all 150ms ease; -ms-transition: all 150ms ease; -moz-transition: all 150ms ease; -webkit-transition: all 150ms ease; float: right; }
+.leftpanel .mainbuttons li .mainbuttons-dropdown-group { width: 100%; }
+.leftpanel .mainbuttons li .mainbuttons-dropdown-menu { border-radius: 10px; -o-border-radius: 10px; -ms-border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; min-width: 250px; position: absolute; transform: translate3d(220px, 0px, 0px); top: 0px; left: 0px; padding: 5px; border: none; will-change: transform; }
+.leftpanel .mainbuttons li .mainbuttons-dropdown-menu ul li a { transition: all 150ms ease-IN; -o-transition: all 150ms ease; -ms-transition: all 150ms ease; -moz-transition: all 150ms ease; -webkit-transition: all 150ms ease; border-radius: 5px; -o-border-radius: 5px; -ms-border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; padding: 5px 10px; display: block; color: #404772; }
+.leftpanel .mainbuttons li .mainbuttons-dropdown-menu ul li a:hover { color: #fff; background: #f90; padding-left: 20px; }
+.leftpanel .subbuttons { background: #30323e; padding: 15px 0px; }
+.leftpanel .subbuttons li button { text-align: left; width: 100%; padding: 5px 10px; border: none; background: none; color: #FFF; }
+.leftpanel .subbuttons li button:hover { background: #005ecc; padding-left: 20px; }
+.leftpanel .extrabuttons { background: #272934; padding: 15px 0px; }
+.leftpanel .extrabuttons li button { text-align: left; width: 100%; padding: 5px 10px; border: none; background: none; color: #FFF; }
+.leftpanel .extrabuttons li button:hover { background: #7ca5e4; padding-left: 20px; }
+.leftpanel .extrabuttons li button span { padding-right: 5px; }
+.leftpanel .leftpanel-dropdown { position: absolute; top: 45px; left: 220px; background: #999; width: 220px; overflow: hidden; z-index: 9999; }
+.leftpanel .leftpanel-dropdown .dropdown-container a { padding: 8px 15px; display: block; color: #FFF; }
+.leftpanel .leftpanel-dropdown .dropdown-container a:hover { padding-left: 20px; background: #F90; }
+
+.header { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; height: 45px; background: #FFF; position: fixed; top: 0px; left: 0px; width: 100%; z-index: 99; }
+.header .header-content { float: right; height: 45px; line-height: 45px; width: 100%; font-size: 0.85em; }
+.header .header-content .mobile-header-nav { float: left; }
+.header .header-content .mobile-header-nav button { color: #333; line-height: 45px; padding: 0px 35px; height: 100%; display: block; border: none; color: #FFF; }
+.header .header-content .header-home { border-left: solid 1px #e3e4e4; float: right; }
+.header .header-content .header-home a { color: #333; display: block; padding: 0px 25px; }
+.header .header-content .header-home a:hover { color: #F90; }
+.header .header-content .header-admin { border-left: solid 1px #e3e4e4; float: right; }
+.header .header-content .header-admin .dropdown button { transition: all 100ms ease-IN; -o-transition: all 100ms ease; -ms-transition: all 100ms ease; -moz-transition: all 100ms ease; -webkit-transition: all 100ms ease; padding: 0px 25px; line-height: 43px; background: #fff; }
+.header .header-content .header-admin .dropdown button:hover { color: #F90; }
+.header .header-content .header-admin .dropdown .dropdown-menu { border-radius: 10px; -o-border-radius: 10px; -ms-border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; padding: 20px; min-width: 280px; line-height: 24px; }
+.header .header-content .header-admin .dropdown .dropdown-menu a { color: #005ecc; display: block; }
+.header .header-content .header-admin .dropdown .dropdown-menu a:hover { color: #F90; }
+.header .header-content .header-datetime { color: #FFF; background: #005ecc; display: block; padding: 0px 25px; float: right; }
+
+.spacer { height: 38px; display: block; }
+
+.mainpanel { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; display: block; padding-left: 220px; }
+.mainpanel .half { height: 305px; }
+.mainpanel .half tbody { display: block; height: 245px; overflow-y: scroll; }
+.mainpanel .half thead, .mainpanel .half tbody tr { display: table; width: 100%; table-layout: fixed; /* even columns width , fix width of table too*/ }
+.mainpanel .full { height: 760px !important; }
+.mainpanel .full tbody { display: block; height: 700px; overflow-y: scroll; }
+.mainpanel .full thead, .mainpanel .full tbody tr { display: table; width: 100%; table-layout: fixed; /* even columns width , fix width of table too */ }
+.mainpanel .mainpanel-area { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; border-radius: 20px; -o-border-radius: 20px; -ms-border-radius: 20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; }
+.mainpanel .mainpanel-content { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; border-radius: 20px; -o-border-radius: 20px; -ms-border-radius: 20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; margin-top: 20px; padding: 25px; background: #FFF; }
+.mainpanel .mainpanel-content .mainpanel-title { font-size: 1.7em; padding-bottom: 15px; }
+.mainpanel .mainpanel-content .mainpanel-title.fa { color: #AAA; }
+.mainpanel .mainpanel-content .mainpanel-sub { overflow: hidden; height: 40px; }
+.mainpanel .mainpanel-content .mainpanel-sub .mainpanel-sub-cmd { float: left; }
+.mainpanel .mainpanel-content .mainpanel-sub .mainpanel-sub-cmd a:hover { color: #F90; }
+.mainpanel .mainpanel-content .mainpanel-table tr:hover { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; background: #ffe9af; }
+.mainpanel .mainpanel-content .mainpanel-table td { border: solid 1px #AAA; padding: 3px; margin: 0px; }
+.mainpanel .mainpanel-content .mainpanel-table .rowtitle { font-size: 1em; background: #005ecc !important; color: #FFF; }
+.mainpanel .mainpanel-content .mainpanel-table .rowsearch { font-size: 1em; background: #c9c9c9 !important; }
+.mainpanel .mainpanel-content .mainpanel-table .rowsearch td { padding: 3px; }
+.mainpanel .mainpanel-content .mainpanel-table .rowsearch input { border: solid 1px #777; color: #333; background: url("../images/icon-search-xs.jpg") no-repeat left center #FFF; width: 100%; padding: 0px 0px 0px 23px; color: #005ecc; }
+.mainpanel .mainpanel-content .mainpanel-table .rowsearch input:hover { color: #333; }
+.mainpanel .mainpanel-content .mainpanel-table .rowsearch input:disabled { background: none; }
+.mainpanel .mainpanel-content .mainpanel-table .rowA { background: #F5F5F5; }
+.mainpanel .mainpanel-content .mainpanel-table .rowB { background: #FFF; }
+.mainpanel .mainpanel-content .mainpanel-table .rowactive { background: #F90 !important; color: #FFF; }
+.mainpanel .mainpanel-content .mainpanel-table .checkbox { width: 100%; height: 15px; }
+
+.mainpanel-max { margin-left: 220px; }
+
+.formset .formitem { padding: 5px; }
+.formset .formitem .textbox { background: #e8ebf5; border: solid 1px #5c8aff; margin-right: 10px; }
+.formset .formitem .textboxsmall { width: 30px; background: #e8ebf5; border: solid 1px #5c8aff; }
+.formset .formpic { border: solid 1px #5c8aff; }
+.formset .formpic img { width: 100%; }
+
+/* Modal Content */
+.modal { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; width: 100%; height: 100%; position: fixed; top: 0; display: none; background: rgba(0, 0, 0, 0.35); }
+
+.modal .modal-container { box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25); -o-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25); -ms-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25); -webkit-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25); width: 50%; min-width: 500px; position: absolute; top: 16%; left: 24%; }
+
+.modal .modal-container .button-container { position: absolute; bottom: 30px; right: 30px; }
+
+.modal .modal-container .button-container .btn-action { position: absolute; top: 0px; left: -95px; width: 90px; }
+
+.modal .modal-content { background-color: #FFF; padding: 0px; width: 100%; height: 550px; }
+
+.modal .modal-content .modal-content-container { padding: 20px; }
+
+.modal .modal-textarea { width: 100%; }
+
+.modal-header { background-color: #005ecc; color: white; font-size: 1.5em; height: 50px; }
+
+/* The Close Button */
+.modal-close { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; color: #FFF; cursor: pointer; float: right; }
+
+.modal-close:hover { color: #F90; }
+
+.modal-calculator { left: 50%; top: auto; transform: translate(-50%, -20%); }
+
+.calculator { border: 1px solid #ccc; border-radius: 5px; }
+.calculator .calculator-screen { width: 100%; height: 80px; border: none; background-color: #252525; color: #fff; text-align: right; padding-right: 20px; padding-left: 10px; font-size: 4rem; }
+.calculator button { height: 60px; font-size: 2rem !important; }
+.calculator .equal-sign { height: 98%; grid-area: 2 / 4 / 6 / 5; }
+.calculator .calculator-keys { display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 20px; padding: 20px; }
+
+@media (max-width: 575px) { body { font-size: 12px; }
+  .mainpanel { padding-left: 0; }
+  .leftpanel { left: -506px; width: 100%; }
+  .leftpanel .leftpanel-dropdown { left: -506px; width: 100%; }
+  .leftpanel .leftpanel-dropdown .dropdown-container a { font-size: 3em; }
+  .header .header-content .header-admin .dropdown .dropdown-menu { border-radius: 0px; -o-border-radius: 0px; -ms-border-radius: 0px; -moz-border-radius: 0px; -webkit-border-radius: 0px; margin-left: -120px; width: 100%; } }
+@media (min-width: 576px) and (max-width: 767px) { body { font-size: 15px; } }
+@media (min-width: 768px) and (max-width: 991px) { body { font-size: 14px; } }
+@media (min-width: 992px) and (max-width: 1199px) { body { font-size: 13px; } }
+@media (min-width: 1200px) and (max-width: 1500px) { body { font-size: 13px; } }
+@media (min-width: 1900px) { body { font-size: 15px; } }

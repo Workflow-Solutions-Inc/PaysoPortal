@@ -1,0 +1,54 @@
+@import "template";
+
+
+.float-left { float: left; }
+.float-right { float: right; }
+.text-center { text-align: center; }
+
+
+// FORM STYLE STARTS HERE (copy)
+.formset {
+  .formitem {
+    padding: 5px;
+    .textbox {
+      background: #e8ebf5;
+      border: solid 1px #5c8aff;
+      margin-right: 10px;
+    }
+    .textboxsmall {
+      width: 30px;
+      background: #e8ebf5;
+      border: solid 1px #5c8aff;
+    }
+    .textarea {
+      background: #e8ebf5;
+      border: solid 1px #5c8aff;
+      margin-right: 10px;
+      resize: none;
+      width: 100%;
+      height: 65px;
+    }
+    .label-xs { width: 50px; display: inline-block; }
+    .label-sm { width: 65px; display: inline-block; }
+    .label-md { width: 75px; display: inline-block; }
+    .label-lg { width: 90px; display: inline-block; }
+    .label-xl { width: 115px; display: inline-block; }
+    .width-full { width: 100%; }
+    .width-xs { width: 27%; }
+    .width-sm { width: 40%; }
+    .width-md { width: 60%; }
+    .width-lg { width: 80%; }
+  }
+  .formpic {
+    border: solid 1px #5c8aff;
+    img {
+      width: 100%;
+      max-height: 500px;
+    }
+  }
+}
+hr {
+  margin-top: 30px;
+  padding-bottom: 10px;
+  border-color: #DDD;
+}

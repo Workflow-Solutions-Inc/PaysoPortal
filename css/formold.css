@@ -1,0 +1,62 @@
+.leftpanel, .maincontent .contenttitle {
+  padding: 0px;
+  margin: 0px auto; }
+
+body {
+  background: #e7ecf0; }
+
+.leftpanel {
+  transition: all 250ms ease-IN;
+  -o-transition: all 250ms ease;
+  -ms-transition: all 250ms ease;
+  -moz-transition: all 250ms ease;
+  -webkit-transition: all 250ms ease;
+  background: #373946;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 275px;
+  height: 100%;
+  z-index: 999; }
+
+.maincontainer {
+  margin-left: 275px;
+  margin-top: 10px; }
+
+.float-left {
+  float: left; }
+
+.float-right {
+  float: right; }
+
+.fullwidth {
+  width: 100%; }
+
+.text-center {
+  text-align: center; }
+
+.maincontent {
+  background: #FFF;
+  padding: 20px; }
+  .maincontent .contenttitle {
+    font-size: 1.75em;
+    font-weight: bold; }
+
+
+
+
+/* FORM STYLE STARTS HERE */
+.formset .formitem {
+  padding: 5px; }
+  .formset .formitem .textbox {
+    background: #e8ebf5;
+    border: solid 1px #5c8aff;
+    margin-right: 10px; }
+  .formset .formitem .textboxsmall {
+    width: 30px;
+    background: #e8ebf5;
+    border: solid 1px #5c8aff; }
+.formset .formpic {
+  border: solid 1px #5c8aff; }
+  .formset .formpic img {
+    width: 100%; }

@@ -1,0 +1,6 @@
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^pccemp\.workflowsolutions\.com\.ph$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.pccemp\.workflowsolutions\.com\.ph$
+RewriteRule ^/?$ "https\:\/\/pccemp\.workflowsolutions\.com\.ph\/index\.php" [R=301,L]
+

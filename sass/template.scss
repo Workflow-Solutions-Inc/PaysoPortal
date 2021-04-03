@@ -1,0 +1,94 @@
+// COLORS DEFAULT
+$color-facebook: #00F;
+$color-twitter: #AAF;
+$color-instagram: #B71;
+$color-youtube: #F00;
+$lightestgrey: #DDD;
+$lightergrey: #AAA;
+$lightgrey: #999;
+$grey: #777;
+$darkgrey: #656565;
+$darkergrey: #333;
+$darkestgrey: #111;
+
+
+$darkestblue: #272934;
+$darkerblue: #30323e;
+$darkblue: #0f51a2;
+$blue: #317fdf;
+$lightblue: #70affe;
+$lighterblue: #7ca5e4;
+$lightestblue: #87e2f4;
+
+
+// COLORS
+//$background-color: #e7ecf0;
+$background-color: #FFF;
+$red: #F00;
+$orange: #ffb400;
+$lightyellow: #ffe9af;
+$green: #92c042;
+
+
+/*
+$edgecorner: 20px;
+$edgecorner-sm: 10px;
+$edgecorner-xs: 5px;
+*/
+$edgecorner: 20px;
+$edgecorner-sm: 10px;
+$edgecorner-xs: 5px;
+
+
+// EXTEND
+%clearspace {
+	padding: 0px;
+	margin: 0px auto;
+}
+
+
+
+// MIXIN
+@mixin clearspace {
+	padding: 0px;
+	margin: 0px auto;
+} 
+@mixin clearspace-extend {
+	padding: 0px;
+	margin: 0px auto;
+} 
+@mixin round($radius: 50%) {
+	border-radius: $radius;
+	-o-border-radius: $radius;
+	-ms-border-radius: $radius;
+	-moz-border-radius: $radius;
+	-webkit-border-radius: $radius;	
+}
+@mixin transition($duration: 500ms) {
+	transition: all $duration ease-IN;
+	-o-transition: all $duration ease;
+	-ms-transition: all $duration ease;
+	-moz-transition: all $duration ease;
+	-webkit-transition: all $duration ease;
+}
+@mixin glow($thickness: 25px, $color: #FFF) {
+	box-shadow: 0 0 $thickness 1px rgba($color, 0.15);
+	-o-box-shadow: 0 0 $thickness 1px rgba($color, 0.15);
+	-ms-box-shadow: 0 0 $thickness 1px rgba($color, 0.15);
+	-moz-box-shadow: 0 0 $thickness 1px rgba($color, 0.15);
+	-webkit-box-shadow: 0 0 $thickness 1px rgba($color, 0.15);
+}
+@mixin shadow($thickness: 25px, $opacity: 0.5) {
+	box-shadow: 0 0 $thickness 1px rgba(#000, $opacity);
+	-o-box-shadow: 0 0 $thickness 1px rgba(#000, $opacity);
+	-ms-box-shadow: 0 0 $thickness 1px rgba(#000, $opacity);
+	-moz-box-shadow: 0 0 $thickness 1px rgba(#000, $opacity);
+	-webkit-box-shadow: 0 0 $thickness 1px rgba(#000, $opacity);
+}
+@mixin textshadow($thickness: 3px) {
+	text-shadow: 1px 1px $thickness rgba(#000, 0.3);
+	-o-text-shadow: 1px 1px $thickness rgba(#000, 0.3);
+	-ms-text-shadow: 1px 1px $thickness rgba(#000, 0.3);
+	-moz-text-shadow: 1px 1px $thickness rgba(#000, 0.3);
+	-webkit-text-shadow: 1px 1px $thickness rgba(#000, 0.3);
+}

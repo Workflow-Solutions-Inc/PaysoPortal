@@ -1,0 +1,30 @@
+/* ========================================================================
+   Component: Typography
+ ========================================================================== */
+@font-face {
+	font-family: 'Roboto Bold';
+	src: url('../webfonts/Roboto-Bold.ttf');
+}
+@font-face {
+	font-family: 'Roboto Black';
+	src: url('../webfonts/Roboto-Black.ttf');
+}
+@font-face {
+	font-family: 'Roboto Normal';
+	src: url('../webfonts/Roboto-Light.ttf');
+}
+html, body {
+	font-family: "Roboto Normal", arial;
+}
+.text-bold {
+	font-family: "Roboto Bold", arial bold, arial;
+}
+.text-black {
+	font-family: "Roboto Black", arial black, arial;
+}
+.text-normal {
+	font-family: 'Roboto Normal', arial;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-family: "Roboto Bold", arial bold, arial;
+}

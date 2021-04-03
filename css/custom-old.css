@@ -1,0 +1,180 @@
+body, .login, .mainmenu, .mainmenu ul li, .leftpanel, .leftpanel .leftpanel-nav, .leftpanel-bar, .mainpanel { padding: 0px; margin: 0px auto; }
+
+body { transition: all 500ms ease-IN; -o-transition: all 500ms ease; -ms-transition: all 500ms ease; -moz-transition: all 500ms ease; -webkit-transition: all 500ms ease; background: #FFF; font-size: 15px; line-height: 1.5em; width: 100%; color: #333; overflow-x: hidden; }
+
+.tab-xs { padding-left: 5px; }
+
+.tab-sm { padding-left: 10px; }
+
+.tab-md { padding-left: 15px; }
+
+.tab-lg { padding-left: 20px; }
+
+.tab-xl { padding-left: 25px; }
+
+.visible { visibility: visible; }
+
+.hide { visibility: hidden; }
+
+.anim { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; }
+
+a { transition: all 150ms ease-IN; -o-transition: all 150ms ease; -ms-transition: all 150ms ease; -moz-transition: all 150ms ease; -webkit-transition: all 150ms ease; }
+a:hover { text-decoration: none; }
+
+.login { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: solid 1px #DDD; }
+.login .login-container { padding: 30px; }
+.login .login-container .logintext { padding: 5px 10px; border: none; width: 100%; background: #EEE; margin-bottom: 10px; }
+.login .login-container .loginbtn { float: right; margin-bottom: 30px; margin-right: 5px; }
+
+.mainmenu { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; }
+.mainmenu ul li a { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; display: block; padding: 5px; }
+.mainmenu ul li a:hover { padding-left: 10px; background: #FA0; color: #FFF; }
+
+.leftpanel { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; position: fixed; top: 0px; left: 0px; width: 300px; height: 100%; background: #3282ff; overflow: hidden; }
+.leftpanel .leftpanel-admin { color: #FFF; padding: 30px 20px; font-size: 0.8em; height: 120px; border-bottom: solid 1px #555; }
+.leftpanel .leftpanel-admin .admin-icon { float: left; }
+.leftpanel .leftpanel-admin .admin-text { margin-left: 75px; padding: 10px 0px 0px 0px; }
+.leftpanel .leftpanel-nav { list-style: none; }
+.leftpanel .leftpanel-nav a { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; color: #fff; width: 100%; display: block; text-decoration: none; height: 60px; line-height: 60px; padding: 0px 20px; }
+.leftpanel .leftpanel-nav a span { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; padding-right: 3px; }
+.leftpanel .leftpanel-nav a:hover { padding-left: 30px; background: #fea500; }
+.leftpanel .leftpanel-nav a:hover span { padding-right: 10px; font-size: 1.5em; }
+.leftpanel .leftpanel-nav button { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; width: 100%; height: 60px; line-height: 60px; padding: 0px 20px; text-align: left; background: none; border: 0; color: #FFF; }
+.leftpanel .leftpanel-nav button span { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; padding-right: 3px; }
+.leftpanel .leftpanel-nav button:hover { padding-left: 30px; background: #fea500; }
+.leftpanel .leftpanel-nav button:hover span { padding-right: 10px; font-size: 1.5em; }
+.leftpanel .leftpanel-dark { background: #1973ff; }
+.leftpanel .leftpanel-darker { background: #0567ff; }
+.leftpanel .leftpanel-min { position: absolute; right: 10px; bottom: 10px; }
+.leftpanel .leftpanel-min .minimize { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; border-radius: 50%; -o-border-radius: 50%; -ms-border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; cursor: pointer; font-size: 3em; color: #FFF; }
+.leftpanel .leftpanel-min .minimize:hover { color: #FC0; font-size: 4em; }
+
+.leftpanel-hide { width: 0px !important; }
+
+.leftpanel-bar { transition: all 500ms ease-IN; -o-transition: all 500ms ease; -ms-transition: all 500ms ease; -moz-transition: all 500ms ease; -webkit-transition: all 500ms ease; z-index: 99999; width: 15px; background: #03f; border-right: solid 5px #4268ff; position: fixed; top: 0px; left: -80px; height: 100%; }
+.leftpanel-bar .leftpanel-max { position: absolute; right: -60px; bottom: 10px; }
+.leftpanel-bar .leftpanel-max .maximize { transition: all 200ms ease-IN; -o-transition: all 200ms ease; -ms-transition: all 200ms ease; -moz-transition: all 200ms ease; -webkit-transition: all 200ms ease; border-radius: 50%; -o-border-radius: 50%; -ms-border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; cursor: pointer; font-size: 3em; color: #1973ff; }
+.leftpanel-bar .leftpanel-max .maximize:hover { color: #FC0; font-size: 4em; }
+.leftpanel-bar:hover { box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.5); -o-box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.5); -ms-box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.5); background: #498eff; border-right: solid 5px #1f79ff; }
+.leftpanel-bar.leftpanel-bar-show { left: 0px; }
+
+.mainpanel { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; display: block; margin-left: 300px; }
+.mainpanel .mainpanel-area { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; }
+.mainpanel .mainpanel-table { margin-top: 30px; padding: 10px; border: solid 1px #AAA; }
+.mainpanel .mainpanel-table:hover { transition: all 300ms ease-IN; -o-transition: all 300ms ease; -ms-transition: all 300ms ease; -moz-transition: all 300ms ease; -webkit-transition: all 300ms ease; background: #d6ebff; }
+.mainpanel .mainpanel-table .mainpanel-title .mainpanel-title-text { font-size: 1.5em; }
+.mainpanel .mainpanel-table .mainpanel-title .mainpanel-title-text.fa { color: #AAA; }
+.mainpanel .mainpanel-table .mainpanel-title .mainpanel-sub-search { float: right; }
+.mainpanel .mainpanel-table .mainpanel-sub { overflow: hidden; height: 40px; line-height: 40px; width: 100%; }
+.mainpanel .mainpanel-table .mainpanel-sub .mainpanel-sub-cmd { float: left; }
+.mainpanel .mainpanel-table .mainpanel-sub .mainpanel-sub-cmd a:hover { color: #F90; }
+.mainpanel .mainpanel-table .mainpanel-sub .mainpanel-sub-nav { float: right; color: #333; }
+.mainpanel .mainpanel-table .mainpanel-sub .mainpanel-sub-nav a { padding: 4px 8px; width: 15px; background: #EEE; border: solid 1px #999; }
+.mainpanel .mainpanel-table .mainpanel-sub .mainpanel-sub-nav a:hover { background: #f90; }
+.mainpanel .mainpanel-table tr:hover { transition: all 150ms ease-IN; -o-transition: all 150ms ease; -ms-transition: all 150ms ease; -moz-transition: all 150ms ease; -webkit-transition: all 150ms ease; background: #d6ebff; }
+.mainpanel .mainpanel-table td { border: solid 1px #AAA; padding: 5px; }
+.mainpanel .mainpanel-table .rowA { background: #F5F5F5; }
+.mainpanel .mainpanel-table .rowB { background: #FFF; }
+.mainpanel .mainpanel-table .rowactive { background: #F90 !important; color: #FFF; }
+.mainpanel .mainpanel-table .table-striped>tbody>tr:nth-of-type(even){background-color:#FFF}
+.mainpanel-max { margin-left: 20px; }
+
+.header { background: #EEE; }
+.header .header-container { margin-right: 40px; overflow: hidden; }
+.header .header-container .item { font-size: 1.25em; padding: 15px; border-left: solid 1px #ccc; border-bottom: solid 1px #ccc; overflow: hidden; }
+.header .header-container .item.active { border-color: #FFF; background: #FFF; }
+.header .header-container .item.active a { color: #f90; }
+.header .header-container .item a { display: block; }
+.header .header-container .item a:hover { padding-left: 5px; }
+.header .togglepos { float: right; width: 40px; height: 50px; line-height: 50px; }
+
+@media (max-width: 575px) { .mainpanel { margin-left: 0px; } }
+@media (min-width: 576px) and (max-width: 767px) { .mainpanel { margin-left: 0px; } }
+@media (min-width: 768px) and (max-width: 991px) { .leftpanel { width: 230px; }
+  .mainpanel { margin-left: 230px; } }
+
+/* Modal Content */
+.modal {
+  transition: all 200ms ease-IN;
+  -o-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -webkit-transition: all 200ms ease;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  display: none;
+  background: rgba(0, 0, 0, 0.35);
+}
+.modal .modal-container {
+  box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
+  -o-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
+  -ms-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 0 50px 1px rgba(0, 0, 0, 0.25);
+  width: 50%;
+  min-width: 500px;
+  position: absolute;
+  top: 16%;
+  left: 24%;
+}
+.modal .modal-container .button-container {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+.modal .modal-container .button-container .btn-action {
+    position: absolute;
+    top: 0px;
+    left: -95px;
+    width: 90px;
+}
+.modal .modal-content {
+  background-color: #FFF;
+  padding: 0px;
+  width: 100%;
+  height: 550px;
+}
+.modal .modal-content .modal-content-container {
+  padding: 20px;
+}
+.modal .modal-textarea {
+  width: 100%;
+}
+
+.modal-header {
+  background-color: #005ecc;
+  color: white;
+  font-size: 1.5em;
+  height: 50px;
+}
+
+/* The Close Button */
+.modal-close {
+  transition: all 200ms ease-IN;
+  -o-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -webkit-transition: all 200ms ease;
+  color: #FFF;
+  cursor: pointer;
+  float: right;
+}
+.modal-close:hover {
+  color: #F90;
+}
+
+
+
+
+
+
+/* BOOTSTRAP BTN */
+.btn {
+  transition: all 200ms ease-IN;
+  -o-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -webkit-transition: all 200ms ease;
+}
