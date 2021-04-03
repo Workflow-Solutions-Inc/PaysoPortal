@@ -10,7 +10,7 @@ $port=3306;
 $socket="";
 $user="wfsiadmin";
 $password="wfsi2021admin";
-$dbname="global_payso_TEST";
+$dbname="payso_test";
 
 
 
