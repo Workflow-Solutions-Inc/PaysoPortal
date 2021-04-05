@@ -144,6 +144,220 @@ else if($_GET["action"]=="searchdata"){
 	}
 }
 
+else if($_GET["action"]=="getOT"){
+	 $output='';
+	 $endtimehour=0;
+	 $endtimemins=0;
+	 $SelWorker=$_GET["SelWorker"];
+	 $OTdate=$_GET["OTdate"];
+	 $OTtype=$_GET["OTtype"];
+
+	// echo($userlogin);
+	 $queryconsolidate = "call sp_testing('$userlogin','$OTdate','$dataareaid')";
+	 if(mysqli_query($conn,$queryconsolidate))
+		{
+			//alert(1);
+		}
+		else
+		{
+			//alert(2);
+		}
+	$conn->close();
+    include("dbconn.php");
+
+    $queryWK = "SELECT BioId,name FROM worker
+
+						where workerid = '$SelWorker'";
+			$resultWK = $conn->query($queryWK);
+			while ($rowWK = $resultWK->fetch_assoc())
+			{
+				$logbio=$rowWK["BioId"];
+				$wkname=$rowWK["name"];
+			}
+	 
+         if($OTtype == 0)
+         {
+         	$query2 = "SELECT consol.date,
+					ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') as timeout,
+					consol.bioid,wk.workerid
+
+					,ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') field_work 
+					,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
+
+					#,TIME_FORMAT(ss.endtime,'%H:%i') as endtime 
+
+					,TIME_FORMAT(TIMEDIFF(case 
+					when ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') 
+					and ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					then ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') 
+
+					when ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') 
+					and ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					then ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00')
+
+					when ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') 
+					and ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')  >= ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') 
+					then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					else '00:00'
+					end, 
+
+
+					TIME_FORMAT(ss.endtime,'%H:%i')),'%H') as endtimehour
+					,TIME_FORMAT(TIMEDIFF(case 
+					when ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') 
+					and ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					then ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') 
+
+					when ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') 
+					and ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					then ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00')
+
+					when ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') >= ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') 
+					and ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')  >= ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') 
+					then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					else '00:00'
+					end, 
+
+
+					TIME_FORMAT(ss.endtime,'%H:%i')),'%i') as endtimemins
+
+					,case 
+					when ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') > ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') and ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') > ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					then ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') 
+
+					when ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') > ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') and ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') > ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					then ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00')
+
+					when ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') > ifnull(TIME_FORMAT(outtbl.timeout,'%H:%i'),'00:00') and ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')  > ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') 
+					then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+					else '00:00'
+					end as official_out
+
+
+					FROM 
+					consolidationtable consol
+					left join (select date,MAX(time) as timeout,bioid,type from consolidationtable where type = 1
+					group by date,bioid,type) outtbl on consol.BioId = outtbl.bioid and consol.Date = outtbl.date
+
+					left join worker wk on wk.BioId = consol.BioId and wk.dataareaid = consol.Dataareaid
+
+					left join portalfieldwork pw on pw.workerid = wk.workerid and pw.fieldworkdate = consol.Date
+					and pw.dataareaid = consol.Dataareaid
+
+					left join logcorrection lc on lc.workerid = wk.workerid and lc.invaliddate = consol.Date
+					and lc.dataareaid = consol.Dataareaid and lc.logtype = 1
+
+					left join shiftschedule ss on ss.date = consol.date and ss.workerid = wk.workerid and ss.dataareaid = consol.Dataareaid
+
+					where consol.bioid = '$logbio' and consol.date = '$OTdate' and consol.Dataareaid = '$dataareaid'
+
+					group by consol.date,consol.bioid";
+         }
+        else
+        {
+        	$query2 = "SELECT consol.date,
+						ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') as timein,
+						consol.bioid,wk.workerid
+
+						,ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') field_work 
+						,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
+
+						,TIME_FORMAT(ss.starttime,'%H:%i') as endtime 
+
+						,TIME_FORMAT(TIMEDIFF(TIME_FORMAT(ss.starttime,'%H:%i'),
+						case 
+						when ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') 
+						and ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')
+						then ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') 
+
+						when ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') 
+						and ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')
+						then ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00')
+
+						when ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') 
+						and ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')  < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') 
+						then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')
+						else '00:00'
+						end
+
+
+						),'%H') as endtimehour
+
+						,TIME_FORMAT(TIMEDIFF(TIME_FORMAT(ss.starttime,'%H:%i'),
+						case 
+						when ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') 
+						and ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+						then ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') 
+
+						when ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') 
+						and ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+						then ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00')
+
+						when ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') 
+						and ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')  < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') 
+						then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+						else '00:00'
+						end
+
+
+						),'%i') as endtimemins
+
+
+
+						FROM 
+						consolidationtable consol
+						left join (select date,MIN(time) as timein,bioid,type from consolidationtable where type = 0
+						group by date,bioid,type) intbl on consol.BioId = intbl.bioid and consol.Date = intbl.date
+
+						left join worker wk on wk.BioId = consol.BioId and wk.dataareaid = consol.Dataareaid
+
+						left join portalfieldwork pw on pw.workerid = wk.workerid and pw.fieldworkdate = consol.Date
+						and pw.dataareaid = consol.Dataareaid
+
+						left join logcorrection lc on lc.workerid = wk.workerid and lc.invaliddate = consol.Date
+						and lc.dataareaid = consol.Dataareaid and lc.logtype = 0
+
+						left join shiftschedule ss on ss.date = consol.date and ss.workerid = wk.workerid and ss.dataareaid = consol.Dataareaid
+
+						where consol.bioid = '$logbio' and consol.date = '$OTdate' and consol.Dataareaid = '$dataareaid'
+
+						group by consol.date,consol.bioid";
+        }
+
+		$result2 = $conn->query($query2);
+		while ($row2 = $result2->fetch_assoc())
+		{ 
+				
+
+				$endtimehour = (int)$row2['endtimehour'];
+				$endtimemins = (int)$row2['endtimemins'];
+			
+
+		}
+
+		
+	/*	if($ispaid == 1)
+		{
+			$paidleave = "true";
+		}
+		else
+		{
+			$paidleave = "false";
+		}*/
+
+		
+
+		$output .= '
+				 <input type="hidden" value="'.$endtimehour.'"  name ="myHrs" id="otHRS" class="modal-textarea">
+				 <input type="hidden" value="'.$endtimemins.'" name ="myMins" id="otMINS" class="modal-textarea">
+				 <input type="hidden" value="'.$wkname.'" name ="myWkname" id="myWkname" class="modal-textarea">
+				 ';
+
+	
+	 echo $output;
+	
+}
+
 ?>
 
 <script  type="text/javascript">

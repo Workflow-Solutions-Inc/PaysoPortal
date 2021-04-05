@@ -296,7 +296,10 @@ else
 										when status = 2 then 'Disapproved' 
 										when status = 3 then 'Posted' end as otstatus,
 									case when logtype = 0 then 'Time In'
-										when logtype = 1 then 'Time Out' end as logtypes,
+										when logtype = 1 then 'Time Out' 
+										when logtype = 3 then 'Break Out' 
+										when logtype = 4 then 'Break In' 
+										end as logtypes,
 										date_format(createddatetime, '%Y-%m-%d') as datefiled
 
 									FROM logcorrection where dataareaid = '$dataareaid' and workerid = '$lognum'
@@ -418,6 +421,8 @@ else
 									<option value=""></option>
 									<option value="0">Time In</option>
 									<option value="1">Time Out</option>
+									<option value="3">Break Out</option>
+									<option value="4">Break Out</option>
 							</select>
 		
 							

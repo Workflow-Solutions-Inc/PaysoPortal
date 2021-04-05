@@ -4,13 +4,12 @@ date_default_timezone_set('Asia/Manila');
 
 
 
-/* Hostinger */
 $host="156.67.217.132";
 $port=3306;
 $socket="";
 $user="wfsiadmin";
 $password="wfsi2021admin";
-$dbname="global_payso_TEST";
+$dbname="Demo_payso_test";
 
 
 

@@ -318,12 +318,14 @@ else
 									case when ot.status = 0 then 'Created'
 										when ot.status = 1 then 'Approved' 
 										when ot.status = 2 then 'Disapproved' 
-										when ot.status = 3 then 'Posted' end as otstatus,
+										when ot.status = 3 then 'Posted'
+										 end as otstatus,
 										date_format(ot.createddatetime, '%Y-%m-%d') as datefiled,
                                         case when ot.overtimetype = 0 then 'Regular Overtime'
                                         when ot.overtimetype = 1 then 'Special Holiday Overtime'
                                         when ot.overtimetype = 2 then 'Regular Holiday Overtime'
                                         when ot.overtimetype = 3 then 'Sunday Overtime'
+                                        when ot.overtimetype = 5 then 'Early Overtime'
                                         end as overtimetypes 
 
 									FROM overtimefile ot

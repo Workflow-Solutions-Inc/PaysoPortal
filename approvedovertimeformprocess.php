@@ -111,6 +111,7 @@ else if($_GET["action"]=="searchdata"){
                                         when overtimetype = 1 then 'Special Holiday Overtime'
                                         when overtimetype = 2 then 'Regular Holiday Overtime'
                                         when overtimetype = 3 then 'Sunday Overtime'
+                                        when overtimetype = 5 then 'Early Overtime'
                                         end as overtimetypes  
 					FROM overtimefile
 

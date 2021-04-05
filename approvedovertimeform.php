@@ -319,6 +319,7 @@ else
                                         when overtimetype = 1 then 'Special Holiday Overtime'
                                         when overtimetype = 2 then 'Regular Holiday Overtime'
                                         when overtimetype = 3 then 'Sunday Overtime'
+                                        when overtimetype = 5 then 'Early Overtime'
                                         end as overtimetypes 
 
 									FROM overtimefile where dataareaid = '$dataareaid' and workerid = '$lognum'
@@ -413,8 +414,16 @@ else
 						</div>
 
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<!-- <label>Minutes:</label>
+							<input type="number" step="1" min="0" value="0" placeholder="" id="add-otminutes" name="OTminutes" class="modal-textarea" required="required" onkeypress="return !(event.charCode == 46)"> -->
 							<label>Minutes:</label>
-							<input type="number" step="1" min="0" value="0" placeholder="" id="add-otminutes" name="OTminutes" class="modal-textarea" required="required" onkeypress="return !(event.charCode == 46)">
+							<select value="" value="" placeholder="" name="OTminutes"  id="add-otminutes" class="modal-textarea" style="width:100%;height: 28px;"  required="required">
+									
+									<option value="0" selected>0</option>
+									<option value="15">15</option>
+									<option value="30">30</option>
+									<option value="45">45</option>
+							</select>
 
 						</div>
 

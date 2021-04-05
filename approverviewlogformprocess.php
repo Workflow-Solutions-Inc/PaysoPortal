@@ -102,7 +102,10 @@ else if($_GET["action"]=="searchdata"){
 										when lc.status = 2 then 'Disapproved' 
 										when lc.status = 3 then 'Posted' end as otstatus,
 									case when lc.logtype = 0 then 'Time In'
-										when lc.logtype = 1 then 'Time Out' end as logtypes,
+										when lc.logtype = 1 then 'Time Out' 
+										when lc.logtype = 3 then 'Break Out' 
+										when lc.logtype = 4 then 'Break In'
+										end as logtypes,
 										date_format(lc.approvaldatetime, '%Y-%m-%d') as datefiled
 
 									FROM logcorrection lc

@@ -296,7 +296,10 @@ else
 										when status = 2 then 'Disapproved' 
 										when status = 3 then 'Posted' end as otstatus,
 									case when logtype = 0 then 'Time In'
-										when logtype = 1 then 'Time Out' end as logtypes,
+										when logtype = 1 then 'Time Out' 
+										when logtype = 3 then 'Break Out' 
+										when logtype = 4 then 'Break In' 
+										end as logtypes,
 										date_format(approvaldatetime, '%Y-%m-%d') as datefiled
 
 									FROM logcorrection where dataareaid = '$dataareaid' and workerid = '$lognum'

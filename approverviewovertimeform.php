@@ -319,6 +319,7 @@ else
                                         when ot.overtimetype = 1 then 'Special Holiday Overtime'
                                         when ot.overtimetype = 2 then 'Regular Holiday Overtime'
                                         when ot.overtimetype = 3 then 'Sunday Overtime'
+                                        when ot.overtimetype = 5 then 'Early Overtime'
                                         end as overtimetypes 
 
 									FROM overtimefile ot

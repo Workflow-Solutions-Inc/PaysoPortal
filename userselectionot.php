@@ -24,7 +24,7 @@ else
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>User Selection</title>
+	<title>Batch Overtime</title>
 
 	<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/fontawesome.min.css" />
@@ -49,7 +49,8 @@ else
 		<!-- sub buttons -->
 		<ul class="subbuttons">
 			<div class="leftpanel-title"><b>COMMANDS</b></div>
-			<li><button onClick="Save();"><span class="fa fa-plus fa-lg"></span> Save Record</button></li>
+			<li><button onClick="Validate();"><span class="fa fa-plus fa-lg"></span> Validate Overtime</button></li>
+			<li><button id='batchsave' onClick="Save();"><span class="fa fa-plus fa-lg"></span> Save Record</button></li>
 			<li><button onClick="Cancel();"><span class="fa fa-arrow-circle-left fa-lg"></span> Back</button></li>
 		</ul>
 		
@@ -314,8 +315,8 @@ else
 														<!--<input type="number" step="1" min="0" value="0" placeholder="" id="add-otminutes" name="OTminutes" class="modal-textarea" required="required" 
 															onkeypress="return !(event.charCode == 46)" style="width:15%;height: 28px;">-->
 															<select value="" value="" placeholder="" name="OTminutes"  id="add-otminutes" class="modal-textarea" style="width:15%;height: 28px;" required="required">
-																	<option value=""></option>
-																	<option value="0">0</option>
+																	
+																	<option value="0" selected>0</option>
 																	<option value="15">15</option>
 																	<option value="30">30</option>
 																	<option value="45">45</option>
@@ -330,6 +331,11 @@ else
 														<label>Details:</label><br>
 														<textarea id="add-details" name="OTdetails" class="textarea1" required="required" placeholder="Over Time Details"></textarea>
 													</p>
+													<div id="resultfilter">
+															<input type="hidden" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
+															<input type="hidden" value="" name ="myMins" id="otMINS" class="modal-textarea" >
+															
+													</div>
 													<!--
 													<p>
 														<button id="addbt" name="save" value="save" class="btn btn-primary btn-action" onclick="return checkExistForm()">Save</button>
@@ -386,6 +392,8 @@ else
 	  		
 
 		$(document).ready(function() {
+		
+			$("#batchsave").prop("disabled", true);
 			var pos = document.getElementById("hidefocus").value;
 		    //$("tr[tabindex="+pos+"]").focus();
 		    //$("tr[tabindex=0]").focus();
@@ -525,6 +533,129 @@ else
 			});
 	}
 
+	function Validate()
+	{
+		//var locHours = document.getElementById("add-othours").value;
+		//var locMins = document.getElementById("add-otminutes").value;
+		
+		$("#batchsave").prop("disabled", false);
+		$.each(uniqueNames, function(i, el){
+			   // $("input[value="+el+"]").prop("checked", true);
+			    var res = el.substring(1,el.length - 1, el.length);
+			    getOT(res);
+
+			});
+	}
+
+	function getOT(SelWorker)
+	{
+		
+		//alert(SelWorker);
+
+		var action = "getOT";
+		var OTdate = document.getElementById("add-otdate").value;
+		var OTtype = document.getElementById("add-type").value.toString();
+
+		var locDetails = document.getElementById("add-details").value;
+		var locHours = document.getElementById("add-othours").value;
+		var locMins = document.getElementById("add-otminutes").value;
+
+		//alert(OTdate);
+
+		//alert(OTtype);
+
+		if(OTtype == '')
+		{
+			OTtype = 0;
+
+		}
+		else if (OTtype == 5)
+		{
+			OTtype == 5;
+		}
+		else
+		{
+			OTtype = 0;
+		}
+		
+		if(OTdate == '')
+		{
+			OTdate = '1900-01-01'
+		}
+	
+		if(SelWorker != '')
+		{
+			if (OTdate == "" || document.getElementById("add-type").value == '')
+			{
+			    alert("All details must be filled out asd");
+			    //return false;
+			    //alert(OTdate);
+			    //alert(locDetails);
+			    //alert(OTtype);
+
+			}
+			else 
+			{
+			  	
+			  	if(locHours ==0 && locMins == 0)
+			  	{
+			  		alert("Hours and Minutes must not be zero!");
+			  		//return false;
+			  	}
+			  	else
+			  	{
+			  		$.ajax({
+								type: 'GET',
+								url: 'userselectionprocess.php',
+								data:{action:action, OTdate:OTdate, OTtype:OTtype, SelWorker:SelWorker},
+								beforeSend:function(){
+								
+									//$("#resultfilter").html('<img src="img/loading.gif" width="300" height="300">');
+					
+								},
+								success: function(data){
+									$('#resultfilter').html(data);
+									checkHour(SelWorker);
+									//alert(data);
+									//$("#add-otid").prop('readonly', true); 
+						}
+					});
+			  	}
+			}
+		}
+	   
+	}
+
+	function checkHour(SelWorker)
+	{
+		//alert(SelWorker);
+		var myWKname = document.getElementById("myWkname").value.toString();
+		var locHours = document.getElementById("add-othours").value.toString();
+		var locMins = document.getElementById("add-otminutes").value.toString();
+
+		var myOtMins = document.getElementById("otMINS").value.toString();
+		var	myOtHrs = document.getElementById("otHRS").value.toString();
+
+		//SelWorker
+		if (locHours > myOtHrs)
+		{
+			alert(myWKname+" doesnt reach:" +locHours+ " hours of OT. Please remove from the list!");
+			$("#batchsave").prop("disabled", true);
+		}
+		else
+		{
+			if(locMins > myOtMins)
+			{
+				alert(myWKname+" doesnt reach:" +locMins+ " minutes of OT. Please remove from the list!");
+				$("#batchsave").prop("disabled", true);
+			}
+			else
+			{
+				//alert(myWKname+" Saved");
+			}
+		}
+	}
+
 	function Save()
 	{
 
@@ -589,6 +720,8 @@ else
 		
 						
 	}
+
+	
 	function Cancel()
 	{
 
