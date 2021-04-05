@@ -412,11 +412,11 @@ else
 							</div>
 
 							<label>Overtime Date:</label>
-							<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" required="required">
+							<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" onchange="getOT()"  required="required">
 
 							<label>Worker:</label>
 							
-							<select placeholder="Worker ID" id="add-workerid" name="WKId" class="modal-textarea" style="width:100%;height: 28px;" required="required">
+							<select placeholder="Worker ID" id="add-workerid" name="WKId" class="modal-textarea" style="width:100%;height: 28px;" onchange="getOT()" required="required">
 								<option value="" selected="selected"></option>
 								<?php
 									$query = "SELECT distinct wk.workerid,wk.name 
@@ -451,7 +451,7 @@ else
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							
 							<label>Overtime Type:</label>
-							<select value="" value="" placeholder="Period" name ="OTtype" id="add-type" class="modal-textarea" style="width:100%;height: 28px;"  required="required">
+							<select value="" value="" placeholder="Period" name ="OTtype" id="add-type" class="modal-textarea" style="width:100%;height: 28px;" onchange="getOT()"  required="required">
 									<option value=""></option>
 									<option value="5">Early Overtime</option>
 									<option value="0">Regualr Overtime</option>
@@ -476,7 +476,11 @@ else
 
 						</div>
 
-						
+						<div id="resultfilter">
+								<input type="hidden" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
+								<input type="hidden" value="" name ="myMins" id="otMINS" class="modal-textarea" >
+								
+						</div>
 
 					</div>
 
@@ -610,6 +614,7 @@ else
 				
 			    document.getElementById("addbt").style.visibility = "hidden";
 			    document.getElementById("upbt").style.visibility = "visible";
+			    getOT();
 			}
 			else 
 			{
@@ -634,18 +639,18 @@ else
 		var myFilled = [];
 		function checkExistForm()
 		{
-			var cont = document.getElementById("t2").value;
-			myId = cont.toLowerCase().split(",");
+			//var cont = document.getElementById("t2").value;
+			//myId = cont.toLowerCase().split(",");
 
-			var otdt = document.getElementById("t3").value;
-			myFilled = otdt.toLowerCase().split(",");
+			//var otdt = document.getElementById("t3").value;
+			//myFilled = otdt.toLowerCase().split(",");
 			//myId.push("Kiwi","Lemon","Pineapple",'asd');
 			/*$.each(myId, function(i, el2){
 		    	alert(el2);
 			});*/
 			//alert(myId.length);
-			var n = myId.includes(document.getElementById("add-otdate").value.toLowerCase());
-			var m = myFilled.includes(document.getElementById("add-otdate").value.toLowerCase());
+			//var n = myId.includes(document.getElementById("add-otdate").value.toLowerCase());
+			//var m = myFilled.includes(document.getElementById("add-otdate").value.toLowerCase());
 			//alert(n);
 			/*if(n == true){
 				//alert("Position ID already Exist!");
@@ -664,11 +669,56 @@ else
 				alert("No Valid Attendance on Date Selected");
 				return false;
 			}*/
+			getOT();
+			//alert(1);
+			$myOtMins = document.getElementById("otMINS").value.toString();
+			$myOtHrs = document.getElementById("otHRS").value.toString();
+
+			$myFiledOtHours = document.getElementById("add-othours").value.toString();
+			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
 			
+	
+			if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+			{	
+				alert("Hours and Minutes Fields cannot be equal to zero.");
+				return false;
+			}
+
+			else
+			{
+				if ($myFiledOtHours > $myOtHrs)
+				{
+					alert("doesnt reach:" +$myFiledOtHours+ " hours of OT");
+					return false;
+				}
+				else
+				{
+					if($myFiledOtMins > $myOtMins)
+					{
+						alert("doesnt reach:" +$myFiledOtMins+ " minutes of OT");
+						return false;
+					}
+					else
+					{
+						return true;
+						/*if(d > x)
+			 			{
+			 				//alert("Invalid! Overtime filing exceeded 7 days!!!");
+			 				return true;
+			 			}
+			 			else
+			 			{
+			 				return true;
+			 			}*/
+					}
+				}
+				//return true;
+			}
+			//return false;
 		}
 
 		function validateForm() {
-		  var x = document.forms["myForm"]["update"].value;
+		  /*var x = document.forms["myForm"]["update"].value;
 		  if (x == "update") {
 		    if(confirm("Are you sure you want to update this record?")) {
 		    	return true;
@@ -679,6 +729,55 @@ else
 		    	Clear();
 		    	return false;
 		    }
+		  }*/
+		  
+		  var x = document.forms["myForm"]["update"].value;
+		  if (x == "update") {
+		  	
+		  	var myOtMins = document.getElementById("otMINS").value.toString();
+			var myOtHrs = document.getElementById("otHRS").value.toString();
+			$myFiledOtHours = document.getElementById("add-othours").value.toString();
+			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
+
+				if (myOtHrs == "" && myOtMins == "")
+				{
+					//getOT();
+					return false;
+				}
+				else
+				{
+					//alert(myOtHrs + ":" + $myFiledOtHours);
+					if ($myFiledOtHours > myOtHrs)
+						{
+							alert("Excess of hours in OT.");
+							return false;
+						}
+						else
+						{
+							if($myFiledOtMins > myOtMins)
+							{
+								alert("Excess of minutes in OT.");
+								return false;
+							}
+							else
+							{
+							//	return false;
+								 if(confirm("Are you sure you want to update this record?")) {
+								    	return true;
+								    }
+								    else
+								    {
+								    	modal.style.display = "none";
+								    	Clear();
+								    	return false;
+								    }
+							}
+						}
+				}
+
+			//alert(myOtHrs);
+
+		  /* */
 		  }
 		}
 
@@ -943,6 +1042,55 @@ else
 				alert("Please Select a record you want to delete.");
 			}			
 		}
+
+		function getOT()
+		{
+			//alert(document.getElementById("add-leavetype").value);
+
+			var action = "getOT";
+			var lfilter = document.getElementById("add-otdate").value;
+			var Typefilter = document.getElementById("add-type").value;
+			var WKId = document.getElementById("add-workerid").value;
+			//alert(WKId);
+			if(Typefilter == '')
+			{
+				Typefilter = 0;
+
+			}
+			else if (Typefilter == 5)
+			{
+				Typefilter == 5;
+			}
+			else
+			{
+				Typefilter = 0;
+			}
+			
+			if(lfilter == '')
+			{
+				lfilter = '1900-01-01'
+			}
+			//alert(Typefilter);
+			//alert(lfilter);
+
+		    $.ajax({
+						type: 'GET',
+						url: 'approverovertimeformprocess.php',
+						data:{action:action, lfilter:lfilter, Typefilter:Typefilter, WKId:WKId},
+						//data:'bkno='+BNo+'&bkdesc='+BDesc+'&bktit='+BTit+'&bkqty='+BQ,
+						beforeSend:function(){
+						
+							//$("#resultfilter").html('<img src="img/loading.gif" width="300" height="300">');
+			
+						},
+						success: function(data){
+							$('#resultfilter').html(data);
+							//alert(data);
+							//$("#add-otid").prop('readonly', true); 
+				}
+			});
+		}
+
 		function Cancel()
 		{
 
