@@ -585,8 +585,8 @@ else
 			var m = myFilled.includes(document.getElementById("add-lcdate").value.toLowerCase());
 
 			if(m == true){
-					alert("The date selected has an log correction file!");
-					return false;
+					//alert("The date selected has an log correction file!");
+					return true;
 				}
 				else
 				{

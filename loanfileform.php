@@ -76,8 +76,8 @@ else
 						<div class="mainpanel-title">
 							<span class="fa fa-archive"></span> File Loan
 						</div>
-						<div class="mainpanel-sub">
-							<!-- cmd -->
+						<!-- <div class="mainpanel-sub">
+							
 							<div class="mainpanel-sub-cmd">
 								<a href="" class="cmd-create"><span class="far fa-plus-square"></a>
 								<a href="" class="cmd-update"><span class="fas fa-edit"></a>
@@ -88,7 +88,7 @@ else
 									<span class="mainpanel-sub-space">|</span>
 								<a href="" class="cmd-print"><span class="fas fa-print"></a>
 							</div>
-						</div>
+						</div> -->
 						<!-- tableheader -->
 						<div id="container1" class="full">
 							<table width="100%" border="0" id="datatbl" class="table table-striped mainpanel-table">

@@ -1,5 +1,5 @@
 <?php
-
+session_id("protal");
 session_start();
 include("dbconn.php");
 
@@ -81,6 +81,7 @@ else if(isset($_POST["submitlogout"])) {
 }
 */
 else if(isset($_GET["out"])) {
+	session_id("protal");
 	session_unset();
 	header('location:index.php');
 }
