@@ -137,13 +137,14 @@ else
 										<td style="width:10%;">Overtime ID</td>
 										<td style="width:14%;">Name</td>
 										<td style="width:10%;">Overtime Date</td>
-										<td style="width:25%;">Details</td>
+										<td style="width:22%;">Details</td>
 										<td style="width:12%;">Overtime Type</td>
 
 										<td style="width:5%;">Hours</td>
 										<td style="width:5%;">Minutes</td>
 										<td style="width:5%;">Status</td>
 										<td style="width:7%;">Approval Date</td>
+										<td style="width:10%;">Approved By</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 									<tr class="rowsearch">
@@ -305,6 +306,7 @@ else
 										</datalist>
 									  </td>
 									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
@@ -347,7 +349,7 @@ else
 											<td style="width:10%;"><?php echo $row['overtimeid'];?></td>
 											<td style="width:14%;"><?php echo $row['name'];?></td>
 											<td style="width:10%;"><?php echo $row['overtimedate'];?></td>
-											<td style="width:25%;"><?php echo $row['details'];?></td>
+											<td style="width:22%;"><?php echo $row['details'];?></td>
 											<td style="width:12%;"><?php echo $row['overtimetypes'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['timein'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['timeout'];?></td><td style="display:none;width:1%;"><?php echo $row['timein'];?></td>
@@ -356,6 +358,7 @@ else
 											<td style="width:5%;"><?php echo $row['minutes'];?></td>
 											<td style="width:5%;"><?php echo $row['otstatus'];?></td>
 											<td style="width:7%;"><?php echo $row['datefiled'];?></td>
+											<td style="width:10%;"><?php echo $row['approvedby'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['starttime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['endtime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['workerid'];?></td>

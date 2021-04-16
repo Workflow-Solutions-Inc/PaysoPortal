@@ -143,6 +143,7 @@ else
 										<td style="width:5%;">Log Type</td>
 										<td style="width:7%;">Status</td>
 										<td style="width:10%;">Approval Date</td>
+										<td style="width:12%;">Approved By</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 									<tr class="rowsearch">
@@ -286,6 +287,7 @@ else
 										</datalist>
 									  </td>
 									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
@@ -328,6 +330,7 @@ else
 											<td style="width:5%;"><?php echo $row['logtypes'];?></td>
 											<td style="width:7%;"><?php echo $row['otstatus'];?></td>
 											<td style="width:10%;"><?php echo $row['datefiled'];?></td>
+											<td style="width:12%;"><?php echo $row['approvedby'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['logtime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['logtype'];?></td>
 											

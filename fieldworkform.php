@@ -607,14 +607,14 @@ else
 
 			var m = myFilled.includes(document.getElementById("add-fwdate").value.toLowerCase());
 
-			if(m == true){
+			/*if(m == true){
 					alert("The date selected has a filed field work already!");
 					return false;
 				}
 				else
 				{
 					return true;
-					/*if(d > x)
+					if(d > x)
 		 			{
 		 				alert("Invalid! Log Correction filing exceeded 7 days!!!");
 		 				return false;
@@ -622,8 +622,8 @@ else
 		 			else
 		 			{
 		 				return true;
-		 			}*/
-				}
+		 			}
+				}*/
 		}
 
 		function validateForm() {

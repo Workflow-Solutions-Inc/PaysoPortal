@@ -786,7 +786,7 @@ else if($_GET["action"]=="getOT"){
 		
 
 		$output .= '
-				 <input type="hidden" value="'.$endtimehour.'"  name ="myHrs" id="otHRS" class="modal-textarea">
+				 <input type="input" value="'.$endtimehour.'"  name ="myHrs" id="otHRS" class="modal-textarea">
 				 <input type="hidden" value="'.$endtimemins.'" name ="myMins" id="otMINS" class="modal-textarea">
 				 ';
 

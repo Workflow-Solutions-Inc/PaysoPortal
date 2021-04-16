@@ -496,7 +496,7 @@ else
 
 						<div id="resultfilter">
 								<input type="hidden" value="" name ="lcredit" id="add-lcredit" class="modal-textarea" >
-								<input type="hidden" value="" name ="lpaid" id="add-lpaid" class="modal-textarea" >
+								<input type="input" value="" name ="lpaid" id="add-lpaid" class="modal-textarea" >
 						</div>
 
 					</div>

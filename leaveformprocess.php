@@ -28,7 +28,7 @@ if(isset($_GET["save"])) {
 		{
 			echo "New Rec Created";
 			
-			$deduct = 1;
+			/*$deduct = 1;
 			if($otdaytype == 0)
 			{
 				$deduct = 1;
@@ -36,8 +36,16 @@ if(isset($_GET["save"])) {
 			else
 			{
 				$deduct = $deduct/2;
-			}
+			}*/
 
+			$starttimestamp = strtotime($otstart);
+			$endtimestamp = strtotime($otend);
+			$deduct = abs($endtimestamp - $starttimestamp)/3600;
+			if($deduct >= 9)
+			{
+				$deduct = $deduct - 1;
+			}
+			$deduct = $deduct/8;
 			if($paid == "true")
 			{
 				$sql2 = "UPDATE leavefile SET
@@ -67,7 +75,9 @@ if(isset($_GET["save"])) {
 		}
 
 	 }
+	// echo $minutes = $otstart->diff($otend);
 	 
+	//echo $difference/8;
 	header('location: leaveform.php');
 	
 }
@@ -82,7 +92,54 @@ else if(isset($_GET["update"])) {
 	 $otdaytype=$_GET["OTdaytype"];
 	 
 	 if($id != ""){
-	 $sql = "UPDATE portalleavefile SET
+
+	 	$query = "SELECT * FROM leavefile lf left join portalleavefile pl on lf.leavetype = pl.leavetype and lf.dataareaid = pl.dataareaid and lf.workerid = pl.workerid
+					where leaveid = '$id'";
+			$result = $conn->query($query);
+			while ($row = $result->fetch_assoc())
+			{
+
+				$userid=$row["workerid"];
+				$leaveid=$row["leaveid"];
+				$leavetype=$row["leavetype"];
+				$Ldaytype = $row['daytype'];
+
+				$otstart2 = $row['starttime'];
+				$otend2 = $row['endtime'];
+
+				$paid = $row['ispaid'];
+
+			}
+
+			$starttimestamp2 = strtotime($otstart2);
+			$endtimestamp2 = strtotime($otend2);
+			$deduction = abs($endtimestamp2 - $starttimestamp2)/3600;
+			if($deduction >= 9)
+			{
+				$deduction = $deduction - 1;
+			}
+			$deduction = $deduction/8;
+			//echo  $deduction;
+
+			$sql3 = "UPDATE leavefile lf2 SET
+				lf2.balance = lf2.balance + $deduction,
+				
+				lf2.modifiedby = '$userlogin',
+				lf2.modifieddatetime = now()
+				WHERE lf2.workerid = '$userid'
+				and lf2.dataareaid = '$dataareaid'
+				and lf2.leavetype = '$leavetype'";
+
+					if(mysqli_query($conn,$sql3))
+					{
+						echo $sql3."</br>";
+					}
+					else
+					{
+						echo "error".$sql3."<br>".$conn->error;
+					}
+
+			$sql = "UPDATE portalleavefile SET
 				leavedate = '$otdate',
 				details = '$otdetails',
 				starttime = '$otstart',
@@ -93,14 +150,52 @@ else if(isset($_GET["update"])) {
 				modifieddatetime = now()
 				WHERE leaveid = '$id'
 				and dataareaid = '$dataareaid'";
-		if(mysqli_query($conn,$sql))
-		{
-			echo "Rec Updated";
-		}
-		else
-		{
-			echo "error".$sql."<br>".$conn->error;
-		}
+			if(mysqli_query($conn,$sql))
+			{
+				echo "Rec Updated";
+			}
+			else
+			{
+				echo "error".$sql."<br>".$conn->error;
+			}
+
+			
+
+			$starttimestamp = strtotime($otstart);
+			$endtimestamp = strtotime($otend);
+			$deduct = abs($endtimestamp - $starttimestamp)/3600;
+			if($deduct >= 9)
+			{
+				$deduct = $deduct - 1;
+			}
+			$deduct = $deduct/8;
+
+			//echo "<br>".$deduct."<br>".$paid;
+
+			if($paid == "1")
+			{
+				$sql2 = "UPDATE leavefile lf SET
+					lf.balance = lf.balance - $deduct,
+					
+					lf.modifiedby = '$userlogin',
+					lf.modifieddatetime = now()
+					WHERE lf.workerid = '$lognum'
+					and lf.dataareaid = '$dataareaid'
+					and lf.leavetype = '$otleavetype'";
+
+						if(mysqli_query($conn,$sql2))
+						{
+							echo $sql2;
+						}
+						else
+						{
+							echo "error".$sql2."<br>".$conn->error;
+						}
+			}
+
+			
+
+	 
 
 	 }
 	 
@@ -125,17 +220,21 @@ else if($_GET["action"]=="delete"){
 				$leaveid=$row["leaveid"];
 				$leavetype=$row["leavetype"];
 				$Ldaytype = $row['daytype'];
+
+				$otstart = $row['starttime'];
+				$otend = $row['endtime'];
+				
 				
 
-					$deduct = 1;
-					if($Ldaytype == 0)
+					$starttimestamp = strtotime($otstart);
+					$endtimestamp = strtotime($otend);
+					$deduct = abs($endtimestamp - $starttimestamp)/3600;
+					if($deduct >= 9)
 					{
-						$deduct = 1;
+						$deduct = $deduct - 1;
 					}
-					else
-					{
-						$deduct = $deduct/2;
-					}
+					$deduct = $deduct/8;
+
 
 					$sql2 = "UPDATE leavefile SET
 						balance = balance + $deduct,

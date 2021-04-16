@@ -134,16 +134,18 @@ else
 								<thead>	
 									<tr class="rowtitle">
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
-										<td style="width:10%;">Leave ID</td>
+										<td style="width:8%;">Leave ID</td>
 										<td style="width:14%;">Name</td>
-										<td style="width:10%;">Leave Date</td>
-										<td style="width:25%;">Details</td>
+										<td style="width:8%;">Leave Date</td>
+										<td style="width:20%;">Details</td>
 										<td style="width:7%;">Start Time</td>
 										<td style="width:7%;">End Time</td>
-										<td style="width:5%;">Leave Type</td>
+										<td style="width:7%;">Leave Type</td>
 										<td style="width:5%;">Day Type</td>
 										<td style="width:7%;">Status</td>
-										<td style="width:10%;">Approval Date</td>
+										<td style="width:8%;">Approval Date</td>
+										<td style="width:10%;">Approved By</td>
+
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 									<tr class="rowsearch">
@@ -321,6 +323,7 @@ else
 										</datalist>
 									  </td>
 									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
@@ -350,19 +353,22 @@ else
 										<tr class="<?php echo $rowclass; ?>">
 											<!--<td style="width:10px;"><input type='checkbox' name="chkbox" value="" id="myCheck"></td>-->
 											<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
-											<td style="width:10%;"><?php echo $row['leaveid'];?></td>
+											<td style="width:8%;"><?php echo $row['leaveid'];?></td>
 											<td style="width:14%;"><?php echo $row['name'];?></td>
-											<td style="width:10%;"><?php echo $row['leavedate'];?></td>
-											<td style="width:25%;"><?php echo $row['details'];?></td>
+											<td style="width:8%;"><?php echo $row['leavedate'];?></td>
+											<td style="width:20%;"><?php echo $row['details'];?></td>
 											<td style="width:7%;"><?php echo $row['timein'];?></td>
 											<td style="width:7%;"><?php echo $row['timeout'];?></td>
-											<td style="width:5%;"><?php echo $row['leavetype'];?></td>
+											<td style="width:7%;"><?php echo $row['leavetype'];?></td>
 											<td style="width:5%;"><?php echo $row['daytypes'];?></td>
 											<td style="width:7%;"><?php echo $row['otstatus'];?></td>
-											<td style="width:10%;"><?php echo $row['datefiled'];?></td>
+											<td style="width:8%;"><?php echo $row['datefiled'];?></td>
+											<td style="width:10%;"><?php echo $row['approvedby'];?></td>
+
 											<td style="display:none;width:1%;"><?php echo $row['starttime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['endtime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['daytype'];?></td>
+
 											
 											<!--<td style="width:50%;"><input type='password' value='" . $row["password"]."'readonly='readonly'></td>-->
 											

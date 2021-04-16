@@ -136,13 +136,14 @@ else
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
 										<td style="width:10%;">Field Work ID</td>
 										<td style="width:14%;">Name</td>
-										<td style="width:10%;">Field Work Date</td>
-										<td style="width:25%;">Details</td>
+										<td style="width:8%;">Field Work Date</td>
+										<td style="width:22%;">Details</td>
 										<td style="width:7%;">Start Time</td>
 										<td style="width:7%;">End Time</td>
 										<td style="width:5%;">Day Type</td>
 										<td style="width:7%;">Status</td>
-										<td style="width:10%;">Date Filed</td>
+										<td style="width:8%;">Date Filed</td>
+										<td style="width:10%;">Approved By</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 									<tr class="rowsearch">
@@ -304,6 +305,7 @@ else
 										</datalist>
 									  </td>
 									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
@@ -336,14 +338,17 @@ else
 											<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
 											<td style="width:10%;"><?php echo $row['fieldworkid'];?></td>
 											<td style="width:14%;"><?php echo $row['name'];?></td>
-											<td style="width:10%;"><?php echo $row['fieldworkdate'];?></td>
-											<td style="width:25%;"><?php echo $row['details'];?></td>
+											<td style="width:8%;"><?php echo $row['fieldworkdate'];?></td>
+											<td style="width:22%;"><?php echo $row['details'];?></td>
 											<td style="width:7%;"><?php echo $row['timein'];?></td>
 											<td style="width:7%;"><?php echo $row['timeout'];?></td>
 											
 											<td style="width:5%;"><?php echo $row['daytypes'];?></td>
 											<td style="width:7%;"><?php echo $row['otstatus'];?></td>
-											<td style="width:10%;"><?php echo $row['datefiled'];?></td>
+											<td style="width:8%;"><?php echo $row['datefiled'];?></td>
+
+											<td style="width:10%;"><?php echo $row['approvedby'];?></td>
+
 											<td style="display:none;width:1%;"><?php echo $row['starttime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['endtime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['daytype'];?></td>

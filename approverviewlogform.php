@@ -136,11 +136,12 @@ else
 										<td style="width:10%;">Log ID</td>
 										<td style="width:14%;">Name</td>
 										<td style="width:10%;">Invalid Date</td>
-										<td style="width:25%;">Details</td>
+										<td style="width:22%;">Details</td>
 										<td style="width:7%;">Log Time</td>
 										<td style="width:5%;">Log Type</td>
 										<td style="width:7%;">Status</td>
 										<td style="width:10%;">Approval Date</td>
+										<td style="width:10%;">Approved By</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 									<tr class="rowsearch">
@@ -284,6 +285,7 @@ else
 										</datalist>
 									  </td>
 									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
@@ -325,12 +327,13 @@ else
 											<td style="width:10%;"><?php echo $row['logid'];?></td>
 											<td style="width:14%;"><?php echo $row['name'];?></td>
 											<td style="width:10%;"><?php echo $row['invaliddate'];?></td>
-											<td style="width:25%;"><?php echo $row['details'];?></td>
+											<td style="width:22%;"><?php echo $row['details'];?></td>
 											<td style="width:7%;"><?php echo $row['logtimes'];?></td>
 											
 											<td style="width:5%;"><?php echo $row['logtypes'];?></td>
 											<td style="width:7%;"><?php echo $row['otstatus'];?></td>
 											<td style="width:10%;"><?php echo $row['datefiled'];?></td>
+											<td style="width:10%;"><?php echo $row['approvedby'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['logtime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['logtype'];?></td>
 											

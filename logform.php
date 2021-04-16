@@ -584,14 +584,14 @@ else
 
 			var m = myFilled.includes(document.getElementById("add-lcdate").value.toLowerCase());
 
-			if(m == true){
-					//alert("The date selected has an log correction file!");
-					return true;
+			/*if(m == true){
+					alert("The date selected has an log correction file!");
+					return false;
 				}
 				else
 				{
 				    return true;
-					/*if(d > x)
+					if(d > x)
 		 			{
 		 				alert("Invalid! Log Correction filing exceeded 7 days!!!");
 		 				return false;
@@ -599,8 +599,8 @@ else
 		 			else
 		 			{
 		 				return true;
-		 			}*/
-				}
+		 			}
+				}*/
 		}
 
 		function validateForm() {

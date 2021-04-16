@@ -505,7 +505,7 @@ else
 							</select>
 						</div>
 						<div id="resultfilter">
-								<input type="hidden" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
+								<input type="input" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
 								<input type="hidden" value="" name ="myMins" id="otMINS" class="modal-textarea" >
 								
 						</div>
@@ -746,12 +746,15 @@ else
 			//	alert($myOtHrs + ":" + $myOtHrs);
 			if(n == true){
 				//alert("Position ID already Exist!");
-				if(m == true){
+
+				/*if(m == true){
 					alert("The date selected has an overtime file!");
 					return false;
 				}
 				else
-				{//return false;
+				{*/
+
+				//return false;
 					//return false;
 					$myFiledOtHours = document.getElementById("add-othours").value.toString();
 					$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
@@ -767,6 +770,7 @@ else
 					{
 						if ($myFiledOtHours > $myOtHrs)
 						{
+							alert($myOtHrs);
 							alert("Excess of hours in OT.");
 							return false;
 						}
@@ -792,7 +796,7 @@ else
 							}
 						}
 						//return true;
-					}
+					//}
 				   
 					/*if(d > x)
 		 			{
