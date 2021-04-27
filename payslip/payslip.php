@@ -50,7 +50,7 @@ $payrollid = $_GET['payroll'];
 $dataareaid = $_GET['comp'];
 $workernum = $_GET['worker'];
 require('fpdf/htmlpdf.php');
-include('dbconn.php');
+include('../dbconn.php');
 
 $pdf=new PDF('P','mm','letter');
 
