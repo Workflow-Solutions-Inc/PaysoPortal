@@ -1,4 +1,5 @@
 <?php 
+session_id("protal");
 session_start();
 include("dbconn.php");
 $user = $_SESSION["user"];
@@ -482,8 +483,13 @@ else
 						</div>
 
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							<label>Leave Date:</label>
-							<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" required="required" onchange="filterleave()">
+							<label>Leave From Date:</label>
+							<input type="date" value="" placeholder="" id="add-otfromdate" name="OTfromdate" class="modal-textarea" required="required" onchange="filterleave()">
+
+							<div id='FWtodatediv'>
+							<label>Leave To Date:</label>
+							<input type="date" value="" placeholder="" id="add-ottodate" name="OTtodate" class="modal-textarea" required="required" onchange="filterleave()">
+							</div>
 
 							<label>Start Time:</label>
 							<input type="time" value="" placeholder="" id="add-otstarttime" name="OTstart" class="modal-textarea" required="required">
@@ -496,7 +502,7 @@ else
 
 						<div id="resultfilter">
 								<input type="hidden" value="" name ="lcredit" id="add-lcredit" class="modal-textarea" >
-								<input type="input" value="" name ="lpaid" id="add-lpaid" class="modal-textarea" >
+								<input type="hidden" value="" name ="lpaid" id="add-lpaid" class="modal-textarea" >
 						</div>
 
 					</div>
@@ -615,9 +621,10 @@ else
 			if(so != '') {
 			    modal.style.display = "block";
 			    $("#add-otid").prop('readonly', true);
-
+			    document.getElementById("FWtodatediv").style.display = "none";
 				document.getElementById("add-otid").value = so;
-				document.getElementById("add-otdate").value = locLeavedate.toString();
+				document.getElementById("add-otfromdate").value = locLeavedate.toString();
+				document.getElementById("add-ottodate").value = locLeavedate.toString();
 				document.getElementById("add-details").value = locDetails.toString();
 				document.getElementById("add-otstarttime").value = locStartTime;
 				document.getElementById("add-otendtime").value = locEndTime;
@@ -651,11 +658,14 @@ else
 			//alert(document.getElementById("add-leavetype").value);
 			var action = "filterleave";
 			var lfilter = document.getElementById("add-leavetype").value;
-			var ldate = document.getElementById("add-otdate").value;
+			var ldate = document.getElementById("add-otfromdate").value;
+			var ltodate = document.getElementById("add-ottodate").value;
+			//var OTstart = document.getElementById("add-otstarttime").value;
+			//var OTend = document.getElementById("add-otendtime").value;
 		    $.ajax({
 						type: 'GET',
 						url: 'leaveformprocess.php',
-						data:{action:action , lfilter:lfilter, ldate:ldate},
+						data:{action:action , lfilter:lfilter, ldate:ldate, ltodate:ltodate},
 						//data:'bkno='+BNo+'&bkdesc='+BDesc+'&bktit='+BTit+'&bkqty='+BQ,
 						beforeSend:function(){
 						
@@ -672,17 +682,20 @@ else
 		var myId = [];
 		function checkExistForm()
 		{
+			
 			//window.location.href='employee2.php';
 			var ldt = document.getElementById("t3").value;
 			myId = ldt.toLowerCase().split(",");
-			var n = myId.includes(document.getElementById("add-otdate").value.toLowerCase());
+			var n = myId.includes(document.getElementById("add-otfromdate").value.toLowerCase());
 
 			var vleavetype = document.getElementById("add-leavetype").value;
 			var vDaytype = 	document.getElementById("add-daytype").value;
 
 			var cont = document.getElementById("add-lcredit").value;
+			var lday = document.getElementById("add-ldays").value;
+			//var lded = document.getElementById("add-lded").value;
 			var ispaid = document.getElementById("add-lpaid").value;
-
+			//alert(lday);
 			var cred = 5;
 			var x = 0;
 
@@ -695,9 +708,15 @@ else
 					x = cont - 1;
 				}
 			}
+			/*alert(lday);
+			if(lday > 1)
+			{
+				cont = Math.trunc( cont );
+			}
+			alert(cont);*/
 
 			var d = new Date();
-			var d2 = new Date(document.getElementById("add-otdate").value.toLowerCase());
+			var d2 = new Date(document.getElementById("add-otfromdate").value.toLowerCase());
 			d.setDate(d.getDate() - 7);
 			//alert(x);
 			if(ispaid == "false")
@@ -724,7 +743,7 @@ else
 			else
 			{
 				//alert(x);
-				if(x >= 0){
+				if(cont > 0){
 					//alert("Continue Saving...");
 					if(n == true){
 						alert("The date selected has a leave file!");
@@ -732,16 +751,23 @@ else
 					}
 					else
 					{
-						if(d > d2)
+
+			 			if(lday > cont)
 			 			{
-			 				//alert("Invalid! Leave filing exceeded 7 days!!!");
-			 				return true;
+			 				if(confirm("Only "+cont+" remaining leave can filled as "+vleavetype+". Do you want to continue?")) {
+						    	//alert("saved");
+						    	return true;
+						    	
+						    }
+						    else
+						    {
+						    	modal.style.display = "none";
+						    	Clear();
+						    	return false;
+						    }
 			 			}
-			 			else
-			 			{
-			 				
-			 				return true;
-			 			}
+			 			
+
 					}
 					//return true;
 				}
@@ -824,7 +850,8 @@ else
 		{
 			if(so != '') {
 				//document.getElementById("add-id").value = "";
-				document.getElementById("add-otdate").value =  "";
+				document.getElementById("add-otfromdate").value = "";
+				document.getElementById("add-ottodate").value = "";
 				document.getElementById("add-details").value =  "";
 				document.getElementById("add-otstarttime").value =  "";
 				document.getElementById("add-otendtime").value =  "";
@@ -833,7 +860,8 @@ else
 			}
 			else
 			{
-				document.getElementById("add-otdate").value =  "";
+				document.getElementById("add-otfromdate").value = "";
+				document.getElementById("add-ottodate").value = "";
 				document.getElementById("add-details").value =  "";
 				document.getElementById("add-otstarttime").value =  "";
 				document.getElementById("add-otendtime").value =  "";

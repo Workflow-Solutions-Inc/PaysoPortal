@@ -1,5 +1,5 @@
 <?php
-
+session_id("protal");
 session_start();
 $userlogin = $_SESSION["user"];
 $dataareaid = $_SESSION["defaultdataareaid"];
@@ -11,16 +11,117 @@ include("dbconn.php");
 if(isset($_GET["save"])) {
 	 
 	 $id=$_GET["OTId"];
-	 $otdate=$_GET["OTdate"];
+	 $otfromdate=$_GET["OTfromdate"];
+	 $ottodate=$_GET["OTtodate"];
 	 $otdetails=$_GET["OTdetails"];
 	 $otstart=$_GET["OTstart"];
 	 $otend=$_GET["OTend"];
 	 $otleavetype=$_GET["OTleavetype"];
 	 $otdaytype=$_GET["OTdaytype"];
 	 $paid=$_GET["lpaid"];
+	 $ldays=$_GET["ldays"];
+	 $lcredit=$_GET["lcredit"];
+	 //$lcredit=14;
+	 
+	 echo "credit=".$lcredit."<br>";
+	 if($ldays > $lcredit)
+	 {
+	 	$lcredit=$lcredit-1;
+	 	$ottodate = date ("Y-m-d", strtotime("+".$lcredit." days", strtotime($otfromdate)));
+	 }
+	
+	 
+
+	 while (strtotime($otfromdate) <= strtotime($ottodate)) {
+	    echo $otfromdate."</br>";
+	    
+
+	    if($id != ""){
+	
+
+		 $query2 = "SELECT * FROM numbersequence where dataareaid = '$dataareaid' and id='leave'";
+						$result2 = $conn->query($query2);
+						$row2 = $result2->fetch_assoc();
+						$prefix = $row2["prefix"];
+						$first = $row2["first"];
+						$last = $row2["last"];
+						$format = $row2["format"];
+						$next = $row2["next"];
+						$suffix = $row2["suffix"];
+						if($last >= $next)
+						{
+							$sequence = $prefix.substr($format,0,strlen($next)*-1).$next.$suffix;
+						}
+						else if ($last < $next)
+						{
+							$sequence = $prefix.$next.$suffix;
+						}
+						$increment=$next+1;
+						$sql = "UPDATE numbersequence SET
+								next = '$increment',
+								modifiedby = '$userlogin',
+								modifieddatetime = now()
+								WHERE id = 'leave'
+								and dataareaid = '$dataareaid'";
+						//mysqli_query($conn,$sql);	
+						if(mysqli_query($conn,$sql))
+						{
+							//echo "Rec Updated";
+							
+								$sql2 = "INSERT INTO portalleavefile (leaveid,leavedate,details,starttime,endtime,leavetype,daytype,name,workerid,status,dataareaid,createdby,createddatetime)
+										values 
+										('$sequence','$otfromdate','$otdetails','$otstart','$otend','$otleavetype','$otdaytype','$logname','$lognum',0, '$dataareaid', '$userlogin', now())";
+								if(mysqli_query($conn,$sql2))
+								{
+									//echo $sql2;
+									$starttimestamp = strtotime($otstart);
+									$endtimestamp = strtotime($otend);
+									$deduct = abs($endtimestamp - $starttimestamp)/3600;
+									if($deduct >= 9)
+									{
+										$deduct = $deduct - 1;
+									}
+									$deduct = $deduct/8;
+									if($paid == "true")
+									{
+										$sql2 = "UPDATE leavefile SET
+											balance = balance - $deduct,
+											
+											modifiedby = '$userlogin',
+											modifieddatetime = now()
+											WHERE workerid = '$lognum'
+											and dataareaid = '$dataareaid'
+											and leavetype = '$otleavetype'";
+
+												if(mysqli_query($conn,$sql2))
+												{
+													echo "Rec Updated";
+												}
+												else
+												{
+													echo "error".$sql2."<br>".$conn->error;
+												}
+									}
+								}
+								else
+								{
+									echo "error".$sql2."<br>".$conn->error;
+								}
+							
+
+							 
+						}
+						else
+						{
+							echo "error".$sql."<br>".$conn->error;
+						}
+			
+		}
+		$otfromdate = date ("Y-m-d", strtotime("+1 days", strtotime($otfromdate)));
+	}
 
 	 
-	 if($id != ""){
+	/* if($id != ""){
 	 $sql = "INSERT INTO portalleavefile (leaveid,leavedate,details,starttime,endtime,leavetype,daytype,name,workerid,status,dataareaid,createdby,createddatetime)
 			values 
 			('$id','$otdate','$otdetails','$otstart','$otend','$otleavetype','$otdaytype','$logname','$lognum',0, '$dataareaid', '$userlogin', now())";
@@ -28,15 +129,6 @@ if(isset($_GET["save"])) {
 		{
 			echo "New Rec Created";
 			
-			/*$deduct = 1;
-			if($otdaytype == 0)
-			{
-				$deduct = 1;
-			}
-			else
-			{
-				$deduct = $deduct/2;
-			}*/
 
 			$starttimestamp = strtotime($otstart);
 			$endtimestamp = strtotime($otend);
@@ -74,8 +166,8 @@ if(isset($_GET["save"])) {
 			echo "error".$sql."<br>".$conn->error;
 		}
 
-	 }
-	// echo $minutes = $otstart->diff($otend);
+	 }*/
+	//echo $minutes = $otstart->diff($otend);
 	 
 	//echo $difference/8;
 	header('location: leaveform.php');
@@ -84,7 +176,7 @@ if(isset($_GET["save"])) {
 else if(isset($_GET["update"])) {
 	 
 	 $id=$_GET["OTId"];
-	 $otdate=$_GET["OTdate"];
+	 $otfromdate=$_GET["OTfromdate"];
 	 $otdetails=$_GET["OTdetails"];
 	 $otstart=$_GET["OTstart"];
 	 $otend=$_GET["OTend"];
@@ -140,7 +232,7 @@ else if(isset($_GET["update"])) {
 					}
 
 			$sql = "UPDATE portalleavefile SET
-				leavedate = '$otdate',
+				leavedate = '$otfromdate',
 				details = '$otdetails',
 				starttime = '$otstart',
 				endtime = '$otend',
@@ -343,7 +435,7 @@ else if($_GET["action"]=="add"){
 	 {
 	 	$sequence = $prefix.$next.$suffix;
 	 }
-	 $increment=$next+1;
+	 /*$increment=$next+1;
 	 $sql = "UPDATE numbersequence SET
 				next = '$increment',
 				modifiedby = '$userlogin',
@@ -360,11 +452,11 @@ else if($_GET["action"]=="add"){
 		else
 		{
 			$output .= "error".$sql."<br>".$conn->error;
-		}
+		}*/
 	 
-	/* $output .= '
+	 $output .= '
 				 <input type="text" value="'.$sequence.'" placeholder="Overtime" name ="OTId" id="add-otid" class="modal-textarea" required="required">
-				 ';*/
+				 ';
 	 echo $output;
 	
 }
@@ -373,10 +465,41 @@ else if($_GET["action"]=="filterleave"){
 	 $output='';
 	 $wkvl=0;
 	 $ispaid=0;
+	 $cntdays=0;
+	 $deduct = 0;
+	 $ldeduct=0;
 	 $paidleave='false';
+	 /*if($_GET["OTstart"] !='' && $_GET["OTend"] != '')
+	 {
+	 	$otstart=$_GET["OTstart"];
+		$otend=$_GET["OTend"];
+
+		 $starttimestamp = strtotime($otstart);
+			$endtimestamp = strtotime($otend);
+			$deduct = abs($endtimestamp - $starttimestamp)/3600;
+			if($deduct >= 9)
+			{
+				$deduct = $deduct - 1;
+			}
+			$deduct = $deduct/8;
+	 }*/
+
+	 
 	 if($_GET["ldate"] != '')
 	 {
 	 	$leavedate = $_GET["ldate"];
+	 	$leavetodate = $_GET["ltodate"];
+	 	$leavedifdate = $leavedate;
+	 	while (strtotime($leavedifdate) <= strtotime($leavetodate)) {
+	 	
+	    //echo $leavedifdate."</br>";
+	    $leavedifdate = date ("Y-m-d", strtotime("+1 days", strtotime($leavedifdate)));
+	    $cntdays=$cntdays+1;
+	    //$ldeduct=$ldeduct+$deduct;
+	   // echo $cntdays;
+
+
+		}
 	 }
 	 else
 	 {
@@ -385,8 +508,21 @@ else if($_GET["action"]=="filterleave"){
 
 	 $leavefilter=$_GET["lfilter"];
 
-	 $query2 = "SELECT format(balance,2) balance,ispaid FROM leavefile 
+	 
+	 if($cntdays > 1)
+	 {
+	 	$query2 = "SELECT format(balance,0) balance,ispaid FROM leavefile 
 		where workerid = '$lognum' and dataareaid = '$dataareaid' and leavetype = '$leavefilter' and  (fromdate <= '$leavedate' and todate >= '$leavedate')";
+	 }
+	 else
+	 {
+	 	 $query2 = "SELECT format(balance,4) balance,ispaid FROM leavefile 
+		where workerid = '$lognum' and dataareaid = '$dataareaid' and leavetype = '$leavefilter' and  (fromdate <= '$leavedate' and todate >= '$leavedate')";
+	 }
+	 
+
+	
+
 		$result2 = $conn->query($query2);
 		while ($row2 = $result2->fetch_assoc())
 		{ 
@@ -410,11 +546,12 @@ else if($_GET["action"]=="filterleave"){
 
 
 		$output .= '
-				 <input type="hidden" value="'.$wkvl.'"  name ="lcredit" id="add-lcredit" class="modal-textarea">
-				 <input type="hidden" value="'.$paidleave.'" name ="lpaid" id="add-lpaid" class="modal-textarea">
-				 <input type="hidden" value="'.$leavedate.'" name ="lfildate" id="add-lfildate" class="modal-textarea">
+				 <input type="input" value="'.$wkvl.'"  name ="lcredit" id="add-lcredit" class="modal-textarea">
+				 <input type="input" value="'.$paidleave.'" name ="lpaid" id="add-lpaid" class="modal-textarea">
+				 <input type="input" value="'.$cntdays.'" name ="ldays" id="add-ldays" class="modal-textarea">
+				 
 				 ';
-
+				 //<input type="input" value="'.$ldeduct.'" name ="lded" id="add-lded" class="modal-textarea">
 	
 	 echo $output;
 	

@@ -1,4 +1,5 @@
 <?php 
+session_id("protal");
 session_start();
 include("dbconn.php");
 $user = $_SESSION["user"];
@@ -434,9 +435,12 @@ else
 
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
-							<label>Field Work Date:</label>
-							<input type="date" value="" placeholder="" id="add-fwdate" name="FWdate" class="modal-textarea" required="required">
-							
+							<label>Field Work From Date:</label>
+							<input type="date" value="" placeholder="" id="add-fwfromdate" name="FWfromdate" class="modal-textarea" required="required">
+							<div id='FWtodatediv'>
+							<label>Field Work To Date:</label>
+							<input type="date" value="" placeholder="" id="add-fwtodate" name="FWtodate" class="modal-textarea" required="required">
+							</div>
 
 							<label>Start Time:</label>
 							<input type="time" value="" placeholder="" id="add-fwstarttime" name="FWstart" class="modal-textarea" required="required">
@@ -542,6 +546,7 @@ else
 		    //document.getElementById("add-otid").value = '';
 		    document.getElementById("upbt").style.visibility = "hidden";
 		    document.getElementById("addbt").style.visibility = "visible";
+		    document.getElementById("FWtodatediv").style.display = "block";
 		    var action = "add";
 		    $.ajax({
 						type: 'GET',
@@ -558,14 +563,16 @@ else
 							$("#add-fwid").prop('readonly', true); 
 				}
 			});
+			Clear();
 		}
 		UpdateBtn.onclick = function() {
 			if(so != '') {
 			    modal.style.display = "block";
 			    $("#add-fwid").prop('readonly', true);
-
+			    document.getElementById("FWtodatediv").style.display = "none";
 				document.getElementById("add-fwid").value = so;
-				document.getElementById("add-fwdate").value = locFieldDate.toString();
+				document.getElementById("add-fwfromdate").value = locFieldDate.toString();
+				document.getElementById("add-fwtodate").value = locFieldDate.toString();
 				document.getElementById("add-details").value = locDetails.toString();
 				document.getElementById("add-fwstarttime").value = locStartTime;
 				document.getElementById("add-fwendtime").value = locEndTime;
@@ -692,16 +699,19 @@ else
 		{
 			if(so != '') {
 				//document.getElementById("add-id").value = "";
-				document.getElementById("add-fwdate").value =  "";
+				document.getElementById("add-fwfromdate").value = "";
+				document.getElementById("add-fwtodate").value = "";
 				document.getElementById("add-details").value =  "";
 				document.getElementById("add-fwstarttime").value =  "";
 				document.getElementById("add-fwendtime").value =  "";
 				document.getElementById("add-daytype").value =  "";
 
+
 			}
 			else
 			{
-				document.getElementById("add-fwdate").value =  "";
+				document.getElementById("add-fwfromdate").value = "";
+				document.getElementById("add-fwtodate").value = "";
 				document.getElementById("add-details").value =  "";
 				document.getElementById("add-fwstarttime").value =  "";
 				document.getElementById("add-fwendtime").value =  "";
