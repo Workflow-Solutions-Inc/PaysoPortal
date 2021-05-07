@@ -1,4 +1,5 @@
 <?php
+session_id("protal");
 session_start();
 // Include the main TCPDF library (search for installation path).
 include(__DIR__ . '/tcpdf_min/tcpdf.php');

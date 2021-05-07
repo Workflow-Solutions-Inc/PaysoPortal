@@ -1,5 +1,5 @@
 <?php
-
+session_id("protal");
 session_start();
 $userlogin = $_SESSION["user"];
 $dataareaid = $_SESSION["defaultdataareaid"];

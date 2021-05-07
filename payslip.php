@@ -1,4 +1,5 @@
 <?php 
+session_id("protal");
 session_start();
 include("dbconn.php");
 $user = $_SESSION["user"];
