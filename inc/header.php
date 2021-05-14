@@ -47,7 +47,7 @@ if(!isset($_SESSION['lognum']) || !isset($_SESSION['defaultdataareaid']))
 							<input type="text" value="" placeholder="New Password" id="add-newpass" name="newpass" class="modal-textarea" required="required">
 
 							<label>Re-Type New Password:</label>
-							<input type="text" value="" placeholder="Re-Type New Password" id="add-renewpass" name="renewpass" class="modal-textarea" required="required">
+							<input type="text" value="" placeholder="Re-Type New Password" id="add-renewpass" name="renewpass" class="modal-textarea" minlength="2" required="required">
 						</div>
 
 
