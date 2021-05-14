@@ -94,7 +94,6 @@ else
 			<li><button id="myUpdateBtn"><span class="fa fa-edit"></span> Update Record</button></li>
 			<li><button onClick="Delete();"><span class="fa fa-trash-alt"></span> Delete Record</button></li>
 			<li><button onClick="Cancel();"><span class="fa fa-arrow-circle-left fa-lg"></span> Back</button></li>
-			<!--<li><button onClick="Sample();"><span class="fa fa-arrow-circle-left fa-lg"></span> Sample</button></li>-->
 		</ul>
 		
 		<!-- extra buttons -->
@@ -360,16 +359,9 @@ else
 
 									<?php 
 									
-									$query4 = "SELECT *,TIME_FORMAT(starttime,'%h:%i %p') as timein,TIME_FORMAT(endtime,'%h:%i %p') as timeout,
-									case when status = 0 then 'Created'
-										when status = 1 then 'Approved' 
-										when status = 2 then 'Disapproved' 
-										when status = 3 then 'Posted' end as otstatus,
-									case when daytype = 0 then 'Whole Day'
-										when daytype = 1 then 'Half Day' end as daytypes,
-										date_format(createddatetime, '%Y-%m-%d') as datefiled
+									$query4 = "SELECT fieldworkdate
 
-									FROM portalfieldwork where dataareaid = '$dataareaid' and workerid = '$lognum'
+									FROM portalfieldwork where dataareaid = '$dataareaid' and workerid = '$lognum' and status != 2
 										
 									order by fieldworkid";
 									$result4 = $conn->query($query4);
@@ -840,18 +832,7 @@ else
 
 			window.location.href='employee.php';	
 		}
-		function Sample()
-		{
-			x = 5;
-			y = 9;
-
-			x=y+x;
-			y=x-y;
-			x=x-y;
-			
-			alert('x='+x);
-			alert('y='+y);
-		}
+		
 
 	</script>
 <script type="text/javascript" src="js/custom.js"></script>

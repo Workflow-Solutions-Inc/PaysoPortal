@@ -287,8 +287,31 @@ else
 													</p>
 													-->
 													<p>
-														<label style="width: 90px;">Overtime Date:</label>
-														<span><input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" style="width:30%;height: 28px;" required="required"></span>
+														<label style="width: 120px;">Overtime Start Date:</label>
+														<span><input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" onchange="" style="width:30%;height: 28px;" required="required"></span>
+
+														<label style="width: 120px;">Overtime Start Time:</label>
+														<span><input type="time" value="" placeholder="" id="add-ottime" name="OTtime" class="modal-textarea" onchange="" style="width:30%;height: 28px;" required="required"></span>
+
+
+
+
+														<!-- <label>Overtime Start Date:</label>
+														<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" onchange="getOT()" required="required">
+														<label>Overtime Start Time:</label>
+														<input type="time" value="" placeholder="" id="add-ottime" name="OTtime" class="modal-textarea" onchange="getOT()" required="required">
+														<label>Overtime End Date:</label>
+														<input type="date" value="" placeholder="" id="add-otenddate" name="OTenddate" class="modal-textarea" onchange="getOT()" required="required">
+														<label>Overtime End time:</label>
+														<input type="time" value="" placeholder="" id="add-otendtime" name="OTendtime" class="modal-textarea" onchange="getOT()" required="required"> -->
+													</p>
+													<p>
+														<label style="width: 120px;">Overtime End Date:</label>
+														<span><input type="date" value="" placeholder="" id="add-otenddate" name="OTenddate" class="modal-textarea" onchange="" style="width:30%;height: 28px;" required="required"></span>
+
+														<label style="width: 120px;">Overtime End Time:</label>
+														<span><input type="time" value="" placeholder="" id="add-otendtime" name="OTendtime" class="modal-textarea" onchange="" style="width:30%;height: 28px;" required="required"></span>
+
 													</p>
 													<p>
 														<label style="width: 90px;">Overtime Type:</label>
@@ -553,7 +576,8 @@ else
 	{
 		
 		//alert(SelWorker);
-
+		var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+		var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
 		var action = "getOT";
 		var OTdate = document.getElementById("add-otdate").value;
 		var OTtype = document.getElementById("add-type").value.toString();
@@ -589,7 +613,7 @@ else
 		{
 			if (OTdate == "" || document.getElementById("add-type").value == '')
 			{
-			    alert("All details must be filled out asd");
+			    alert("All details must be filled out");
 			    //return false;
 			    //alert(OTdate);
 			    //alert(locDetails);
@@ -609,7 +633,7 @@ else
 			  		$.ajax({
 								type: 'GET',
 								url: 'userselectionprocess.php',
-								data:{action:action, OTdate:OTdate, OTtype:OTtype, SelWorker:SelWorker},
+								data:{action:action, OTdate:OTdate, OTtype:OTtype, SelWorker:SelWorker, OTStartDateTime:OTStartDateTime, OTEndDateTime:OTEndDateTime},
 								beforeSend:function(){
 								
 									//$("#resultfilter").html('<img src="img/loading.gif" width="300" height="300">');
@@ -618,6 +642,7 @@ else
 								success: function(data){
 									$('#resultfilter').html(data);
 									checkHour(SelWorker);
+									//alert(1);
 									//alert(data);
 									//$("#add-otid").prop('readonly', true); 
 						}
@@ -631,6 +656,12 @@ else
 	function checkHour(SelWorker)
 	{
 		//alert(SelWorker);
+
+		var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+		var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
+
+		var myOTEndDate = document.getElementById("myEndDate").value;
+
 		var myWKname = document.getElementById("myWkname").value.toString();
 		var locHours = document.getElementById("add-othours").value.toString();
 		var locMins = document.getElementById("add-otminutes").value.toString();
@@ -639,23 +670,31 @@ else
 		var	myOtHrs = document.getElementById("otHRS").value.toString();
 
 		//SelWorker
-		if (locHours > myOtHrs)
-		{
-			alert(myWKname+" doesnt reach:" +locHours+ " hours of OT. Please remove from the list!");
-			$("#batchsave").prop("disabled", true);
-		}
-		else
-		{
-			if(locMins > myOtMins)
+			if (OTEndDateTime > myOTEndDate)
 			{
-				alert(myWKname+" doesnt reach:" +locMins+ " minutes of OT. Please remove from the list!");
+				alert("Overtime EndDate and EndTime must be within "+ myWKname+ " attendance. Please remove from the list!");
 				$("#batchsave").prop("disabled", true);
 			}
 			else
 			{
-				//alert(myWKname+" Saved");
+				if (locHours > myOtHrs)
+				{
+					alert(myWKname+" doesnt reach:" +locHours+ " hours of OT. Please remove from the list!");
+					$("#batchsave").prop("disabled", true);
+				}
+				else
+				{
+					if(locMins > myOtMins)
+					{
+						alert(myWKname+" doesnt reach:" +locMins+ " minutes of OT. Please remove from the list!");
+						$("#batchsave").prop("disabled", true);
+					}
+					else
+					{
+						//alert("Save Enabled!");
+					}
+				}
 			}
-		}
 	}
 
 	function Save()

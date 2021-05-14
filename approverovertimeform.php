@@ -413,8 +413,17 @@ else
 								<input type="text" value="" placeholder="Overtime" name ="OTId" id="add-otid" class="modal-textarea" required="required">
 							</div>
 
-							<label>Overtime Date:</label>
-							<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" onchange="getOT()"  required="required">
+							<!-- <label>Overtime Date:</label>
+							<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" onchange="getOT()"  required="required"> -->
+
+							<label>Overtime Start Date:</label>
+							<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime Start Time:</label>
+							<input type="time" value="" placeholder="" id="add-ottime" name="OTtime" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime End Date:</label>
+							<input type="date" value="" placeholder="" id="add-otenddate" name="OTenddate" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime End time:</label>
+							<input type="time" value="" placeholder="" id="add-otendtime" name="OTendtime" class="modal-textarea" onchange="getOT()" required="required">
 
 							<label>Worker:</label>
 							
@@ -436,8 +445,7 @@ else
 									<?php } ?>
 							</select>
 							
-							<label>Details:</label>
-							<textarea id="add-details" name="OTdetails" class="textarea1" required="required" placeholder="Over Time Details"></textarea>
+							
 							
 						</div>
 
@@ -475,6 +483,9 @@ else
 									<option value="30">30</option>
 									<option value="45">45</option>
 							</select>
+
+							<label>Details:</label>
+							<textarea id="add-details" name="OTdetails" class="textarea1" required="required" placeholder="Over Time Details"></textarea>
 
 						</div>
 
@@ -673,6 +684,12 @@ else
 			}*/
 			getOT();
 			//alert(1);
+
+			var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+			var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
+
+			var myOTEndDate = document.getElementById("myEndDate").value;
+
 			$myOtMins = document.getElementById("otMINS").value.toString();
 			$myOtHrs = document.getElementById("otHRS").value.toString();
 
@@ -680,41 +697,49 @@ else
 			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
 			
 	
-			if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
-			{	
-				alert("Hours and Minutes Fields cannot be equal to zero.");
+			if (OTEndDateTime > myOTEndDate)
+			{
+				alert('Overtime EndDate and EndTime must be within his/her attendance!');
 				return false;
 			}
-
 			else
 			{
-				if ($myFiledOtHours > $myOtHrs)
-				{
-					alert("doesnt reach:" +$myFiledOtHours+ " hours of OT");
-					return false;
-				}
+				if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+					{	
+						alert("Hours and Minutes Fields cannot be equal to zero.");
+						return false;
+					}
+
 				else
 				{
-					if($myFiledOtMins > $myOtMins)
+					if ($myFiledOtHours > $myOtHrs)
 					{
-						alert("doesnt reach:" +$myFiledOtMins+ " minutes of OT");
+						//alert($myOtHrs);
+						alert("Excess of hours in OT.");
 						return false;
 					}
 					else
 					{
-						return true;
-						/*if(d > x)
-			 			{
-			 				//alert("Invalid! Overtime filing exceeded 7 days!!!");
-			 				return true;
-			 			}
-			 			else
-			 			{
-			 				return true;
-			 			}*/
+						if($myFiledOtMins > $myOtMins)
+						{
+							alert("Excess of minutes in OT.");
+							return false;
+						}
+						else
+						{
+							return true;
+							/*if(d > x)
+				 			{
+				 				//alert("Invalid! Overtime filing exceeded 7 days!!!");
+				 				return true;
+				 			}
+				 			else
+				 			{
+				 				return true;
+				 			}*/
+						}
 					}
 				}
-				//return true;
 			}
 			//return false;
 		}
@@ -1049,6 +1074,9 @@ else
 		{
 			//alert(document.getElementById("add-leavetype").value);
 
+			var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+			var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
+
 			var action = "getOT";
 			var lfilter = document.getElementById("add-otdate").value;
 			var Typefilter = document.getElementById("add-type").value;
@@ -1078,7 +1106,7 @@ else
 		    $.ajax({
 						type: 'GET',
 						url: 'approverovertimeformprocess.php',
-						data:{action:action, lfilter:lfilter, Typefilter:Typefilter, WKId:WKId},
+						data:{action:action, lfilter:lfilter, Typefilter:Typefilter, WKId:WKId, OTStartDateTime:OTStartDateTime, OTEndDateTime:OTEndDateTime},
 						//data:'bkno='+BNo+'&bkdesc='+BDesc+'&bktit='+BTit+'&bkqty='+BQ,
 						beforeSend:function(){
 						

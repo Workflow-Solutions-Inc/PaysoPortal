@@ -458,11 +458,16 @@ else
 							</div>
 							
 
-							<label>Overtime Date:</label>
+							<label>Overtime Start Date:</label>
 							<input type="date" value="" placeholder="" id="add-otdate" name="OTdate" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime Start Time:</label>
+							<input type="time" value="" placeholder="" id="add-ottime" name="OTtime" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime End Date:</label>
+							<input type="date" value="" placeholder="" id="add-otenddate" name="OTenddate" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime End time:</label>
+							<input type="time" value="" placeholder="" id="add-otendtime" name="OTendtime" class="modal-textarea" onchange="getOT()" required="required">
 
-							<label>Details:</label>
-							<textarea id="add-details" name="OTdetails" class="textarea1" required="required" placeholder="Over Time Details"></textarea>
+							
 						</div>
 
 						
@@ -484,12 +489,13 @@ else
 							<label>Overtime Type:</label>
 							<select value="" value="" placeholder="Period" name ="OTtype" id="add-type" class="modal-textarea" style="width:100%;height: 28px;" onchange="getOT()"  required="required">
 									<option value=""></option>
-									<option value="5">Early Overtime</option>
+									<!-- <option value="5">Early Overtime</option> -->
 									<option value="0">Regular Overtime</option>
 									<option value="1">Special Holiday Overtime</option>
 									<option value="2">Regular Holiday Overtime</option>
 									<option value="3">Rest Day Overtime</option>
 							</select>
+
 							
 						</div>
 
@@ -500,14 +506,16 @@ else
 							<label>Minutes:</label>
 							<select value="" value="" placeholder="" name="OTminutes"  id="add-otminutes" class="modal-textarea" style="width:100%;height: 28px;"  required="required">
 									
-									<option value="0" selected>0</option>
+									<option value="0">0</option>
 									<option value="15">15</option>
 									<option value="30">30</option>
 									<option value="45">45</option>
 							</select>
+							<label>Details:</label>
+							<textarea id="add-details" name="OTdetails" class="textarea1" required="required" placeholder="Over Time Details"></textarea>
 						</div>
 						<div id="resultfilter">
-								<input type="input" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
+								<input type="hidden" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
 								<input type="hidden" value="" name ="myMins" id="otMINS" class="modal-textarea" >
 								
 						</div>
@@ -667,7 +675,8 @@ else
 		function getOT()
 		{
 			//alert(document.getElementById("add-leavetype").value);
-
+			var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+			var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
 			var action = "getOT";
 			var lfilter = document.getElementById("add-otdate").value;
 			var Typefilter = document.getElementById("add-type").value;
@@ -696,7 +705,7 @@ else
 		    $.ajax({
 						type: 'GET',
 						url: 'overtimeformprocess.php',
-						data:{action:action, lfilter:lfilter, Typefilter:Typefilter},
+						data:{action:action, lfilter:lfilter, Typefilter:Typefilter, OTStartDateTime:OTStartDateTime, OTEndDateTime:OTEndDateTime},
 						//data:'bkno='+BNo+'&bkdesc='+BDesc+'&bktit='+BTit+'&bkqty='+BQ,
 						beforeSend:function(){
 						
@@ -718,105 +727,81 @@ else
 
 		function checkExistForm()
 		{
-			var cont = document.getElementById("t2").value;
-			myId = cont.toLowerCase().split(",");
+			/*var cont = document.getElementById("t2").value;
+			myId = cont.toLowerCase().split(",");*/
 
 			getOT();
 
-			var otdt = document.getElementById("t3").value;
+			var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+			var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
+
+			var myOTEndDate = document.getElementById("myEndDate").value;
+			//alert(OTEndDateTime);
+			//alert(myOTEndDate);
+			
+			/*var otdt = document.getElementById("t3").value;
 			myFilled = otdt.toLowerCase().split(",");
-			//myId.push("Kiwi","Lemon","Pineapple",'asd');
-			/*$.each(myId, function(i, el2){
-		    	alert(el2);
-			});*/
-			//alert(myId.length);
+			
+			
 			var d = new Date();
 			var x = new Date(document.getElementById("add-otdate").value.toLowerCase());
 			d.setDate(d.getDate() - 7);
- 			//alert(d.toLocaleDateString());
- 			//alert(x.toLocaleDateString());
-
-			
+ 			
 	
 			var n = myId.includes(document.getElementById("add-otdate").value.toLowerCase());
-			var m = myFilled.includes(document.getElementById("add-otdate").value.toLowerCase());
+			var m = myFilled.includes(document.getElementById("add-otdate").value.toLowerCase());*/
 
 			$myOtMins = document.getElementById("otMINS").value.toString();
 			$myOtHrs = document.getElementById("otHRS").value.toString();
+			$myFiledOtHours = document.getElementById("add-othours").value.toString();
+			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
 
-			//alert(document.getElementById("add-otdate").value.toString());
-			//	alert($myOtHrs + ":" + $myOtHrs);
-			if(n == true){
-				//alert("Position ID already Exist!");
-
-				/*if(m == true){
-					alert("The date selected has an overtime file!");
-					return false;
-				}
-				else
-				{*/
-
-				//return false;
-					//return false;
-					$myFiledOtHours = document.getElementById("add-othours").value.toString();
-					$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
-
-			
-					if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+			if (OTEndDateTime > myOTEndDate)
+			{
+				alert('Overtime EndDate and EndTime must be within your attendance!');
+				return false;
+			}
+			else
+			{
+				if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
 					{	
 						alert("Hours and Minutes Fields cannot be equal to zero.");
 						return false;
 					}
 
+				else
+				{
+					if ($myFiledOtHours > $myOtHrs)
+					{
+						//alert($myOtHrs);
+						alert("Excess of hours in OT.");
+						return false;
+					}
 					else
 					{
-						if ($myFiledOtHours > $myOtHrs)
+						if($myFiledOtMins > $myOtMins)
 						{
-							alert($myOtHrs);
-							alert("Excess of hours in OT.");
+							alert("Excess of minutes in OT.");
 							return false;
 						}
 						else
 						{
-							if($myFiledOtMins > $myOtMins)
-							{
-								alert("Excess of minutes in OT.");
-								return false;
-							}
-							else
-							{
-								//return true;
-								if(d > x)
-					 			{
-					 				//alert("Invalid! Overtime filing exceeded 7 days!!!");
-					 				return true;
-					 			}
-					 			else
-					 			{
-					 				return true;
-					 			}
-							}
+							return true;
+							/*if(d > x)
+				 			{
+				 				//alert("Invalid! Overtime filing exceeded 7 days!!!");
+				 				return true;
+				 			}
+				 			else
+				 			{
+				 				return true;
+				 			}*/
 						}
-						//return true;
-					//}
-				   
-					/*if(d > x)
-		 			{
-		 				alert("Invalid! Overtime filing exceeded 7 days!!!");
-		 				return false;
-		 			}
-		 			else
-		 			{
-		 				return true;
-		 			}*/
+					}
 				}
-				
 			}
-			else
-			{
-				alert("No Valid Attendance on Date Selected");
-				return false;
-			}
+
+			
 			
 		}
 
