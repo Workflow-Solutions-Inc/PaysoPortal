@@ -1,5 +1,4 @@
 <?php 
-session_id("protal");
 session_start();
 session_regenerate_id();
 include("dbconn.php");
@@ -215,6 +214,7 @@ else
 																left join organizationalchart org on org.workerid = wk.workerid and org.dataareaid = wk.dataareaid
 						
 																where wk.dataareaid = '$dataareaid' and rt.status = 1 and org.repotingid = '$lognum'
+																and wk.inactive = 0
 
 																order by wk.workerid";
 												$result = $conn->query($query);
