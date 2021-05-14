@@ -189,6 +189,8 @@ $enddate = '';
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
 										<td style="width:33%;">Date</td>
 										<td style="width:33%;" class="green">Time In</td>
+										<td style="width:33%;" class="green">Break Out</td>
+										<td style="width:33%;" class="green">Break In</td>
 										<td style="width:33%;" class="red">Time Out</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
@@ -198,6 +200,8 @@ $enddate = '';
 									<?php					
 									$query = "SELECT DATE_FORMAT(mt.date, '%m/%d/%Y') as 'date',
 		TIME_FORMAT(case when mt.type = 0 then mt.Time else null end,'%h:%i %p') as 'timein',
+        TIME_FORMAT(case when mt.type = 4 then mt.Time else null end,'%h:%i %p') as 'breakout',
+        TIME_FORMAT(max(case when mt.type = 3 then mt.Time else null end),'%h:%i %p') as 'breakin',
 		TIME_FORMAT(max(case when mt.type = 1 then mt.Time else null end),'%h:%i %p') as 'timeout', 
         mt.Name as bioid
 	from monitoringtable mt 
@@ -223,6 +227,8 @@ $enddate = '';
 											<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
 											<td style="width:33%;"><?php echo $row['date'];?></td>
 											<td style="width:33%;"><?php echo $row['timein'];?></td>
+											<td style="width:33%;"><?php echo $row['breakout'];?></td>
+											<td style="width:33%;"><?php echo $row['breakin'];?></td>
 											<td style="width:33%;"><?php echo $row['timeout'];?></td>
 											<!--<td style="width:50%;"><input type='password' value='" . $row["password"]."'readonly='readonly'></td>-->
 											

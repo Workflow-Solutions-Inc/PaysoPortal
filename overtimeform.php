@@ -321,7 +321,6 @@ else
                                         when overtimetype = 1 then 'Special Holiday Overtime'
                                         when overtimetype = 2 then 'Regular Holiday Overtime'
                                         when overtimetype = 3 then 'Sunday Overtime'
-                                        when overtimetype = 5 then 'Early Overtime'
                                         end as overtimetypes
 
 									FROM overtimefile where dataareaid = '$dataareaid' and workerid = '$lognum'
@@ -465,6 +464,11 @@ else
 							<input type="date" value="" placeholder="" id="add-otenddate" name="OTenddate" class="modal-textarea" onchange="getOT()" required="required">
 							<label>Overtime End time:</label>
 							<input type="time" value="" placeholder="" id="add-otendtime" name="OTendtime" class="modal-textarea" onchange="getOT()" required="required">
+							<input type="time" value="" placeholder="" id="add-otdate" name="OTtime" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime End Date:</label>
+							<input type="date" value="" placeholder="" id="add-otdate" name="OTenddate" class="modal-textarea" onchange="getOT()" required="required">
+							<label>Overtime End time:</label>
+							<input type="time" value="" placeholder="" id="add-otdate" name="OTendtime" class="modal-textarea" onchange="getOT()" required="required">
 
 							
 						</div>
@@ -503,13 +507,15 @@ else
 							<input type="number" step="1" min="0" value="0" placeholder="" id="add-othours" name="OThours" class="modal-textarea" required="required" onkeypress="return !(event.charCode == 46)">
 
 							<label>Minutes:</label>
-							<select value="" value="" placeholder="" name="OTminutes"  id="add-otminutes" class="modal-textarea" style="width:100%;height: 28px;"  required="required">
+							<!-- <select value="" value="" placeholder="" name="OTminutes"  id="add-otminutes" class="modal-textarea" style="width:100%;height: 28px;"  required="required">
 									
 									<option value="0">0</option>
 									<option value="15">15</option>
 									<option value="30">30</option>
 									<option value="45">45</option>
 							</select>
+							</select> -->
+							<input type="number" name="OTminutes" id="add-otminutes" class="modal-textarea" style="width:100%;height: 28px;"  required="required" min="1" max="59">
 							<label>Details:</label>
 							<textarea id="add-details" name="OTdetails" class="textarea1" required="required" placeholder="Over Time Details"></textarea>
 						</div>
@@ -754,7 +760,6 @@ else
 			$myOtHrs = document.getElementById("otHRS").value.toString();
 			$myFiledOtHours = document.getElementById("add-othours").value.toString();
 			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
-
 			if (OTEndDateTime > myOTEndDate)
 			{
 				alert('Overtime EndDate and EndTime must be within your attendance!');
@@ -763,6 +768,22 @@ else
 			else
 			{
 				if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+			//alert(document.getElementById("add-otdate").value.toString());
+			//	alert($myOtHrs + ":" + $myOtHrs);
+			if(n == true){
+				//alert("Position ID already Exist!");
+				if(m == true){
+					alert("The date selected has an overtime file!");
+					return false;
+				}
+				else
+				{//return false;
+					//return false;
+					$myFiledOtHours = document.getElementById("add-othours").value.toString();
+					$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
+
+			
+					if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
 					{	
 						alert("Hours and Minutes Fields cannot be equal to zero.");
 						return false;
@@ -781,6 +802,7 @@ else
 						if($myFiledOtMins > $myOtMins)
 						{
 							alert("Excess of minutes in OT.");
+							alert("Excess of hours in OT.");
 							return false;
 						}
 						else
@@ -797,6 +819,18 @@ else
 				 			}*/
 						}
 					}
+						//return true;
+					}
+				   
+					/*if(d > x)
+		 			{
+		 				alert("Invalid! Overtime filing exceeded 7 days!!!");
+		 				return false;
+		 			}
+		 			else
+		 			{
+		 				return true;
+		 			}*/
 				}
 			}
 
