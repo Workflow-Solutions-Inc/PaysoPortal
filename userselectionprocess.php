@@ -373,8 +373,8 @@ else if($_GET["action"]=="getOT"){
 				 <input type="hidden" value="'.$wkname.'" name ="myWkname" id="myWkname" class="modal-textarea">
 
 
-				 <input type="input" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
-				 <input type="input" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
+				 <input type="hidden" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
+				 <input type="hidden" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
 				 ';
 
 	
