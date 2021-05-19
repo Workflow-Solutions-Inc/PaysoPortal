@@ -2,9 +2,9 @@
 session_start();
 session_regenerate_id();
 include("dbconn.php");
-$user = $_SESSION["user"];
-$dataareaid = $_SESSION["defaultdataareaid"];
-$logname = $_SESSION["logname"];
+$user = $_SESSION["portaluser"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
+$logname = $_SESSION["portallogname"];
 
 ?>
 <!DOCTYPE html>

@@ -35,12 +35,12 @@ if($username && $password){
 			if($username == $dbusername && $password == $dbpassword)
 			{
 				//echo "Login successful! <a href='index.php'>Click</a> here to enter the member page!";
-				$_SESSION['user'] = $dbusername;
-				$_SESSION['userpass'] = $dbpassword;
-				$_SESSION['defaultdataareaid'] = $dataareaid;
-				$_SESSION['logname'] = $loginname;
-				$_SESSION['logbio'] = $loginbioid;
-				$_SESSION['lognum'] = $loginworkerid;
+				$_SESSION['portaluser'] = $dbusername;
+				$_SESSION['portaluserpass'] = $dbpassword;
+				$_SESSION['portaldefaultdataareaid'] = $dataareaid;
+				$_SESSION['portallogname'] = $loginname;
+				$_SESSION['portallogbio'] = $loginbioid;
+				$_SESSION['portallognum'] = $loginworkerid;
 				header('location: employee.php');
 			}
 			else{
@@ -81,7 +81,6 @@ else if(isset($_POST["submitlogout"])) {
 }
 */
 else if(isset($_GET["out"])) {
-	session_id("protal");
 	session_unset();
 	header('location:index.php');
 }

@@ -3,13 +3,13 @@ session_start();
 session_regenerate_id();
 
 include("dbconn.php");
-$user = $_SESSION["user"];
-$dataareaid = $_SESSION["defaultdataareaid"];
-$logbio = $_SESSION["logbio"];
-$lognum = $_SESSION["lognum"];
-if(isset($_SESSION['WKNum']))
+$user = $_SESSION["portaluser"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
+$logbio = $_SESSION["portallogbio"];
+$lognum = $_SESSION["portallognum"];
+if(isset($_SESSION['portalWKNum']))
 {
-	$wkid = $_SESSION['WKNum'];
+	$wkid = $_SESSION['portalWKNum'];
 }
 else
 {
@@ -46,7 +46,7 @@ else
 		<div class="header-nav">
 				<ul>
 					<li id="pla" onClick="reply_click(this.id)"><a href="fieldworkform.php?list=pla"><span class="fas fa-hourglass"></span>  Pending Field Work Application</a></li>
-					<li id="ala" onClick="reply_click(this.id)"><a href="#?list=ala"><span class="fas fa fa-check"></span>  Posted Field Work Application</a></li>
+					<li id="ala" onClick="reply_click(this.id)"><a href="approvedfieldworkform.php?list=ala"><span class="fas fa fa-check"></span>  Posted Field Work Application</a></li>
 				</ul>
 		</div>
 
@@ -485,8 +485,8 @@ else
 			}
 			else
 		    {
-		  		$('#ala').removeClass("active");
-				$('#pla').addClass("active");
+		  		$('#pla').removeClass("active");
+				$('#ala').addClass("active");
 			}
 			
 

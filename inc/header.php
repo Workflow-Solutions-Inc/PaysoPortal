@@ -1,6 +1,6 @@
 <?php
-$userpasshd = $_SESSION['userpass'];
-if(!isset($_SESSION['lognum']) || !isset($_SESSION['defaultdataareaid']))
+$userpasshd = $_SESSION['portaluserpass'];
+if(!isset($_SESSION['portallognum']) || !isset($_SESSION['portaldefaultdataareaid']))
 {
 	header('location: index.php');
 }

@@ -2,14 +2,14 @@
 session_start();
 session_regenerate_id();
 include("dbconn.php");
-$user = $_SESSION["user"];
-$dataareaid = $_SESSION["defaultdataareaid"];
-$logbio = $_SESSION["logbio"];
-$lognum = $_SESSION["lognum"];
+$user = $_SESSION["portaluser"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
+$logbio = $_SESSION["portallogbio"];
+$lognum = $_SESSION["portallognum"];
 
-if(isset($_SESSION['WKNum']))
+if(isset($_SESSION['portalWKNum']))
 {
-	$wkid = $_SESSION['WKNum'];
+	$wkid = $_SESSION['portalWKNum'];
 }
 else
 {

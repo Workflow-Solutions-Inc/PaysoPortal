@@ -1,11 +1,11 @@
 <?php
 session_start();
 session_regenerate_id();
-$userlogin = $_SESSION["user"];
-$dataareaid = $_SESSION["defaultdataareaid"];
-$logname = $_SESSION["logname"];
-$logbio = $_SESSION["logbio"];
-$lognum = $_SESSION["lognum"];
+$userlogin = $_SESSION["portaluser"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
+$logname = $_SESSION["portallogname"];
+$logbio = $_SESSION["portallogbio"];
+$lognum = $_SESSION["portallognum"];
 include("dbconn.php");
 
 
@@ -22,7 +22,7 @@ if(isset($_GET["changepass"])) {
 		if(mysqli_query($conn,$sql))
 		{
 			echo "Rec Updated";
-			$_SESSION['userpass'] = $upass;
+			$_SESSION['portaluserpass'] = $upass;
 		}
 		else
 		{

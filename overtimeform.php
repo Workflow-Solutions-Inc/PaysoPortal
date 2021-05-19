@@ -2,14 +2,14 @@
 session_start();
 session_regenerate_id();
 include("dbconn.php");
-$user = $_SESSION["user"];
-$dataareaid = $_SESSION["defaultdataareaid"];
-$logbio = $_SESSION["logbio"];
-$lognum = $_SESSION["lognum"];
+$user = $_SESSION["portaluser"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
+$logbio = $_SESSION["portallogbio"];
+$lognum = $_SESSION["portallognum"];
 
-if(isset($_SESSION['WKNum']))
+if(isset($_SESSION['portalWKNum']))
 {
-	$wkid = $_SESSION['WKNum'];
+	$wkid = $_SESSION['portalWKNum'];
 }
 else
 {
@@ -464,11 +464,7 @@ else
 							<input type="date" value="" placeholder="" id="add-otenddate" name="OTenddate" class="modal-textarea" onchange="getOT()" required="required">
 							<label>Overtime End time:</label>
 							<input type="time" value="" placeholder="" id="add-otendtime" name="OTendtime" class="modal-textarea" onchange="getOT()" required="required">
-							<input type="time" value="" placeholder="" id="add-otdate" name="OTtime" class="modal-textarea" onchange="getOT()" required="required">
-							<label>Overtime End Date:</label>
-							<input type="date" value="" placeholder="" id="add-otdate" name="OTenddate" class="modal-textarea" onchange="getOT()" required="required">
-							<label>Overtime End time:</label>
-							<input type="time" value="" placeholder="" id="add-otdate" name="OTendtime" class="modal-textarea" onchange="getOT()" required="required">
+							
 
 							
 						</div>
@@ -515,7 +511,7 @@ else
 									<option value="45">45</option>
 							</select>
 							</select> -->
-							<input type="number" name="OTminutes" id="add-otminutes" class="modal-textarea" style="width:100%;height: 28px;"  required="required" min="1" max="59">
+							<input type="number" name="OTminutes" id="add-otminutes" class="modal-textarea" style="width:100%;height: 28px;"  value="0" min="0" max="59">
 							<label>Details:</label>
 							<textarea id="add-details" name="OTdetails" class="textarea1" required="required" placeholder="Over Time Details"></textarea>
 						</div>
@@ -544,6 +540,7 @@ else
 
 		function reply_click(clicked_id)
 		{
+		   
 		    if(clicked_id == 'po')
 		    {
 		  		$('#ao').removeClass("active");
@@ -702,7 +699,7 @@ else
 			
 			if(lfilter == '')
 			{
-				lfilter = '1900-01-01'
+				lfilter = '1900-01-01';
 			}
 			//alert(Typefilter);
 			//alert(lfilter);
@@ -767,27 +764,12 @@ else
 			}
 			else
 			{
+					
 				if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
-			//alert(document.getElementById("add-otdate").value.toString());
-			//	alert($myOtHrs + ":" + $myOtHrs);
-			if(n == true){
-				//alert("Position ID already Exist!");
-				if(m == true){
-					alert("The date selected has an overtime file!");
+				{	
+					alert("Hours and Minutes Fields cannot be equal to zero.");
 					return false;
 				}
-				else
-				{//return false;
-					//return false;
-					$myFiledOtHours = document.getElementById("add-othours").value.toString();
-					$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
-
-			
-					if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
-					{	
-						alert("Hours and Minutes Fields cannot be equal to zero.");
-						return false;
-					}
 
 				else
 				{
@@ -808,34 +790,11 @@ else
 						else
 						{
 							return true;
-							/*if(d > x)
-				 			{
-				 				//alert("Invalid! Overtime filing exceeded 7 days!!!");
-				 				return true;
-				 			}
-				 			else
-				 			{
-				 				return true;
-				 			}*/
+							
 						}
 					}
-						//return true;
-					}
-				   
-					/*if(d > x)
-		 			{
-		 				alert("Invalid! Overtime filing exceeded 7 days!!!");
-		 				return false;
-		 			}
-		 			else
-		 			{
-		 				return true;
-		 			}*/
 				}
 			}
-
-			
-			
 		}
 
 		function validateForm() {

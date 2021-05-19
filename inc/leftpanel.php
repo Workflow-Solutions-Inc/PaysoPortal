@@ -1,9 +1,8 @@
 <?php
-$userpassx = $_SESSION['userpass'];
-
-$logbio = $_SESSION["logbio"];
-$lognum = $_SESSION["lognum"];
-$dataareaid = $_SESSION["defaultdataareaid"];
+$userpassx = $_SESSION['portaluserpass'];
+$logbio = $_SESSION["portallogbio"];
+$lognum = $_SESSION["portallognum"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
 ?>
 <!-- begin LEFT PANEL -->
 <style type="text/css" media="screen">

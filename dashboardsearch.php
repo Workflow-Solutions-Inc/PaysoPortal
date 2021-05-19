@@ -1,11 +1,11 @@
 <?php
 session_start();
 session_regenerate_id();
-$userlogin = $_SESSION["user"];
-$dataareaid = $_SESSION["defaultdataareaid"];
-$logname = $_SESSION["logname"];
-$logbio = $_SESSION["logbio"];
-$lognum = $_SESSION["lognum"];
+$userlogin = $_SESSION["portaluser"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
+$logname = $_SESSION["portallogname"];
+$logbio = $_SESSION["portallogbio"];
+$lognum = $_SESSION["portallognum"];
 include("dbconn.php");
 
 

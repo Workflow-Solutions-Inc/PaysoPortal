@@ -1,8 +1,8 @@
 <?php
 session_start();
 session_regenerate_id();
-$userlogin = $_SESSION["user"];
-$dataareaid = $_SESSION["defaultdataareaid"];
+$userlogin = $_SESSION["portaluser"];
+$dataareaid = $_SESSION["portaldefaultdataareaid"];
 include("dbconn.php");
 
 if(isset($_GET["save"])) {
