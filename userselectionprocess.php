@@ -175,6 +175,17 @@ else if($_GET["action"]=="getOT"){
 		}
 	$conn->close();
     include("dbconn.php");
+    $queryconsolidate = "call sp_testing('$userlogin',date_add('$leavefilter', Interval 1 day),'$dataareaid')";
+	 if(mysqli_query($conn,$queryconsolidate))
+		{
+			//alert(1);
+		}
+		else
+		{
+			//alert(2);
+		}
+	$conn->close();
+    include("dbconn.php");
 
     $queryWK = "SELECT BioId,name FROM worker
 
@@ -244,16 +255,17 @@ else if($_GET["action"]=="getOT"){
                     left join worker wk on wk.dataareaid = ss.Dataareaid and wk.workerid = ss.workerid
                     
                     left join portalfieldwork pw on pw.workerid = ss.workerid and pw.fieldworkdate = ss.Date
-					and pw.dataareaid = ss.Dataareaid
+					and pw.dataareaid = ss.Dataareaid and pw.status = 1
 
 					left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
-					and lc.dataareaid = ss.Dataareaid and lc.logtype = 1
+					and lc.dataareaid = ss.Dataareaid and lc.logtype = 1 and lc.status = 1
                     
                     left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid and consol.BioId = wk.BioId
                     
                     
 					left join (select date,concat(date, ' ', MAX(time)) as timeout,bioid,type from consolidationtable where type = 1
 					group by date,bioid,type) outtbl on consol.BioId = outtbl.bioid and consol.Date = outtbl.date
+					and outtbl.timeout > ss.starttime
                     
                     
 					left join (select date,concat(date, ' ', min(time)) as timein,bioid,type from consolidationtable where type = 0
@@ -273,73 +285,78 @@ else if($_GET["action"]=="getOT"){
          }
         else
         {
-        	$query2 = "SELECT consol.date,
+        	$query2 = "SELECT ss.date,
 						ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') as timein,
-						consol.bioid,wk.workerid
+						wk.bioid,wk.workerid
 
 						,ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') field_work 
 						,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
 
 						,TIME_FORMAT(ss.starttime,'%H:%i') as endtime 
 
-						,TIME_FORMAT(TIMEDIFF(TIME_FORMAT(ss.starttime,'%H:%i'),
-						case 
-						when ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') 
-						and ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')
-						then ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') 
-
-						when ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') 
-						and ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')
-						then ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00')
-
-						when ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'24:00') 
-						and ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')  < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'24:00') 
-						then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'24:00')
-						else '00:00'
-						end
-
-
-						),'%H') as endtimehour
-
-						,TIME_FORMAT(TIMEDIFF(TIME_FORMAT(ss.starttime,'%H:%i'),
-						case 
-						when ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') 
-						and ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+						
+                        
+                        ,ifnull(intbl.timein,concat(ss.date,' 24:00')) as consol_enddatetime
+						,ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00')) as field_enddatetime
+						,ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00')) as log_enddatetime
+                        
+                       
+						,case 
+						when ifnull(intbl.timein,concat(ss.date,' 24:00')) < ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00'))
+                        and ifnull(intbl.timein,concat(ss.date,' 24:00')) < ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00'))
+						then intbl.date
+						
+						when ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00')) < ifnull(intbl.timein,concat(ss.date,' 24:00')) 
+                        and ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00')) < ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00'))
+						then pw.fieldworkdate
+						
+						when ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00')) < ifnull(intbl.timein,concat(ss.date,' 24:00')) 
+                        and ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00')) < ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00'))
+						then lc.invaliddate
+						else '1990-01-01'
+						end as official_outdate
+						
+						,case 
+						when ifnull(intbl.timein,concat(ss.date,' 24:00')) < ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00'))
+                        and ifnull(intbl.timein,concat(ss.date,' 24:00')) < ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00'))
 						then ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') 
-
-						when ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') 
-						and ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
-						then ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00')
-
-						when ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') < ifnull(TIME_FORMAT(intbl.timein,'%H:%i'),'00:00') 
-						and ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')  < ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') 
-						then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00')
+						
+						when ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00')) < ifnull(intbl.timein,concat(ss.date,' 24:00')) 
+                        and ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00')) < ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00'))
+						then ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') 
+						
+						when ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00')) < ifnull(intbl.timein,concat(ss.date,' 24:00')) 
+                        and ifnull(concat(lc.invaliddate, ' ', lc.logtime),concat(ss.date,' 24:00')) < ifnull(concat(pw.fieldworkdate, ' ', pw.starttime),concat(ss.date,' 24:00'))
+						then ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') 
 						else '00:00'
-						end
+						end as official_outdtime
 
-
-						),'%i') as endtimemins
-
+						,TIME_FORMAT(TIMEDIFF('$OTEndDateTime','$OTStartDateTime'),'%H') as endtimehour
+                    	,TIME_FORMAT(TIMEDIFF('$OTEndDateTime','$OTStartDateTime'),'%i') as endtimemins
 
 
 						FROM 
-						consolidationtable consol
-						left join (select date,MIN(time) as timein,bioid,type from consolidationtable where type = 0
+						
+                        
+                        
+                        shiftschedule ss 
+						left join worker wk on wk.dataareaid = ss.Dataareaid and wk.workerid = ss.workerid
+						
+						left join portalfieldwork pw on pw.workerid = ss.workerid and pw.fieldworkdate = ss.Date
+						and pw.dataareaid = ss.Dataareaid and pw.status = 1
+
+						left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
+						and lc.dataareaid = ss.Dataareaid and lc.logtype = 0 and lc.status = 1
+						
+						left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid
+						
+						
+						left join (select date,concat(date, ' ', MIN(time)) as timein,bioid,type from consolidationtable where type = 0
 						group by date,bioid,type) intbl on consol.BioId = intbl.bioid and consol.Date = intbl.date
 
-						left join worker wk on wk.BioId = consol.BioId and wk.dataareaid = consol.Dataareaid
+						where wk.bioid = '$logbio' and ss.date = '$leavefilter' and ss.Dataareaid = '$dataareaid'
 
-						left join portalfieldwork pw on pw.workerid = wk.workerid and pw.fieldworkdate = consol.Date
-						and pw.dataareaid = consol.Dataareaid
-
-						left join logcorrection lc on lc.workerid = wk.workerid and lc.invaliddate = consol.Date
-						and lc.dataareaid = consol.Dataareaid and lc.logtype = 0
-
-						left join shiftschedule ss on ss.date = consol.date and ss.workerid = wk.workerid and ss.dataareaid = consol.Dataareaid
-
-						where consol.bioid = '$logbio' and consol.date = '$OTdate' and consol.Dataareaid = '$dataareaid'
-
-						group by consol.date,consol.bioid";
+						group by ss.date,wk.bioid";
         }
 
 		$result2 = $conn->query($query2);

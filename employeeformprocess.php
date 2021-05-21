@@ -67,10 +67,10 @@ if($_GET["action"]=="refresh"){
 		$output2='';
 		//$output .= '<tbody>';
 		$query2 = "SELECT DATE_FORMAT(mt.date, '%m/%d/%Y') as 'date',
-		TIME_FORMAT(case when mt.type = 0 then mt.Time else null end,'%h:%i %p') as 'timein',
-        TIME_FORMAT(case when mt.type = 4 then mt.Time else null end,'%h:%i %p') as 'breakout',
+		TIME_FORMAT(min(case when mt.type = 0 then mt.Time else null end),'%h:%i %p') as 'timein',
+        TIME_FORMAT(min(case when mt.type = 4 then mt.Time else null end),'%h:%i %p') as 'breakout',
         TIME_FORMAT(max(case when mt.type = 3 then mt.Time else null end),'%h:%i %p') as 'breakin',
-		TIME_FORMAT(max(case when mt.type = 1 then mt.Time else null end),'%h:%i %p') as 'timeout', 
+		TIME_FORMAT(max(case when mt.type = 1 then mt.Time else null end),'%h:%i %p') as 'timeout',
         mt.Name as bioid
 	from monitoringtable mt 
 		left join worker wk ON mt.Name = wk.BioId 

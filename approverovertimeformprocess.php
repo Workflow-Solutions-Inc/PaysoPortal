@@ -304,6 +304,17 @@ else if($_GET["action"]=="getOT"){
 		}
 	$conn->close();
     include("dbconn.php");
+	 $queryconsolidate = "call sp_testing('$userlogin',date_add('$leavefilter', Interval 1 day),'$dataareaid')";
+	 if(mysqli_query($conn,$queryconsolidate))
+		{
+			//alert(1);
+		}
+		else
+		{
+			//alert(2);
+		}
+	$conn->close();
+    include("dbconn.php");
 	 $queryWK = "SELECT * FROM worker where dataareaid = '$dataareaid' and workerid='$otworker'";
 	 $resultWK = $conn->query($queryWK);
 	 $rowWK = $resultWK->fetch_assoc();
@@ -368,16 +379,17 @@ else if($_GET["action"]=="getOT"){
                     left join worker wk on wk.dataareaid = ss.Dataareaid and wk.workerid = ss.workerid
                     
                     left join portalfieldwork pw on pw.workerid = ss.workerid and pw.fieldworkdate = ss.Date
-					and pw.dataareaid = ss.Dataareaid
+					and pw.dataareaid = ss.Dataareaid and pw.status = 1
 
 					left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
-					and lc.dataareaid = ss.Dataareaid and lc.logtype = 1
+					and lc.dataareaid = ss.Dataareaid and lc.logtype = 1 and lc.status = 1
                     
-                    left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid
+                    left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid and consol.BioId = wk.BioId
                     
                     
 					left join (select date,concat(date, ' ', MAX(time)) as timeout,bioid,type from consolidationtable where type = 1
 					group by date,bioid,type) outtbl on consol.BioId = outtbl.bioid and consol.Date = outtbl.date
+					and outtbl.timeout > ss.starttime
                     
                     
 					left join (select date,concat(date, ' ', min(time)) as timein,bioid,type from consolidationtable where type = 0
@@ -389,6 +401,7 @@ else if($_GET["action"]=="getOT"){
                     
                     left join (select date,concat(date, ' ' , min(time)) as timeout,bioid,type from consolidationtable where type = 1
 					group by date,bioid,type) outtbl2 on consol.BioId = outtbl2.bioid and date_add(consol.Date, Interval 1 day) = outtbl2.date
+						and outtbl2.timeout < ss2.starttime
 						and outtbl2.timeout < ss2.starttime
 
 					where wk.bioid = '$logbio' and ss.date = '$leavefilter' and ss.Dataareaid = '$dataareaid'
@@ -455,10 +468,10 @@ else if($_GET["action"]=="getOT"){
 						left join worker wk on wk.dataareaid = ss.Dataareaid and wk.workerid = ss.workerid
 						
 						left join portalfieldwork pw on pw.workerid = ss.workerid and pw.fieldworkdate = ss.Date
-						and pw.dataareaid = ss.Dataareaid
+						and pw.dataareaid = ss.Dataareaid and pw.status = 1
 
 						left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
-						and lc.dataareaid = ss.Dataareaid and lc.logtype = 0
+						and lc.dataareaid = ss.Dataareaid and lc.logtype = 0 and lc.status = 1
 						
 						left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid
 						

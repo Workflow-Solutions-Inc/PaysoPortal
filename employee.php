@@ -199,18 +199,18 @@ $enddate = '';
 
 									<?php					
 									$query = "SELECT DATE_FORMAT(mt.date, '%m/%d/%Y') as 'date',
-		TIME_FORMAT(case when mt.type = 0 then mt.Time else null end,'%h:%i %p') as 'timein',
-        TIME_FORMAT(case when mt.type = 4 then mt.Time else null end,'%h:%i %p') as 'breakout',
-        TIME_FORMAT(max(case when mt.type = 3 then mt.Time else null end),'%h:%i %p') as 'breakin',
-		TIME_FORMAT(max(case when mt.type = 1 then mt.Time else null end),'%h:%i %p') as 'timeout', 
-        mt.Name as bioid
-	from monitoringtable mt 
-		left join worker wk ON mt.Name = wk.BioId 
-		left join payrolldetails pd on wk.workerid = pd.workerid and wk.dataareaid = pd.dataareaid 
-		left join payrollheader ph on pd.payrollid = ph.payrollid and wk.dataareaid = ph.dataareaid 
-	
-    where mt.name = '$logbio' and mt.date between '".$startdate."' and '".$enddate."'
-	group by mt.date order by mt.date asc";
+												TIME_FORMAT(min(case when mt.type = 0 then mt.Time else null end),'%h:%i %p') as 'timein',
+										        TIME_FORMAT(min(case when mt.type = 4 then mt.Time else null end),'%h:%i %p') as 'breakout',
+										        TIME_FORMAT(max(case when mt.type = 3 then mt.Time else null end),'%h:%i %p') as 'breakin',
+												TIME_FORMAT(max(case when mt.type = 1 then mt.Time else null end),'%h:%i %p') as 'timeout',  
+										        mt.Name as bioid
+											from monitoringtable mt 
+												left join worker wk ON mt.Name = wk.BioId 
+												left join payrolldetails pd on wk.workerid = pd.workerid and wk.dataareaid = pd.dataareaid 
+												left join payrollheader ph on pd.payrollid = ph.payrollid and wk.dataareaid = ph.dataareaid 
+											
+										    where mt.name = '$logbio' and mt.date between '".$startdate."' and '".$enddate."'
+											group by mt.date order by mt.date asc";
 									$result = $conn->query($query);
 									$rowclass = "rowA";
 									$rowcnt = 0;
