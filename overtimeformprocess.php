@@ -346,9 +346,7 @@ else if($_GET["action"]=="getOT"){
 		{
 			//alert(2);
 		}
-	$conn->close();
-    include("dbconn.php");
-	 $queryconsolidate = "call sp_testing('$userlogin',date_add('$leavefilter', Interval 1 day),'$dataareaid')";
+		$queryconsolidate = "call sp_testing('$userlogin',date_add('$leavefilter', Interval 1 day),'$dataareaid')";
 	 if(mysqli_query($conn,$queryconsolidate))
 		{
 			//alert(1);
@@ -419,10 +417,10 @@ else if($_GET["action"]=="getOT"){
                     left join worker wk on wk.dataareaid = ss.Dataareaid and wk.workerid = ss.workerid
                     
                     left join portalfieldwork pw on pw.workerid = ss.workerid and pw.fieldworkdate = ss.Date
-					and pw.dataareaid = ss.Dataareaid and pw.status = 1
+					and pw.dataareaid = ss.Dataareaid
 
 					left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
-					and lc.dataareaid = ss.Dataareaid and lc.logtype = 1 and lc.status = 1
+					and lc.dataareaid = ss.Dataareaid and lc.logtype = 1
                     
                     left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid and consol.BioId = wk.BioId
                     
@@ -507,10 +505,10 @@ else if($_GET["action"]=="getOT"){
 						left join worker wk on wk.dataareaid = ss.Dataareaid and wk.workerid = ss.workerid
 						
 						left join portalfieldwork pw on pw.workerid = ss.workerid and pw.fieldworkdate = ss.Date
-						and pw.dataareaid = ss.Dataareaid and pw.status = 1
+						and pw.dataareaid = ss.Dataareaid
 
 						left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
-						and lc.dataareaid = ss.Dataareaid and lc.logtype = 0 and lc.status = 1
+						and lc.dataareaid = ss.Dataareaid and lc.logtype = 0
 						
 						left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid and consol.BioId = wk.BioId
 						
