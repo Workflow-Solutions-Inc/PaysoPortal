@@ -315,7 +315,7 @@ else
 								</thead>
 								<tbody id="result">
 									<?php					
-									$query = "SELECT *,TIME_FORMAT(ot.starttime,'%h:%i %p') as timein,TIME_FORMAT(ot.endtime,'%h:%i %p') as timeout,
+									$query = "SELECT *,TIME_FORMAT(ot.starttime,'%H:%i') as timein,TIME_FORMAT(ot.endtime,'%H:%i') as timeout,
 									case when ot.status = 0 then 'Created'
 										when ot.status = 1 then 'Approved' 
 										when ot.status = 2 then 'Disapproved' 
@@ -327,7 +327,9 @@ else
                                         when ot.overtimetype = 2 then 'Regular Holiday Overtime'
                                         when ot.overtimetype = 3 then 'Sunday Overtime'
                                         when ot.overtimetype = 5 then 'Early Overtime'
-                                        end as overtimetypes 
+                                        end as overtimetypes,
+                                        date_format(starttime, '%Y-%m-%d') as starttime,
+                                        date_format(endtime, '%Y-%m-%d') as endtime 
 
 									FROM overtimefile ot
 										left join organizationalchart org on org.workerid = ot.workerid and org.dataareaid = ot.dataareaid
@@ -538,6 +540,8 @@ else
 		var locOvertimetype = "";
 		var locStartTime = "";
 		var locEndTime = "";
+		var locStartTimedate = "";
+		var locEndTimedate = "";
 		var locHours = "";
 		var locMinutes = "";
 		var locStatus= "";
@@ -553,13 +557,15 @@ else
 				locOvertimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(4)").text();
 				locDetails = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(5)").text();
 				locOvertimetype = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(16)").text();
-				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
-				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(14)").text();
+				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(7)").text();
+				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(8)").text();
 				locHours = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(9)").text();
 				locMinutes = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(10)").text();
 				locStatus = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(11)").text();
 				locDateFile = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(12)").text();
 				locWorkerId = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(15)").text();
+				locStartTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
+				locEndTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(14)").text();
 				so = usernum.toString();
 				document.getElementById("hide").value = so;
 				//alert(document.getElementById("hide").value);
@@ -619,7 +625,9 @@ else
 				document.getElementById("add-otdate").value = locOvertimedate.toString();
 				document.getElementById("add-details").value = locDetails.toString();
 				document.getElementById("add-type").value = locOvertimetype;
-				document.getElementById("add-otstarttime").value = locStartTime;
+				document.getElementById("add-otstarttime").value = locStartTimedate;
+				document.getElementById("add-ottime").value = locStartTime;
+				document.getElementById("add-otenddate").value = locEndTimedate;
 				document.getElementById("add-otendtime").value = locEndTime;
 				document.getElementById("add-othours").value = locHours.toString();
 				document.getElementById("add-otminutes").value = locMinutes.toString();

@@ -14,8 +14,8 @@ if(isset($_GET["save"])) {
 	 $otdate=$_GET["OTdate"];
 	 $otdetails=$_GET["OTdetails"];
 	 $ottype=$_GET["OTtype"];
-	 $otstart=$_GET["OTstart"];
-	 $otend=$_GET["OTend"];
+	 //$otstart=$_GET["OTstart"];
+	 //$otend=$_GET["OTend"];
 	 $othours=$_GET["OThours"];
 	 $otminutes=$_GET["OTminutes"];
 	 $myHrs = $_GET["myHrs"];
@@ -24,6 +24,9 @@ if(isset($_GET["save"])) {
 	 $newlate = '';
 	 $filedOt = '';
 	// echo $myLate;
+
+	 $otstart=$_GET["OTdate"].' '.$_GET["OTtime"];
+	 $otend=$_GET["OTenddate"].' '.$_GET["OTendtime"];
 
 
 
@@ -157,10 +160,13 @@ else if(isset($_GET["update"])) {
 	 $otdate=$_GET["OTdate"];
 	 $otdetails=$_GET["OTdetails"];
 	 $ottype=$_GET["OTtype"];
-	 $otstart=$_GET["OTstart"];
-	 $otend=$_GET["OTend"];
+	 //$otstart=$_GET["OTstart"];
+	 //$otend=$_GET["OTend"];
 	 $othours=$_GET["OThours"];
 	 $otminutes=$_GET["OTminutes"];
+
+	 $otstart=$_GET["OTdate"].' '.$_GET["OTtime"];
+	 $otend=$_GET["OTenddate"].' '.$_GET["OTendtime"];
 	 
 	 if($id != ""){
 	 $sql = "UPDATE overtimefile SET
@@ -218,7 +224,7 @@ else if($_GET["action"]=="searchdata"){
 		$overtimedate=$_GET["slocOvertimedate"];
 		$output='';
 		//$output .= '<tbody>';
-		$query = "SELECT *,TIME_FORMAT(starttime,'%h:%i %p') as timein,TIME_FORMAT(endtime,'%h:%i %p') as timeout,
+		$query = "SELECT *,TIME_FORMAT(starttime,'%H:%i') as timein,TIME_FORMAT(endtime,'%H:%i') as timeout,
 									case when status = 0 then 'Created'
 										when status = 1 then 'Approved' 
 										when status = 2 then 'Disapproved' 
@@ -228,8 +234,9 @@ else if($_GET["action"]=="searchdata"){
                                         when overtimetype = 1 then 'Special Holiday Overtime'
                                         when overtimetype = 2 then 'Regular Holiday Overtime'
                                         when overtimetype = 3 then 'Sunday Overtime'
-                                        when overtimetype = 5 then 'Early Overtime'
-                                        end as overtimetypes 
+                                        end as overtimetypes,
+                                        date_format(starttime, '%Y-%m-%d') as starttime,
+                                        date_format(endtime, '%Y-%m-%d') as endtime 
 					FROM overtimefile
 
 					where dataareaid = '$dataareaid' and workerid = '$lognum' and (overtimeid like '%$id%') and (name like '%$name%') and (overtimedate like '%$overtimedate%')
@@ -249,8 +256,8 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:10%;">'.$row["overtimeid"].'</td>
 				<td style="width:14%;">'.$row["name"].'</td>
 				<td style="width:10%;">'.$row["overtimedate"].'</td>
-				<td style="width:25%;">'.$row["details"].'</td>
-				<td style="width:12%;">'.$row["overtimetypes"].'</td>
+				<td style="width:50%;">'.$row["details"].'</td>
+				<td style="width:9%;">'.$row["overtimetypes"].'</td>
 				<td style="display:none;width:1%;">'.$row["timein"].'</td>
 				<td style="display:none;width:1%;">'.$row["timeout"].'</td>
 				<td style="width:5%;">'.$row["hours"].'</td>
@@ -540,11 +547,11 @@ else if($_GET["action"]=="getOT"){
 		
 
 		$output .= '
-				 <input type="hidden" value="'.$endtimehour.'"  name ="myHrs" id="otHRS" class="modal-textarea">
-				 <input type="hidden" value="'.$endtimemins.'" name ="myMins" id="otMINS" class="modal-textarea">
+				 <input type="input" value="'.$endtimehour.'"  name ="myHrs" id="otHRS" class="modal-textarea">
+				 <input type="input" value="'.$endtimemins.'" name ="myMins" id="otMINS" class="modal-textarea">
 
-				 <input type="hidden" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
-				 <input type="hidden" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
+				 <input type="input" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
+				 <input type="input" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
 				 
 				 ';
 
@@ -564,6 +571,8 @@ else if($_GET["action"]=="getOT"){
 		var locOvertimetype = "";
 		var locStartTime = "";
 		var locEndTime = "";
+		var locStartTimedate = "";
+		var locEndTimedate = "";
 		var locHours = "";
 		var locMinutes = "";
 		var locStatus= "";
@@ -578,18 +587,20 @@ else if($_GET["action"]=="getOT"){
 				locName = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(2)").text();
 				locOvertimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(3)").text();
 				locDetails = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(4)").text();
-				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(12)").text();
-				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
+				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(6)").text();
+				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(7)").text();
 				locOvertimetype = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(14)").text();
 				locHours = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(8)").text();
 				locMinutes = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(9)").text();
 				locStatus = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(10)").text();
 				locDateFile = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(11)").text();
+				locStartTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(12)").text();
+				locEndTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
 
 				so = usernum.toString();
 				document.getElementById("hide").value = so;
 				//alert(document.getElementById("hide").value);
-				//alert(so);	
+				//alert(locStartTime);	
 					  
 			});
 		});

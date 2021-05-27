@@ -13,12 +13,15 @@ if($_GET["action"]=="save"){
 		$otdate=$_GET["locOvertimedate"];
 		$otdetails=$_GET["locDetails"];
 		$ottype=$_GET["locType"];
-		$otstart=$_GET["locStarttime"];
-		$otend=$_GET["locEndtime"];
+		//$otstart=$_GET["locStarttime"];
+		//$otend=$_GET["locEndtime"];
 		$othours=$_GET["locHours"];
 		$otminutes=$_GET["locMins"];
 		$sequence='';
 		$checkot='';
+
+		$otstart=$_GET["OTdate"].' '.$_GET["OTtime"];
+	 	$otend=$_GET["OTenddate"].' '.$_GET["OTendtime"];
 		
 		if($id != ""){
 			$query = "SELECT * FROM worker

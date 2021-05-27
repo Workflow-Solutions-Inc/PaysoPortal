@@ -311,7 +311,7 @@ else
 								</thead>
 								<tbody id="result">
 									<?php					
-									$query = "SELECT *,TIME_FORMAT(starttime,'%h:%i %p') as timein,TIME_FORMAT(endtime,'%h:%i %p') as timeout,
+									$query = "SELECT *,TIME_FORMAT(starttime,'%H:%i') as timein,TIME_FORMAT(endtime,'%H:%i') as timeout,
 									case when status = 0 then 'Created'
 										when status = 1 then 'Approved' 
 										when status = 2 then 'Disapproved' 
@@ -321,7 +321,10 @@ else
                                         when overtimetype = 1 then 'Special Holiday Overtime'
                                         when overtimetype = 2 then 'Regular Holiday Overtime'
                                         when overtimetype = 3 then 'Sunday Overtime'
-                                        end as overtimetypes
+                                        end as overtimetypes,
+                                        date_format(starttime, '%Y-%m-%d') as starttime,
+                                        date_format(endtime, '%Y-%m-%d') as endtime
+
 
 									FROM overtimefile where dataareaid = '$dataareaid' and workerid = '$lognum'
 										and status = 0
@@ -564,6 +567,8 @@ else
 		var locOvertimetype = "";
 		var locStartTime = "";
 		var locEndTime = "";
+		var locStartTimedate = "";
+		var locEndTimedate = "";
 		var locHours = "";
 		var locMinutes = "";
 		var locStatus= "";
@@ -578,18 +583,20 @@ else
 				locName = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(2)").text();
 				locOvertimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(3)").text();
 				locDetails = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(4)").text();
-				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(12)").text();
-				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
+				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(6)").text();
+				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(7)").text();
 				locOvertimetype = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(14)").text();
 				locHours = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(8)").text();
 				locMinutes = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(9)").text();
 				locStatus = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(10)").text();
 				locDateFile = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(11)").text();
+				locStartTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(12)").text();
+				locEndTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
 
 				so = usernum.toString();
 				document.getElementById("hide").value = so;
 				//alert(document.getElementById("hide").value);
-				//alert(locHours);	
+				alert(locStartTime);	
 					  
 			});
 		});
@@ -642,7 +649,9 @@ else
 				document.getElementById("add-otdate").value = locOvertimedate.toString();
 				document.getElementById("add-details").value = locDetails.toString();
 				document.getElementById("add-type").value = locOvertimetype;
-				document.getElementById("add-otstarttime").value = locStartTime;
+				document.getElementById("add-otstarttime").value = locStartTimedate;
+				document.getElementById("add-ottime").value = locStartTime;
+				document.getElementById("add-otenddate").value = locEndTimedate;
 				document.getElementById("add-otendtime").value = locEndTime;
 				document.getElementById("add-othours").value = locHours.toString();
 				document.getElementById("add-otminutes").value = locMinutes.toString();
@@ -784,7 +793,6 @@ else
 						if($myFiledOtMins > $myOtMins)
 						{
 							alert("Excess of minutes in OT.");
-							alert("Excess of hours in OT.");
 							return false;
 						}
 						else
@@ -798,16 +806,65 @@ else
 		}
 
 		function validateForm() {
-				getOT();
-		  var x = document.forms["myForm"]["update"].value;
-		  if (x == "update") {
+				
+			getOT();
+
+			var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+			var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
+		 	var x = document.forms["myForm"]["update"].value;
+		  	if (x == "update") {
 		  	
 		  	var myOtMins = document.getElementById("otMINS").value.toString();
 			var myOtHrs = document.getElementById("otHRS").value.toString();
 			$myFiledOtHours = document.getElementById("add-othours").value.toString();
 			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
 
-				if (myOtHrs == "" && myOtMins == "")
+				if (OTEndDateTime > myOTEndDate)
+				{
+					alert('Overtime EndDate and EndTime must be within your attendance!');
+					return false;
+				}
+				else
+				{
+						
+					if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+					{	
+						alert("Hours and Minutes Fields cannot be equal to zero.");
+						return false;
+					}
+
+					else
+					{
+						if ($myFiledOtHours > $myOtHrs)
+						{
+							//alert($myOtHrs);
+							alert("Excess of hours in OT.");
+							return false;
+						}
+						else
+						{
+							if($myFiledOtMins > $myOtMins)
+							{
+								alert("Excess of minutes in OT.");
+								return false;
+							}
+							else
+							{
+								if(confirm("Are you sure you want to update this record?")) {
+							    	return true;
+							    }
+							    else
+							    {
+							    	modal.style.display = "none";
+							    	Clear();
+							    	return false;
+							    }
+							}
+						}
+					}
+				}
+
+				/*if (myOtHrs == "" && myOtMins == "")
 				{
 					getOT();
 					return false;
@@ -841,7 +898,7 @@ else
 								    }
 							}
 						}
-				}
+				}*/
 
 			//alert(myOtHrs);
 

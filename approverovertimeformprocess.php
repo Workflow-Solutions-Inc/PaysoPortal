@@ -14,11 +14,14 @@ if(isset($_GET["save"])) {
 	 $otdate=$_GET["OTdate"];
 	 $otdetails=$_GET["OTdetails"];
 	 $ottype=$_GET["OTtype"];
-	 $otstart=$_GET["OTstart"];
-	 $otend=$_GET["OTend"];
+	 //$otstart=$_GET["OTstart"];
+	 //$otend=$_GET["OTend"];
 	 $othours=$_GET["OThours"];
 	 $otminutes=$_GET["OTminutes"];
 	 $otworker=$_GET["WKId"];
+
+	 $otstart=$_GET["OTdate"].' '.$_GET["OTtime"];
+	 $otend=$_GET["OTenddate"].' '.$_GET["OTendtime"];
 
 	 $query = "SELECT * FROM worker where dataareaid = '$dataareaid' and workerid='$otworker'";
 	 $result = $conn->query($query);
@@ -50,11 +53,14 @@ else if(isset($_GET["update"])) {
 	 $otdate=$_GET["OTdate"];
 	 $otdetails=$_GET["OTdetails"];
 	 $ottype=$_GET["OTtype"];
-	 $otstart=$_GET["OTstart"];
-	 $otend=$_GET["OTend"];
+	 //$otstart=$_GET["OTstart"];
+	 //$otend=$_GET["OTend"];
 	 $othours=$_GET["OThours"];
 	 $otminutes=$_GET["OTminutes"];
 	 $otworker=$_GET["WKId"];
+
+	 $otstart=$_GET["OTdate"].' '.$_GET["OTtime"];
+	 $otend=$_GET["OTenddate"].' '.$_GET["OTendtime"];
 	 
 	 if($id != ""){
 	 $sql = "UPDATE overtimefile SET
@@ -114,18 +120,21 @@ else if($_GET["action"]=="searchdata"){
 		$overtimedate=$_GET["slocOvertimedate"];
 		$output='';
 		//$output .= '<tbody>';
-		$query = "SELECT *,TIME_FORMAT(ot.starttime,'%h:%i %p') as timein,TIME_FORMAT(ot.endtime,'%h:%i %p') as timeout,
+		$query = "SELECT *,TIME_FORMAT(ot.starttime,'%H:%i') as timein,TIME_FORMAT(ot.endtime,'%H:%i') as timeout,
 									case when ot.status = 0 then 'Created'
 										when ot.status = 1 then 'Approved' 
 										when ot.status = 2 then 'Disapproved' 
-										when ot.status = 3 then 'Posted' end as otstatus,
+										when ot.status = 3 then 'Posted'
+										 end as otstatus,
 										date_format(ot.createddatetime, '%Y-%m-%d') as datefiled,
                                         case when ot.overtimetype = 0 then 'Regular Overtime'
                                         when ot.overtimetype = 1 then 'Special Holiday Overtime'
                                         when ot.overtimetype = 2 then 'Regular Holiday Overtime'
                                         when ot.overtimetype = 3 then 'Sunday Overtime'
                                         when ot.overtimetype = 5 then 'Early Overtime'
-                                        end as overtimetypes 
+                                        end as overtimetypes,
+                                        date_format(starttime, '%Y-%m-%d') as starttime,
+                                        date_format(endtime, '%Y-%m-%d') as endtime  
 
 						FROM overtimefile ot
 						left join organizationalchart org on org.workerid = ot.workerid and org.dataareaid = ot.dataareaid
@@ -501,10 +510,10 @@ else if($_GET["action"]=="getOT"){
 		
 
 		$output .= '
-				 <input type="input" value="'.$endtimehour.'"  name ="myHrs" id="otHRS" class="modal-textarea">
-				 <input type="input" value="'.$endtimemins.'" name ="myMins" id="otMINS" class="modal-textarea">
+				 <input type="hidden" value="'.$endtimehour.'"  name ="myHrs" id="otHRS" class="modal-textarea">
+				 <input type="hidden" value="'.$endtimemins.'" name ="myMins" id="otMINS" class="modal-textarea">
 
-				 <input type="input" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
+				 <input type="hidden" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
 				 <input type="hidden" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
 				 
 				 ';
@@ -524,6 +533,8 @@ else if($_GET["action"]=="getOT"){
 		var locOvertimetype = "";
 		var locStartTime = "";
 		var locEndTime = "";
+		var locStartTimedate = "";
+		var locEndTimedate = "";
 		var locHours = "";
 		var locMinutes = "";
 		var locStatus= "";
@@ -539,13 +550,15 @@ else if($_GET["action"]=="getOT"){
 				locOvertimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(4)").text();
 				locDetails = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(5)").text();
 				locOvertimetype = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(16)").text();
-				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
-				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(14)").text();
+				locStartTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(7)").text();
+				locEndTime = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(8)").text();
 				locHours = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(9)").text();
 				locMinutes = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(10)").text();
 				locStatus = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(11)").text();
 				locDateFile = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(12)").text();
 				locWorkerId = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(15)").text();
+				locStartTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(13)").text();
+				locEndTimedate = $("#datatbl tr:eq("+ ($(this).index()+2) +") td:eq(14)").text();
 				so = usernum.toString();
 				document.getElementById("hide").value = so;
 				//alert(document.getElementById("hide").value);
