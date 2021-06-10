@@ -140,16 +140,16 @@ else
 									<tr class="rowtitle">
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
 										<td style="width:5%;">Include</td>
-										<td style="width:10%;">Overtime ID</td>
-										<td style="width:14%;">Name</td>
-										<td style="width:10%;">Overtime Date</td>
-										<td style="width:25%;">Details</td>
-										<td style="width:12%;">Overtime Type</td>
+										<td style="width:11%;">Overtime ID</td>
+										<td style="width:15%;">Name</td>
+										<td style="width:11%;">Overtime Date</td>
+										<td style="width:26%;">Details</td>
+										<td style="width:13%;">Overtime Type</td>
 										
-										<td style="width:5%;">Hours</td>
-										<td style="width:5%;">Minutes</td>
-										<td style="width:5%;">Status</td>
-										<td style="width:7%;">Date Filed</td>
+										<td style="width:6%;">Hours</td>
+										<td style="width:6%;">Minutes</td>
+										<td style="width:6%;">Status</td>
+										<td style="width:8%;">Date Filed</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 									<tr class="rowsearch">
@@ -353,17 +353,17 @@ else
 											<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
 											<td style="width:5%;"><input type='checkbox' id="chkbox" name="chkbox" class="checkbox" 
 												value="<?php echo $row['overtimeid'];?>"></td>
-											<td style="width:10%;"><?php echo $row['overtimeid'];?></td>
-											<td style="width:14%;"><?php echo $row['name'];?></td>
-											<td style="width:10%;"><?php echo $row['overtimedate'];?></td>
-											<td style="width:25%;"><?php echo $row['details'];?></td>
-											<td style="width:12%;"><?php echo $row['overtimetypes'];?></td>
+											<td style="width:11%;"><?php echo $row['overtimeid'];?></td>
+											<td style="width:15%;"><?php echo $row['name'];?></td>
+											<td style="width:11%;"><?php echo $row['overtimedate'];?></td>
+											<td style="width:26%;"><?php echo $row['details'];?></td>
+											<td style="width:13%;"><?php echo $row['overtimetypes'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['timein'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['timeout'];?></td>
-											<td style="width:5%;"><?php echo $row['hours'];?></td>
-											<td style="width:5%;"><?php echo $row['minutes'];?></td>
-											<td style="width:5%;"><?php echo $row['otstatus'];?></td>
-											<td style="width:7%;"><?php echo $row['datefiled'];?></td>
+											<td style="width:6%;"><?php echo $row['hours'];?></td>
+											<td style="width:6%;"><?php echo $row['minutes'];?></td>
+											<td style="width:6%;"><?php echo $row['otstatus'];?></td>
+											<td style="width:8%;"><?php echo $row['datefiled'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['starttime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['endtime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['workerid'];?></td>
@@ -468,7 +468,7 @@ else
 									<option value="0">Regualr Overtime</option>
 									<option value="1">Special Holiday Overtime</option>
 									<option value="2">Regualr Holiday Overtime</option>
-									<option value="3">Sunday Overtime</option>
+									<option value="3">Restday Overtime</option>
 							</select>
 
 							<label>Hours:</label>

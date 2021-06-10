@@ -124,17 +124,19 @@ else if($_GET["action"]=="searchdata"){
 			<tr class="'.$rowclass.'">
 				<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
 				<td style="width:10%;">'.$row["logid"].'</td>
-				<td style="width:14%;">'.$row["name"].'</td>
+				<td style="width:16%;">'.$row["name"].'</td>
 				<td style="width:10%;">'.$row["invaliddate"].'</td>
-				<td style="width:25%;">'.$row["details"].'</td>
-				<td style="width:7%;">'.$row["logtimes"].'</td>
+				<td style="width:30%;">'.$row["details"].'</td>
+				<td style="width:8%;">'.$row["logtimes"].'</td>
 
 
-				<td style="width:5%;">'.$row["logtypes"].'</td>
-				<td style="width:7%;">'.$row["otstatus"].'</td>
+				<td style="width:8%;">'.$row["logtypes"].'</td>
+				<td style="width:8%;">'.$row["otstatus"].'</td>
 				<td style="width:10%;">'.$row["datefiled"].'</td>
 				<td style="display:none;width:1%;">'.$row["logtime"].'</td>
 				<td style="display:none;width:1%;">'.$row["logtype"].'</td>
+
+				
 
 				
 			</tr>';

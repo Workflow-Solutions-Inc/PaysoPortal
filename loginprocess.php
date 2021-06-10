@@ -30,9 +30,17 @@ if($username && $password){
 			//echo $dbpassword;
 			//echo $username;
 			//echo $password;
-			}
+		}
+		$accquery = "SELECT 
+						inactive
+						FROM worker where workerid = '$dbusername' and dataareaid = '$dataareaid'";
+
+						//and (module like '%$module%') and (submodule like '%$sub%') and (name like '%$name%')";
+			$accresult = $conn->query($accquery);
+			$accrow = $accresult->fetch_assoc();
+			$inactive=$accrow["inactive"];
 			//check to see if they match!
-			if($username == $dbusername && $password == $dbpassword)
+			if($username == $dbusername && $password == $dbpassword && $inactive == 0)
 			{
 				//echo "Login successful! <a href='index.php'>Click</a> here to enter the member page!";
 				$_SESSION['portaluser'] = $dbusername;
@@ -42,6 +50,16 @@ if($username && $password){
 				$_SESSION['portallogbio'] = $loginbioid;
 				$_SESSION['portallognum'] = $loginworkerid;
 				header('location: employee.php');
+			}
+			elseif($username == $dbusername && $password == $dbpassword && $inactive == 1){
+				header('location: index.php?invalid=3');
+				//echo "Login successful! ";
+				?>
+					<script type="text/javascript">
+					//alert("Invalid Login!")
+					window.location="index.php?invalid=3"
+					</script>
+				<?php
 			}
 			else{
 				header('location: index.php?invalid=1');

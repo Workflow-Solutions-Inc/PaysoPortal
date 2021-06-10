@@ -188,16 +188,16 @@ else if($_GET["action"]=="searchdata"){
 			$output .= '
 			<tr class="'.$rowclass.'">
 				<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
-				<td style="width:10%;">'.$row["fieldworkid"].'</td>
-				<td style="width:14%;">'.$row["name"].'</td>
-				<td style="width:10%;">'.$row["fieldworkdate"].'</td>
-				<td style="width:25%;">'.$row["details"].'</td>
-				<td style="width:7%;">'.$row["timein"].'</td>
-				<td style="width:7%;">'.$row["timeout"].'</td>
+				<td style="width:11%;">'.$row["fieldworkid"].'</td>
+				<td style="width:15%;">'.$row["name"].'</td>
+				<td style="width:11%;">'.$row["fieldworkdate"].'</td>
+				<td style="width:26%;">'.$row["details"].'</td>
+				<td style="width:8%;">'.$row["timein"].'</td>
+				<td style="width:8%;">'.$row["timeout"].'</td>
 
-				<td style="width:5%;">'.$row["daytypes"].'</td>
-				<td style="width:7%;">'.$row["otstatus"].'</td>
-				<td style="width:10%;">'.$row["datefiled"].'</td>
+				<td style="width:6%;">'.$row["daytypes"].'</td>
+				<td style="width:8%;">'.$row["otstatus"].'</td>
+				<td style="width:11%;">'.$row["datefiled"].'</td>
 				<td style="display:none;width:1%;">'.$row["starttime"].'</td>
 				<td style="display:none;width:1%;">'.$row["endtime"].'</td>
 				<td style="display:none;width:1%;">'.$row["daytype"].'</td>

@@ -24,11 +24,16 @@ if(isset($_GET["save"])) {
 	 //$lcredit=14;
 	 
 	 echo "credit=".$lcredit."<br>";
-	 if($ldays > $lcredit)
-	 {
-	 	$lcredit=$lcredit-1;
-	 	$ottodate = date ("Y-m-d", strtotime("+".$lcredit." days", strtotime($otfromdate)));
-	 }
+	if($paid == "true")
+	{
+		if($ldays > $lcredit)
+		 {
+		 	$lcredit=$lcredit-1;
+		 	$ottodate = date ("Y-m-d", strtotime("+".$lcredit." days", strtotime($otfromdate)));
+		 }
+	}
+
+	 
 	
 	 
 
@@ -315,9 +320,23 @@ else if($_GET["action"]=="delete"){
 
 				$otstart = $row['starttime'];
 				$otend = $row['endtime'];
-				
-				
 
+				$query2 = "SELECT format(balance,4) balance,ispaid FROM leavefile 
+				where workerid = '$userid' and dataareaid = '$dataareaid' and leavetype = '$leavetype'";
+				$result2 = $conn->query($query2);
+				while ($row2 = $result2->fetch_assoc())
+				{ 
+						
+
+						$wkvl = $row2['balance'];
+						$ispaid = $row2['ispaid'];
+						
+
+				}
+
+				
+				if($ispaid == 1)
+				{
 					$starttimestamp = strtotime($otstart);
 					$endtimestamp = strtotime($otend);
 					$deduct = abs($endtimestamp - $starttimestamp)/3600;
@@ -345,6 +364,15 @@ else if($_GET["action"]=="delete"){
 							{
 								echo "error".$sql2."<br>".$conn->error;
 							}
+				}
+				else
+				{
+					$paidleave = "false";
+				}
+				
+				
+
+					
 			}
 
 
@@ -546,9 +574,9 @@ else if($_GET["action"]=="filterleave"){
 
 
 		$output .= '
-				 <input type="input" value="'.$wkvl.'"  name ="lcredit" id="add-lcredit" class="modal-textarea">
-				 <input type="input" value="'.$paidleave.'" name ="lpaid" id="add-lpaid" class="modal-textarea">
-				 <input type="input" value="'.$cntdays.'" name ="ldays" id="add-ldays" class="modal-textarea">
+				 <input type="hidden" value="'.$wkvl.'"  name ="lcredit" id="add-lcredit" class="modal-textarea">
+				 <input type="hidden" value="'.$paidleave.'" name ="lpaid" id="add-lpaid" class="modal-textarea">
+				 <input type="hidden" value="'.$cntdays.'" name ="ldays" id="add-ldays" class="modal-textarea">
 				 
 				 ';
 				 //<input type="input" value="'.$ldeduct.'" name ="lded" id="add-lded" class="modal-textarea">

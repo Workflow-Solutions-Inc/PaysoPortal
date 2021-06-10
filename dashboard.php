@@ -219,7 +219,7 @@ else
 				</div>
 				<!-- Query -->
 				<?php 
-									$query = "SELECT ss.date,TIME_FORMAT(starttime,'%h:%i %p') as starttime,TIME_FORMAT(endtime,'%h:%i %p') as endtime,ss.workerid,wk.BioId,cons.timein,cons.timeout
+									/*$query = "SELECT ss.date,TIME_FORMAT(starttime,'%h:%i %p') as starttime,TIME_FORMAT(endtime,'%h:%i %p') as endtime,ss.workerid,wk.BioId,cons.timein,cons.timeout
 												,case when TIME_TO_SEC(SUBTIME(TIME_FORMAT(cons.timein,'%H:%i'),TIME_FORMAT(ss.starttime, '%H:%i'))) > TIME_TO_SEC(CONVERT('00:00:00', TIME)) then
 																TIME_TO_SEC(SUBTIME(TIME_FORMAT(cons.timein,'%H:%i'),TIME_FORMAT(ss.starttime, '%H:%i'))) / 60
 														end as late
@@ -251,7 +251,38 @@ else
 												
 												ss.date between '$startdate' and '$enddate' and
 												ss.workerid = '$firstresultid'
-												order by date";
+												order by date";*/
+							$query = "SELECT ss.date,
+										TIME_FORMAT(starttime,'%h:%i %p') as starttime,
+										MIN(case when mt.type = 0 then TIME_FORMAT(mt.Time,'%h:%i %p') else null end)
+
+										,case when TIME_TO_SEC(SUBTIME(TIME_FORMAT(MIN(case when mt.type = 0 then TIME_FORMAT(mt.Time,'%h:%i %p') else null end),'%H:%i'),TIME_FORMAT(ss.starttime, '%H:%i'))) > TIME_TO_SEC(CONVERT('00:00:00', TIME)) then
+										TIME_TO_SEC(SUBTIME(TIME_FORMAT(MIN(case when mt.type = 0 then TIME_FORMAT(mt.Time,'%h:%i %p') else null end),'%H:%i'),TIME_FORMAT(ss.starttime, '%H:%i'))) / 60
+										end as late
+										                                
+										,case when TIME_TO_SEC(SUBTIME(TIME_FORMAT(MIN(case when mt.type = 0 then TIME_FORMAT(mt.Time,'%h:%i %p') else null end),'%H:%i'),TIME_FORMAT(ss.starttime, '%H:%i'))) > TIME_TO_SEC(CONVERT('00:00:00', TIME)) 
+										then 1 end as latecount,
+										                        
+										                        
+										case when ifnull(MIN(case when mt.type = 0 then TIME_FORMAT(mt.Time,'%h:%i %p') else null end),0) = 0 
+										and ifnull(MAX(case when mt.type = 1 then TIME_FORMAT(mt.Time,'%h:%i %p') else null end),0) = 0 then 1 else 0 end as absent,
+										case when ifnull(MIN(case when mt.type = 0 then TIME_FORMAT(mt.Time,'%h:%i %p') else null end),0) = 0  then 0 else 1 end as daywork,
+										1 as attcount
+																
+											FROM shiftschedule ss 
+
+											left join worker wk on ss.workerid = wk.workerid AND ss.dataareaid = wk.dataareaid
+
+											left join monitoringtable mt on mt.Date = ss.date and mt.Name = wk.BioId 
+
+										where 
+												
+												ss.date between '$startdate' and '$enddate' and
+												ss.workerid = '$firstresultid'
+												and ss.daytype not in ('Restday','Special Holiday','Regular Holiday')
+												group by ss.date,starttime
+												order by ss.date asc
+									";
 
 									$result = $conn->query($query);
 									$rowclass = "rowA";
@@ -329,12 +360,12 @@ else
 									<thead>	
 										<tr class="rowtitle">
 											<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
-											<td style="width:16%;" class="blue">Day Type</td>
-											<td style="width:16%;">Date</td>
-											<td style="width:16%;">Day</td>
-											<td style="width:16%;">Shift Type</td>
-											<td style="width:16%;" class="green">Start Time</td>
-											<td style="width:16%;" class="red">End Time</td>
+											<td style="width:20%;" class="blue">Day Type</td>
+											<td style="width:20%;">Date</td>
+											<td style="width:20%;">Day</td>
+											<td style="width:20%;">Shift Type</td>
+											<td style="width:20%;" class="green">Start Time</td>
+											<td style="width:20%;" class="red">End Time</td>
 											<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 										</tr>
 									</thead>
@@ -397,14 +428,17 @@ else
 									<tr class="rowtitle">
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
 										<td style="width:33%;">Date</td>
+										<td style="width:33%;">Day</td>
 										<td style="width:33%;" class="green">Time In</td>
+										<td style="width:33%;" class="green">Break Out</td>
+										<td style="width:33%;" class="green">Break In</td>
 										<td style="width:33%;" class="red">Time Out</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 								</thead>
 								<tbody id="result2">
 									<?php					
-									$query = "SELECT consol.date,TIME_FORMAT(intbl.timein,'%h:%i %p') as timein,TIME_FORMAT(outtbl.timeout,'%h:%i %p') as timeout,consol.bioid
+									/*$query = "SELECT consol.date,TIME_FORMAT(intbl.timein,'%h:%i %p') as timein,TIME_FORMAT(outtbl.timeout,'%h:%i %p') as timeout,consol.bioid
 												FROM 
 													consolidationtable consol
 													left join (select date,MAX(time) as timeout,bioid,type from consolidationtable where type = 1
@@ -415,7 +449,20 @@ else
 
 													where consol.bioid = '$firstresultbio' #and consol.date = '2020-01-15'
 
-													group by consol.date,consol.bioid";
+													group by consol.date,consol.bioid";*/
+
+									$query = "SELECT DATE_FORMAT(mt.date, '%m/%d/%Y') as 'date',DATE_FORMAT(mt.date,'%W') as weekday,
+												TIME_FORMAT(min(case when mt.type = 0 then mt.Time else null end),'%h:%i %p') as 'timein',
+										        TIME_FORMAT(min(case when mt.type = 4 then mt.Time else null end),'%h:%i %p') as 'breakout',
+										        TIME_FORMAT(max(case when mt.type = 3 then mt.Time else null end),'%h:%i %p') as 'breakin',
+												TIME_FORMAT(max(case when mt.type = 1 then mt.Time else null end),'%h:%i %p') as 'timeout',  
+										        mt.Name as bioid
+											from monitoringtable mt 
+												left join worker wk ON mt.Name = wk.BioId 
+												
+											
+										    where mt.name = '$firstresultbio' and date between '$startdate' and '$enddate'
+											group by mt.date order by mt.date asc";
 									$result = $conn->query($query);
 									$rowclass = "rowA";
 									$rowcnt = 0;
@@ -431,7 +478,10 @@ else
 											<!--<td style="width:10px;"><input type='checkbox' name="chkbox" value="" id="myCheck"></td>-->
 											<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
 											<td style="width:33%;"><?php echo $row['date'];?></td>
+											<td style="width:33%;"><?php echo $row['weekday'];?></td>
 											<td style="width:33%;"><?php echo $row['timein'];?></td>
+											<td style="width:33%;"><?php echo $row['breakout'];?></td>
+											<td style="width:33%;"><?php echo $row['breakin'];?></td>
 											<td style="width:33%;"><?php echo $row['timeout'];?></td>
 											<!--<td style="width:50%;"><input type='password' value='" . $row["password"]."'readonly='readonly'></td>-->
 											
@@ -536,7 +586,7 @@ else
 												  
 												  <td><input style="width:100%;height: 20px;" list="SearchWorker" class="search">
 													<?php
-														$query = "SELECT distinct workerid FROM worker where dataareaid = '$dataareaid'";
+														$query = "SELECT distinct workerid FROM worker where dataareaid = '$dataareaid' and inactive = 0 and workerid != '$lognum'";
 														$result = $conn->query($query);	
 															
 												  ?>
@@ -553,7 +603,7 @@ else
 												  </td>
 												  <td><input style="width:100%;height: 20px;" list="SearchName" class="search">
 													<?php
-														$query = "SELECT distinct name FROM worker where dataareaid = '$dataareaid'";
+														$query = "SELECT distinct name FROM worker where dataareaid = '$dataareaid' and inactive = 0 and workerid != '$lognum'";
 														$result = $conn->query($query);	
 															
 												  ?>
@@ -644,8 +694,8 @@ else
 																,wk.employmentstatus as employmentstatusid
 																,wk.inactive
 																,wk.bioid
-																,DATE_SUB(curdate(), INTERVAL 50 DAY) getfromdate
-																,DATE_ADD(curdate(), INTERVAL 50 DAY) gettodate
+																,DATE_SUB(curdate(), INTERVAL 0 DAY) getfromdate
+																,DATE_ADD(curdate(), INTERVAL 0 DAY) gettodate
 
 																FROM worker wk
 																left join position pos on pos.positionid = wk.position and pos.dataareaid = wk.dataareaid 
@@ -655,7 +705,7 @@ else
 																left join branch bra on bra.branchcode = wk.branch and bra.dataareaid = wk.dataareaid
 																left join organizationalchart org on org.workerid = wk.workerid and org.dataareaid = wk.dataareaid
 						
-																where wk.dataareaid = '$dataareaid' and rt.status = 1 and org.repotingid = '$lognum'
+																where wk.dataareaid = '$dataareaid' and rt.status = 1 and org.repotingid = '$lognum' and wk.inactive = 0
 
 																order by wk.workerid";
 												$result = $conn->query($query);
@@ -670,11 +720,11 @@ else
 													<tr class="<?php echo $rowclass; ?>">
 														<!--<td style="width:10px;"><input type='checkbox' name="chkbox" value="" id="myCheck"></td>-->
 														<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
-														<td style="width:19%;"><?php echo $row['workerid'];?></td>
-														<td style="width:19%;"><?php echo $row['Name'];?></td>
-														<td style="width:19%;"><?php echo $row['position'];?></td>
-														<td style="width:19%;"><?php echo $row['department'];?></td>
-														<td style="width:19%;"><?php echo $row['branch'];?></td>
+														<td style="width:25%;"><?php echo $row['workerid'];?></td>
+														<td style="width:25%;"><?php echo $row['Name'];?></td>
+														<td style="width:25%;"><?php echo $row['position'];?></td>
+														<td style="width:25%;"><?php echo $row['department'];?></td>
+														<td style="width:25%;"><?php echo $row['branch'];?></td>
 														<td style="display:none;width:1%;"><input type="checkbox" name="chkbox" class="checkbox"  value="true" <?php echo ($row['birdeclared']==1 ? 'checked' : '');?> onclick="return false;"><div style="visibility:hidden;height: 1px;"><?php echo $row['birdeclared'];?></div></td>
 														<td style="display:none;width:1%;"><?php echo $row['firstname'];?></td>
 														<td style="display:none;width:1%;"><?php echo $row['middlename'];?></td>

@@ -135,17 +135,19 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:5%;"><input type="checkbox" id="chkbox" name="chkbox" class="checkbox"
 				 	value="'.$row['logid'].'"></td>
 				<td style="width:10%;">'.$row["logid"].'</td>
-				<td style="width:14%;">'.$row["name"].'</td>
-				<td style="width:10%;">'.$row["invaliddate"].'</td>
-				<td style="width:25%;">'.$row["details"].'</td>
-				<td style="width:7%;">'.$row["logtimes"].'</td>
+				<td style="width:15%;">'.$row["name"].'</td>
+				<td style="width:11%;">'.$row["invaliddate"].'</td>
+				<td style="width:27%;">'.$row["details"].'</td>
+				<td style="width:8%;">'.$row["logtimes"].'</td>
 
 
-				<td style="width:5%;">'.$row["logtypes"].'</td>
-				<td style="width:7%;">'.$row["otstatus"].'</td>
+				<td style="width:6%;">'.$row["logtypes"].'</td>
+				<td style="width:8%;">'.$row["otstatus"].'</td>
 				<td style="width:10%;">'.$row["datefiled"].'</td>
 				<td style="display:none;width:1%;">'.$row["logtime"].'</td>
 				<td style="display:none;width:1%;">'.$row["logtype"].'</td>
+
+			
 
 				
 			</tr>';

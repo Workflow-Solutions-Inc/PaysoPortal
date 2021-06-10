@@ -450,23 +450,31 @@ else
 											<option value="<?php echo $row["workerid"];?>"><?php echo $row["name"];?></option>
 									<?php } ?>
 							</select>
-							
+							<label>Details:</label>
+							<textarea id="add-details" name="FWdetails" class="textarea1" required="required" placeholder="Field Details"></textarea>
 							
 						</div>
 
-						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
 							<label>Field Work Date:</label>
 							<input type="date" value="" placeholder="" id="add-fwdate" name="FWdate" class="modal-textarea" required="required">
 
 
-							<label>Details:</label>
-							<input type="text" value="" placeholder="Field Work Details" id="add-details" name="FWdetails" class="modal-textarea" required="required">
 							
-						</div>
+							
+							
+						</div> -->
 
 						
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+							<label>Field Work From Date:</label>
+							<input type="date" value="" placeholder="" id="add-fwfromdate" name="FWfromdate" class="modal-textarea" required="required">
+							<div id='FWtodatediv'>
+							<label>Field Work To Date:</label>
+							<input type="date" value="" placeholder="" id="add-fwtodate" name="FWtodate" class="modal-textarea" required="required">
+							</div>
 
 							<label>Start Time:</label>
 							<input type="time" value="" placeholder="" id="add-fwstarttime" name="FWstart" class="modal-textarea" required="required">
@@ -474,7 +482,7 @@ else
 							<input type="time" value="" placeholder="" id="add-fwendtime" name="FWend" class="modal-textarea" required="required">
 
 						</div>
-						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<!-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							<label>Day Type:</label>
 							<select value="" value="" placeholder="Period" name ="FWaytype" id="add-daytype" class="modal-textarea" style="width:100%;height: 28px;"  required="required">
 									<option value=""></option>
@@ -483,7 +491,7 @@ else
 							</select>
 		
 							
-						</div>
+						</div> -->
 						
 						
 
@@ -582,10 +590,11 @@ else
 		    $("#add-workerid").prop('disabled', false);
 		    document.getElementById("upbt").style.visibility = "hidden";
 		    document.getElementById("addbt").style.visibility = "visible";
+		    document.getElementById("FWtodatediv").style.display = "block";
 		    var action = "add";
 		    $.ajax({
 						type: 'GET',
-						url: 'fieldworkformprocess.php',
+						url: 'approverfieldworkformprocess.php',
 						data:{action:action},
 						//data:'bkno='+BNo+'&bkdesc='+BDesc+'&bktit='+BTit+'&bkqty='+BQ,
 						beforeSend:function(){
@@ -604,9 +613,11 @@ else
 			    modal.style.display = "block";
 			    $("#add-fwid").prop('readonly', true);
 			    $("#add-workerid").prop('disabled', 'disabled');
+			    document.getElementById("FWtodatediv").style.display = "none";
 				document.getElementById("add-fwid").value = so;
 				document.getElementById("add-workerid").value = locWorkerId.toString();
-				document.getElementById("add-fwdate").value = locFieldDate.toString();
+				document.getElementById("add-fwfromdate").value = locFieldDate.toString();
+				document.getElementById("add-fwtodate").value = locFieldDate.toString();
 				document.getElementById("add-details").value = locDetails.toString();
 				document.getElementById("add-fwstarttime").value = locStartTime;
 				document.getElementById("add-fwendtime").value = locEndTime;
@@ -893,7 +904,8 @@ else
 		{
 			if(so != '') {
 				//document.getElementById("add-id").value = "";
-				document.getElementById("add-fwdate").value =  "";
+				document.getElementById("add-fwfromdate").value =  "";
+				document.getElementById("add-fwtodate").value = "";
 				document.getElementById("add-details").value =  "";
 				document.getElementById("add-fwstarttime").value =  "";
 				document.getElementById("add-fwendtime").value =  "";
@@ -902,7 +914,8 @@ else
 			}
 			else
 			{
-				document.getElementById("add-fwdate").value =  "";
+				document.getElementById("add-fwfromdate").value =  "";
+				document.getElementById("add-fwtodate").value = "";
 				document.getElementById("add-details").value =  "";
 				document.getElementById("add-fwstarttime").value =  "";
 				document.getElementById("add-fwendtime").value =  "";

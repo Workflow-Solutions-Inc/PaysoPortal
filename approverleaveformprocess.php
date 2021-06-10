@@ -294,12 +294,69 @@ else if($_GET["action"]=="disapprove"){
 				
 					while ($row2 = $result2->fetch_assoc())
 					{ 
+							//$Ldaytype = $row2['daytype'];
+
+							$userid=$row2["workerid"];
+							$leaveid=$row2["leaveid"];
+							$leavetype=$row2["leavetype"];
 							$Ldaytype = $row2['daytype'];
+
+							$otstart = $row2['starttime'];
+							$otend = $row2['endtime'];
+
+							$query3 = "SELECT format(balance,4) balance,ispaid FROM leavefile 
+							where workerid = '$userid' and dataareaid = '$dataareaid' and leavetype = '$leavetype'";
+							$result3 = $conn->query($query3);
+							while ($row3 = $result3->fetch_assoc())
+							{ 
+									
+
+									$wkvl = $row3['balance'];
+									$ispaid = $row3['ispaid'];
+									
+
+							}
+
 							
+							if($ispaid == 1)
+							{
+							
+							
+
+								$starttimestamp = strtotime($otstart);
+								$endtimestamp = strtotime($otend);
+								$deduct = abs($endtimestamp - $starttimestamp)/3600;
+								if($deduct >= 9)
+								{
+									$deduct = $deduct - 1;
+								}
+								$deduct = $deduct/8;
+
+
+								$sql2 = "UPDATE leavefile SET
+									balance = balance + $deduct,
+									
+									modifiedby = '$userlogin',
+									modifieddatetime = now()
+									WHERE workerid = '$userid'
+									and dataareaid = '$dataareaid'
+									and leavetype = '$leavetype'";
+
+										if(mysqli_query($conn,$sql2))
+										{
+											echo "Rec Updated";
+										}
+										else
+										{
+											echo "error".$sql2."<br>".$conn->error;
+										}
+							
+
+							}
 
 					}
 
-					$deduct = 1;
+					/*$deduct = 1;
 					if($Ldaytype == 0)
 					{
 						$deduct = 1;
@@ -325,7 +382,7 @@ else if($_GET["action"]=="disapprove"){
 							else
 							{
 								echo "error".$sql2."<br>".$conn->error;
-							}
+							}*/
 			}
 
 

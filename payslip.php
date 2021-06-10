@@ -131,11 +131,11 @@ else
 									<tr class="rowtitle">
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
 										
-										<td style="width:10%;">Payroll Group</td>
-										<td style="width:14%;">Start Date</td>
-										<td style="width:10%;">End Date</td>
+										<td style="width:25%;">Payroll Group</td>
+										<td style="width:25%;">Start Date</td>
+										<td style="width:25%;">End Date</td>
 										<td style="width:25%;">Payment Date</td>
-										<td style="width:13px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
+										<td style="width:18px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
 								
 								</thead>
@@ -167,9 +167,9 @@ else
 											<!--<td style="width:10px;"><input type='checkbox' name="chkbox" value="" id="myCheck"></td>-->
 											<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
 											
-											<td style="width:10%;"><?php echo $row['Payroll Group'];?></td>
-											<td style="width:14%;"><?php echo $row['Start Date'];?></td>
-											<td style="width:10%;"><?php echo $row['End Date'];?></td>
+											<td style="width:25%;"><?php echo $row['Payroll Group'];?></td>
+											<td style="width:25%;"><?php echo $row['Start Date'];?></td>
+											<td style="width:25%;"><?php echo $row['End Date'];?></td>
 											<td style="width:25%;"><?php echo $row['Payment Date'];?></td>
 											<td style="width:0%;"><?php echo $row['workerid'];?></td>
 											<td style="width:0%;"><?php echo $row['Payroll'];?></td>

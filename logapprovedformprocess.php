@@ -133,9 +133,9 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:5%;">'.$row["logtypes"].'</td>
 				<td style="width:7%;">'.$row["otstatus"].'</td>
 				<td style="width:10%;">'.$row["datefiled"].'</td>
+				<td style="width:12%;">'.$row["approvedby"].'</td>
 				<td style="display:none;width:1%;">'.$row["logtime"].'</td>
 				<td style="display:none;width:1%;">'.$row["logtype"].'</td>
-
 				
 			</tr>';
 		}

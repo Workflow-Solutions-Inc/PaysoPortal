@@ -155,17 +155,17 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
 				<td style="width:5%;"><input type="checkbox" id="chkbox" name="chkbox" class="checkbox"
 				 	value="'.$row['overtimeid'].'"></td>
-				<td style="width:10%;">'.$row["overtimeid"].'</td>
-				<td style="width:14%;">'.$row["name"].'</td>
-				<td style="width:10%;">'.$row["overtimedate"].'</td>
-				<td style="width:25%;">'.$row["details"].'</td>
-				<td style="width:12%;">'.$row["overtimetypes"].'</td>
+				<td style="width:11%;">'.$row["overtimeid"].'</td>
+				<td style="width:15%;">'.$row["name"].'</td>
+				<td style="width:11%;">'.$row["overtimedate"].'</td>
+				<td style="width:26%;">'.$row["details"].'</td>
+				<td style="width:13%;">'.$row["overtimetypes"].'</td>
 				<td style="display:none;width:1%;">'.$row["timein"].'</td>
 				<td style="display:none;width:1%;">'.$row["timeout"].'</td>
-				<td style="width:5%;">'.$row["hours"].'</td>
-				<td style="width:5%;">'.$row["minutes"].'</td>
-				<td style="width:5%;">'.$row["otstatus"].'</td>
-				<td style="width:7%;">'.$row["datefiled"].'</td>
+				<td style="width:6%;">'.$row["hours"].'</td>
+				<td style="width:6%;">'.$row["minutes"].'</td>
+				<td style="width:6%;">'.$row["otstatus"].'</td>
+				<td style="width:8%;">'.$row["datefiled"].'</td>
 				<td style="display:none;width:1%;">'.$row["starttime"].'</td>
 				<td style="display:none;width:1%;">'.$row["endtime"].'</td>
 				<td style="display:none;width:1%;">'.$row["workerid"].'</td>

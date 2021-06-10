@@ -139,12 +139,12 @@ else
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
 										<td style="width:5%;">Include</td>
 										<td style="width:10%;">Log ID</td>
-										<td style="width:14%;">Name</td>
-										<td style="width:10%;">Invalid Date</td>
-										<td style="width:25%;">Details</td>
-										<td style="width:7%;">Log Time</td>
-										<td style="width:5%;">Log Type</td>
-										<td style="width:7%;">Status</td>
+										<td style="width:15%;">Name</td>
+										<td style="width:11%;">Invalid Date</td>
+										<td style="width:27%;">Details</td>
+										<td style="width:8%;">Log Time</td>
+										<td style="width:6%;">Log Type</td>
+										<td style="width:8%;">Status</td>
 										<td style="width:10%;">Date Filed</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
 									</tr>
@@ -328,18 +328,20 @@ else
 											<td style="width:5%;"><input type='checkbox' id="chkbox" name="chkbox" class="checkbox" 
 												value="<?php echo $row['logid'];?>"></td>
 											<td style="width:10%;"><?php echo $row['logid'];?></td>
-											<td style="width:14%;"><?php echo $row['name'];?></td>
-											<td style="width:10%;"><?php echo $row['invaliddate'];?></td>
-											<td style="width:25%;"><?php echo $row['details'];?></td>
-											<td style="width:7%;"><?php echo $row['logtimes'];?></td>
+											<td style="width:15%;"><?php echo $row['name'];?></td>
+											<td style="width:11%;"><?php echo $row['invaliddate'];?></td>
+											<td style="width:27%;"><?php echo $row['details'];?></td>
+											<td style="width:8%;"><?php echo $row['logtimes'];?></td>
 											
-											<td style="width:5%;"><?php echo $row['logtypes'];?></td>
-											<td style="width:7%;"><?php echo $row['otstatus'];?></td>
+											<td style="width:6%;"><?php echo $row['logtypes'];?></td>
+											<td style="width:8%;"><?php echo $row['otstatus'];?></td>
 											<td style="width:10%;"><?php echo $row['datefiled'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['logtime'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['logtype'];?></td>
 											<td style="display:none;width:1%;"><?php echo $row['workerid'];?></td>
 											<!--<td style="width:50%;"><input type='password' value='" . $row["password"]."'readonly='readonly'></td>-->
+
+									
 											
 										</tr>
 									<?php }?>
@@ -458,6 +460,8 @@ else
 									<option value=""></option>
 									<option value="0">Time In</option>
 									<option value="1">Time Out</option>
+									<option value="3">Break Out</option>
+									<option value="4">Break Out</option>
 							</select>
 		
 							

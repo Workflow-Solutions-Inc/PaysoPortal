@@ -32,8 +32,8 @@ if($_GET["action"]=="searchdata"){
 																,wk.employmentstatus as employmentstatusid
 																,wk.inactive
 																,wk.bioid
-																,DATE_SUB(curdate(), INTERVAL 50 DAY) getfromdate
-																,DATE_ADD(curdate(), INTERVAL 50 DAY) gettodate
+																,DATE_SUB(curdate(), INTERVAL 0 DAY) getfromdate
+																,DATE_ADD(curdate(), INTERVAL 0 DAY) gettodate
 
 					FROM worker wk
 					left join position pos on pos.positionid = wk.position and pos.dataareaid = wk.dataareaid 
@@ -45,7 +45,7 @@ if($_GET["action"]=="searchdata"){
 
 					 where (wk.workerid like '%$id%') and (wk.name like '%$name%') and (pos.name like '%$postion%') and (dep.name like '%$department%') and (bra.name like '%$branch%') and rt.status = 1 
 					 and wk.dataareaid = '$dataareaid' and org.repotingid = '$lognum'
-
+					 and wk.inactive = 0
 
 					 order by wk.workerid";
 		$result = $conn->query($query);
@@ -62,11 +62,11 @@ if($_GET["action"]=="searchdata"){
 			$output .= '
 			<tr id="'.$row["workerid"].'" class="'.$rowclass.'" tabindex="'.$rowcnt2.'" >
 				<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
-				<td style="width:19%;">'.$row["workerid"].'</td>
-				<td style="width:19%;">'.$row["Name"].'</td>
-				<td style="width:19%;">'.$row["position"].'</td>
-				<td style="width:19%;">'.$row["department"].'</td>
-				<td style="width:19%;">'.$row["branch"].'</td>
+				<td style="width:25%;">'.$row["workerid"].'</td>
+				<td style="width:25%;">'.$row["Name"].'</td>
+				<td style="width:25%;">'.$row["position"].'</td>
+				<td style="width:25%;">'.$row["department"].'</td>
+				<td style="width:25%;">'.$row["branch"].'</td>
 				<td style="display:none;width:1%;"><input type="checkbox" name="chkbox" class="checkbox" value="true"'.($row["birdeclared"]==1 ? "checked" : "").' onclick="return false;"><div style="visibility:hidden;height: 1px;">'.$row["birdeclared"].'</div></td>
 				<td style="display:none;width:1%;">'.$row['firstname'].'</td>
 				<td style="display:none;width:1%;">'.$row['middlename'].'</td>

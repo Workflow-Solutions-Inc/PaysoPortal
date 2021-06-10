@@ -137,7 +137,7 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:10%;">'.$row["overtimeid"].'</td>
 				<td style="width:14%;">'.$row["name"].'</td>
 				<td style="width:10%;">'.$row["overtimedate"].'</td>
-				<td style="width:25%;">'.$row["details"].'</td>
+				<td style="width:22%;">'.$row["details"].'</td>
 				<td style="width:12%;">'.$row["overtimetypes"].'</td>
 				<td style="display:none;width:1%;">'.$row["timein"].'</td>
 				<td style="display:none;width:1%;">'.$row["timeout"].'</td>
@@ -145,6 +145,7 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:5%;">'.$row["minutes"].'</td>
 				<td style="width:5%;">'.$row["otstatus"].'</td>
 				<td style="width:7%;">'.$row["datefiled"].'</td>
+				<td style="width:10%;">'.$row["approvedby"].'</td>
 				<td style="display:none;width:1%;">'.$row["starttime"].'</td>
 				<td style="display:none;width:1%;">'.$row["endtime"].'</td>
 				<td style="display:none;width:1%;">'.$row["workerid"].'</td>

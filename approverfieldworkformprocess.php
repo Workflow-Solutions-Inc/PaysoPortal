@@ -11,11 +11,12 @@ include("dbconn.php");
 if(isset($_GET["save"])) {
 	 
 	 $id=$_GET["FWId"];
-	 $fwdate=$_GET["FWdate"];
+	 $fwfromdate=$_GET["FWfromdate"];
+	 $fwtodate=$_GET["FWtodate"];
 	 $fwdetails=$_GET["FWdetails"];
 	 $fwstart=$_GET["FWstart"];
 	 $fwend=$_GET["FWend"];
-	 $fwdaytype=$_GET["FWaytype"];
+	 $fwdaytype='';
 	 $workersel=$_GET["WKId"];
 
 	 $query = "SELECT * FROM worker where dataareaid = '$dataareaid' and workerid='$workersel'";
@@ -23,8 +24,79 @@ if(isset($_GET["save"])) {
 	 $row = $result->fetch_assoc();
 	 $wkname = $row["name"];
 
+	  while (strtotime($fwfromdate) <= strtotime($fwtodate)) {
+	    echo $fwfromdate."</br>";
+	    
+
+	    if($id != ""){
+		 /*$sql = "INSERT INTO portalfieldwork (fieldworkid,fieldworkdate,details,starttime,endtime,daytype,name,workerid,status,dataareaid,createdby,createddatetime)
+				values 
+				('$id','$fwfromdate','$fwdetails','$fwstart','$fwend','$fwdaytype','$logname','$lognum',0, '$dataareaid', '$userlogin', now())";
+			if(mysqli_query($conn,$sql))
+			{
+				echo "New Rec Created";
+			}
+			else
+			{
+				echo "error".$sql."<br>".$conn->error;
+			}*/
+
+		 
+
+		 $query2 = "SELECT * FROM numbersequence where dataareaid = '$dataareaid' and id='fieldwork'";
+						$result2 = $conn->query($query2);
+						$row2 = $result2->fetch_assoc();
+						$prefix = $row2["prefix"];
+						$first = $row2["first"];
+						$last = $row2["last"];
+						$format = $row2["format"];
+						$next = $row2["next"];
+						$suffix = $row2["suffix"];
+						if($last >= $next)
+						{
+							$sequence = $prefix.substr($format,0,strlen($next)*-1).$next.$suffix;
+						}
+						else if ($last < $next)
+						{
+							$sequence = $prefix.$next.$suffix;
+						}
+						$increment=$next+1;
+						$sql = "UPDATE numbersequence SET
+								next = '$increment',
+								modifiedby = '$userlogin',
+								modifieddatetime = now()
+								WHERE id = 'fieldwork'
+								and dataareaid = '$dataareaid'";
+						//mysqli_query($conn,$sql);	
+						if(mysqli_query($conn,$sql))
+						{
+							//echo "Rec Updated";
+							
+								$sql2 = "INSERT INTO portalfieldwork (fieldworkid,fieldworkdate,details,starttime,endtime,daytype,name,workerid,status,dataareaid,createdby,createddatetime)
+										values 
+										('$sequence','$fwfromdate','$fwdetails','$fwstart','$fwend','$fwdaytype','$wkname','$workersel',0, '$dataareaid', '$userlogin', now())";
+								if(mysqli_query($conn,$sql2))
+								{
+									//echo $sql2;
+								}
+								else
+								{
+									echo "error".$sql2."<br>".$conn->error;
+								}
+							
+
+							 
+						}
+						else
+						{
+							echo "error".$sql."<br>".$conn->error;
+						}
+			$fwfromdate = date ("Y-m-d", strtotime("+1 days", strtotime($fwfromdate)));
+		}
+	}
+
 	 
-	 if($id != ""){
+	 /*if($id != ""){
 	 $sql = "INSERT INTO portalfieldwork (fieldworkid,fieldworkdate,details,starttime,endtime,daytype,name,workerid,status,dataareaid,createdby,createddatetime)
 			values 
 			('$id','$fwdate','$fwdetails','$fwstart','$fwend','$fwdaytype','$wkname','$workersel',0, '$dataareaid', '$userlogin', now())";
@@ -37,7 +109,7 @@ if(isset($_GET["save"])) {
 			echo "error".$sql."<br>".$conn->error;
 		}
 
-	 }
+	 }*/
 	 
 	header('location: approverfieldworkform.php');
 	
@@ -45,7 +117,8 @@ if(isset($_GET["save"])) {
 else if(isset($_GET["update"])) {
 	 
 	 $id=$_GET["FWId"];
-	 $fwdate=$_GET["FWdate"];
+	 //$fwdate=$_GET["FWdate"];
+	 $fwfromdate=$_GET["FWfromdate"];
 	 $fwdetails=$_GET["FWdetails"];
 	 $fwstart=$_GET["FWstart"];
 	 $fwend=$_GET["FWend"];
@@ -54,7 +127,7 @@ else if(isset($_GET["update"])) {
 	 
 	 if($id != ""){
 	 $sql = "UPDATE portalfieldwork SET
-				fieldworkdate = '$fwdate',
+				fieldworkdate = '$fwfromdate',
 				details = '$fwdetails',
 				starttime = '$fwstart',
 				endtime = '$fwend',
@@ -175,7 +248,7 @@ else if($_GET["action"]=="add"){
 	 {
 	 	$sequence = $prefix.$next.$suffix;
 	 }
-	 $increment=$next+1;
+	 /*$increment=$next+1;
 	 $sql = "UPDATE numbersequence SET
 				next = '$increment',
 				modifiedby = '$userlogin',
@@ -192,9 +265,11 @@ else if($_GET["action"]=="add"){
 		else
 		{
 			$output .= "error".$sql."<br>".$conn->error;
-		}
+		}*/
 	 
-	 
+	 $output .= '
+				 <input type="text" value="'.$sequence.'" placeholder="Overtime" name ="FWId" id="add-fwid" class="modal-textarea" required="required">
+				 ';
 	 echo $output;
 	
 }

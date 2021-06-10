@@ -45,7 +45,7 @@ else
 		<div class="header-nav">
 				<ul>
 					<li id="pla" onClick="reply_click(this.id)"><a href="approverleaveform.php?list=pla"><span class="fas fa-hourglass"></span>  Pending Leave Application</a></li>
-					<li id="ala" onClick="reply_click(this.id)"><a href="approverviewleaveform.php?list=ala"><span class="fas fa fa-check"></span>  Approved Leave Application</a></li>
+					<li id="ala" onClick="reply_click(this.id)"><a href="approverviewleaveform.php?list=ala"><span class="fas fa fa-check"></span>  Posted Leave Application</a></li>
 				</ul>
 		</div>
 

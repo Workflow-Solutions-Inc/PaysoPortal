@@ -94,11 +94,14 @@
 				
 				<?php
 				if(isset($_GET["invalid"])) {
-					if($_GET["invalid"] > 1) {
+					if($_GET["invalid"] == 2) {
 						echo "<div class='login-notify'><span class='fas fa-info-circle'></span> Invalid username or password. Please enter again.</div>";
 					}
 					else if($_GET["invalid"] == 1) {
 						echo "<div class='login-notify'><span class='fas fa-info-circle'></span> Invalid password. Please enter again.</div>";
+					}
+					else if($_GET["invalid"] == 3) {
+						echo "<div class='login-notify'><span class='fas fa-info-circle'></span> Account has been Disabled.</div>";
 					}
 				}
 				?>

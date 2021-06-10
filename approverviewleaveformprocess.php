@@ -131,18 +131,20 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:5%;"><input type="checkbox" id="chkbox" name="chkbox" class="checkbox"
 				 	value="'.$row['leaveid'].'" '.($row["status"]==3 ? 'disabled' : '').'></td>
 				<td style="width:10%;">'.$row["leaveid"].'</td>
-				<td style="width:14%;">'.$row["name"].'</td>
-				<td style="width:10%;">'.$row["leavedate"].'</td>
-				<td style="width:25%;">'.$row["details"].'</td>
+				<td style="width:13%;">'.$row["name"].'</td>
+				<td style="width:8%;">'.$row["leavedate"].'</td>
+				<td style="width:20%;">'.$row["details"].'</td>
 				<td style="width:7%;">'.$row["timein"].'</td>
 				<td style="width:7%;">'.$row["timeout"].'</td>
 				<td style="width:5%;">'.$row["leavetype"].'</td>
 				<td style="width:5%;">'.$row["daytypes"].'</td>
 				<td style="width:7%;">'.$row["otstatus"].'</td>
-				<td style="width:10%;">'.$row["datefiled"].'</td>
+				<td style="width:8%;">'.$row["datefiled"].'</td>
+				<td style="width:10%;">'.$row["approvedby"].'</td>
 				<td style="display:none;width:1%;">'.$row["starttime"].'</td>
 				<td style="display:none;width:1%;">'.$row["endtime"].'</td>
 				<td style="display:none;width:1%;">'.$row["daytype"].'</td>
+
 				
 			</tr>';
 		}
