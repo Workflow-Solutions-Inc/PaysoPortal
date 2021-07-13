@@ -145,9 +145,10 @@ else
 										<td style="width:11%;">Overtime Date</td>
 										<td style="width:26%;">Details</td>
 										<td style="width:13%;">Overtime Type</td>
-										
-										<td style="width:6%;">Hours</td>
-										<td style="width:6%;">Minutes</td>
+										<td style="width:12%;">Start</td>
+										<td style="width:12%;">End</td>
+										<td style="width:6%;">HRS</td>
+										<td style="width:6%;">MINS</td>
 										<td style="width:6%;">Status</td>
 										<td style="width:8%;">Date Filed</td>
 										<td style="width: 17px;" class="text-center"><span class="fas fa-arrows-alt-v"></span></td>
@@ -311,11 +312,13 @@ else
 										</datalist>
 									  </td>
 									  <td><span></span></td>
+									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
 									<?php					
-									$query = "SELECT *,TIME_FORMAT(ot.starttime,'%H:%i') as timein,TIME_FORMAT(ot.endtime,'%H:%i') as timeout,
+									$query = "SELECT *,date_format(starttime,'%Y-%m-%d %h:%i %p') as timein,date_format(endtime,'%Y-%m-%d %h:%i %p') as timeout,
 									case when ot.status = 0 then 'Created'
 										when ot.status = 1 then 'Approved' 
 										when ot.status = 2 then 'Disapproved' 
@@ -358,8 +361,8 @@ else
 											<td style="width:11%;"><?php echo $row['overtimedate'];?></td>
 											<td style="width:26%;"><?php echo $row['details'];?></td>
 											<td style="width:13%;"><?php echo $row['overtimetypes'];?></td>
-											<td style="display:none;width:1%;"><?php echo $row['timein'];?></td>
-											<td style="display:none;width:1%;"><?php echo $row['timeout'];?></td>
+											<td style="width:12%;"><?php echo $row['timein'];?></td>
+											<td style="width:12%;"><?php echo $row['timeout'];?></td>
 											<td style="width:6%;"><?php echo $row['hours'];?></td>
 											<td style="width:6%;"><?php echo $row['minutes'];?></td>
 											<td style="width:6%;"><?php echo $row['otstatus'];?></td>
@@ -493,6 +496,11 @@ else
 						<div id="resultfilter">
 								<input type="hidden" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
 								<input type="hidden" value="" name ="myMins" id="otMINS" class="modal-textarea" >
+
+								<input type="hidden" value="" name ="myEndDate" id="myEndDate" class="modal-textarea">
+								<input type="hidden" value="" name ="myEndTime" id="myEndDate" class="modal-textarea">
+
+								<input type="hidden" value="" name ="mySched" id="mySched" class="modal-textarea">
 								
 						</div>
 
@@ -689,6 +697,7 @@ else
 				alert("No Valid Attendance on Date Selected");
 				return false;
 			}*/
+			var Typefilter = document.getElementById("add-type").value;
 			getOT();
 			//alert(1);
 
@@ -696,58 +705,115 @@ else
 			var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
 
 			var myOTEndDate = document.getElementById("myEndDate").value;
+			var myShced = document.getElementById("mySched").value;
 
 			$myOtMins = document.getElementById("otMINS").value.toString();
 			$myOtHrs = document.getElementById("otHRS").value.toString();
 
 			$myFiledOtHours = document.getElementById("add-othours").value.toString();
 			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
-			
-	
-			if (OTEndDateTime > myOTEndDate)
-			{
-				alert('Overtime EndDate and EndTime must be within his/her attendance!');
-				return false;
-			}
-			else
-			{
-				if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
-					{	
-						alert("Hours and Minutes Fields cannot be equal to zero.");
-						return false;
-					}
 
+			
+		    if (Typefilter == 5)
+			{
+				if (OTStartDateTime < myOTEndDate)
+				{
+					alert('Overtime Start Date and Start Time must be within his/her attendance!');
+					return false;
+				}
 				else
 				{
-					if ($myFiledOtHours > $myOtHrs)
+					if(OTEndDateTime > myShced)
 					{
-						//alert($myOtHrs);
-						alert("Excess of hours in OT.");
+						alert('Overtime End Date and End Time must not be greater than his/her Start of Shift Schedule!');
 						return false;
 					}
 					else
 					{
-						if($myFiledOtMins > $myOtMins)
-						{
-							alert("Excess of minutes in OT.");
+						if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+						{	
+							alert("Hours and Minutes Fields cannot be equal to zero.");
 							return false;
 						}
+
 						else
 						{
-							return true;
-							/*if(d > x)
-				 			{
-				 				//alert("Invalid! Overtime filing exceeded 7 days!!!");
-				 				return true;
-				 			}
-				 			else
-				 			{
-				 				return true;
-				 			}*/
+							if ($myFiledOtHours > $myOtHrs)
+							{
+								//alert($myOtHrs);
+								alert("Excess of hours in OT.");
+								return false;
+							}
+							else
+							{
+								if($myFiledOtMins > $myOtMins)
+								{
+									alert("Excess of minutes in OT.");
+									return false;
+								}
+								else
+								{
+									return true;
+									
+								}
+							}
 						}
 					}
+						
+					
 				}
 			}
+			else
+			{
+				if (OTEndDateTime > myOTEndDate)
+				{
+					alert('Overtime End Date and End Time must be within his/her attendance!');
+					return false;
+				}
+				else
+				{
+					if(OTStartDateTime < myShced)
+					{
+						alert('Overtime Start Date and Star Time must not be Less than his/her End of Shift Schedule!');
+						return false;
+					}
+					else
+					{
+						if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+						{	
+							alert("Hours and Minutes Fields cannot be equal to zero.");
+							return false;
+						}
+
+						else
+						{
+							if ($myFiledOtHours > $myOtHrs)
+							{
+								//alert($myOtHrs);
+								alert("Excess of hours in OT.");
+								return false;
+							}
+							else
+							{
+								if($myFiledOtMins > $myOtMins)
+								{
+									alert("Excess of minutes in OT.");
+									return false;
+								}
+								else
+								{
+									return true;
+									
+								}
+							}
+						}
+					}	
+					
+				}
+			}
+			
+	
+			
 			//return false;
 		}
 
@@ -764,16 +830,127 @@ else
 		    	return false;
 		    }
 		  }*/
-		  
+		var Typefilter = document.getElementById("add-type").value;
+		var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
+		var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
+		var myOTEndDate = document.getElementById("myEndDate").value;
+		var myShced = document.getElementById("mySched").value;
+
 		  var x = document.forms["myForm"]["update"].value;
 		  if (x == "update") {
 		  	
-		  	var myOtMins = document.getElementById("otMINS").value.toString();
-			var myOtHrs = document.getElementById("otHRS").value.toString();
+		  	var $myOtMins = document.getElementById("otMINS").value.toString();
+			var $myOtHrs = document.getElementById("otHRS").value.toString();
 			$myFiledOtHours = document.getElementById("add-othours").value.toString();
 			$myFiledOtMins = document.getElementById("add-otminutes").value.toString();
 
-				if (myOtHrs == "" && myOtMins == "")
+			if(confirm("Are you sure you want to update this record?")) {
+		    	if (Typefilter == 5)
+				{
+					if (OTStartDateTime < myOTEndDate)
+					{
+						alert('Overtime Start Date and Start Time must be within his/her attendance!');
+						return false;
+					}
+					else
+					{
+						if(OTEndDateTime > myShced)
+						{
+							alert('Overtime End Date and End Time must not be greater than his/her Start of Shift Schedule!');
+							return false;
+						}
+						else
+						{
+							if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+							{	
+								alert("Hours and Minutes Fields cannot be equal to zero.");
+								return false;
+							}
+
+							else
+							{
+								if ($myFiledOtHours > $myOtHrs)
+								{
+									//alert($myOtHrs);
+									alert("Excess of hours in OT.");
+									return false;
+								}
+								else
+								{
+									if($myFiledOtMins > $myOtMins)
+									{
+										alert("Excess of minutes in OT.");
+										return false;
+									}
+									else
+									{
+										return true;
+										
+									}
+								}
+							}
+						}
+							
+						
+					}
+				}
+				else
+				{
+					if (OTEndDateTime > myOTEndDate)
+					{
+						alert('Overtime End Date and End Time must be within his/her attendance!');
+						return false;
+					}
+					else
+					{
+						if(OTStartDateTime < myShced)
+						{
+							alert('Overtime Start Date and Star Time must not be Less than his/her End of Shift Schedule!');
+							return false;
+						}
+						else
+						{
+							if ($myFiledOtHours == 0 &&  $myFiledOtMins == 0)
+							{	
+								alert("Hours and Minutes Fields cannot be equal to zero.");
+								return false;
+							}
+
+							else
+							{
+								if ($myFiledOtHours > $myOtHrs)
+								{
+									//alert($myOtHrs);
+									alert("Excess of hours in OT.");
+									return false;
+								}
+								else
+								{
+									if($myFiledOtMins > $myOtMins)
+									{
+										alert("Excess of minutes in OT.");
+										return false;
+									}
+									else
+									{
+										return true;
+										
+									}
+								}
+							}
+						}	
+						
+					}
+				}
+		    }
+		    else
+		    {
+		    	modal.style.display = "none";
+		    	Clear();
+		    	return false;
+		    }
+
+				/*if (myOtHrs == "" && myOtMins == "")
 				{
 					//getOT();
 					return false;
@@ -807,7 +984,7 @@ else
 								    }
 							}
 						}
-				}
+				}*/
 
 			//alert(myOtHrs);
 

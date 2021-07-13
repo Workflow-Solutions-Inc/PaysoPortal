@@ -43,6 +43,7 @@ $dataareaid = $_SESSION["portaldefaultdataareaid"];
 			</div>
 		</li>
 		<li><button onclick="location.href = 'payslip.php';"><i class="fas fa-file-export"></i> View Payslip</button></li>
+		<li><button onclick="location.href = 'cert.php';"><i class="fas fa-file-alt"></i> Request Certificate</button></li>
 	</ul>
 	<?php 
 		

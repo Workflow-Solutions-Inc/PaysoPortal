@@ -425,7 +425,7 @@ else
 									<option value="0">Time In</option>
 									<option value="1">Time Out</option>
 									<option value="3">Break Out</option>
-									<option value="4">Break Out</option>
+									<option value="4">Break In</option>
 							</select>
 		
 							

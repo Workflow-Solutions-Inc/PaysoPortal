@@ -155,12 +155,12 @@ $enddate = '';
 											<tr class="<?php echo $rowclass; ?>" style = "<?php echo $chkr; ?>">
 												<!--<td style="width:10px;"><input type='checkbox' name="chkbox" value="" id="myCheck"></td>-->
 												<td style="width:20px;" class="text-center"><span class="fa fa-angle-right"></span></td>
-												<td style="width:16%;"><?php echo $row['daytype'];?></td>
-												<td style="width:16%;"><?php echo $row['date'];?></td>
-												<td style="width:16%;"><?php echo $row['day'];?></td>
-												<td style="width:16%;"><?php echo $chkr2;?></td>
-												<td style="width:16%;"><?php echo $chkr3;?></td>
-												<td style="width:16%;"><?php echo $chkr4;?></td>
+												<td style="width:20%;"><?php echo $row['daytype'];?></td>
+												<td style="width:20%;"><?php echo $row['date'];?></td>
+												<td style="width:20%;"><?php echo $row['day'];?></td>
+												<td style="width:20%;"><?php echo $chkr2;?></td>
+												<td style="width:20%;"><?php echo $chkr3;?></td>
+												<td style="width:20%;"><?php echo $chkr4;?></td>
 												<!--<td style="width:50%;"><input type='password' value='" . $row["password"]."'readonly='readonly'></td>-->
 												
 											</tr>

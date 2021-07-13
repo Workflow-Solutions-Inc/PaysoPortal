@@ -135,6 +135,32 @@ else if($_GET["action"]=="searchdata"){
 		//header('location: process.php');
 	}
 }
+else if($_GET["action"]=="viewsched"){
+	 	
+	$id=$_GET["workID"];
+	$loanVoucher=$_GET["locVoucher"];
+	$loanType=$_GET["locLoantype"];
+
+	$_SESSION['WKNumSchedID'] = $id;
+	$_SESSION['WKNumSchedVouch'] = $loanVoucher;
+	$_SESSION['WKNumSchedType'] = $loanType;
+
+	header('location: loanfileform.php');
+	
+}
+else if($_GET["action"]=="viewtrans"){
+	 	
+	$id=$_GET["workID"];
+	$loanVoucher=$_GET["locVoucher"];
+	$loanType=$_GET["locLoantype"];
+
+	$_SESSION['WKNumSchedID'] = $id;
+	$_SESSION['WKNumSchedVouch'] = $loanVoucher;
+	$_SESSION['WKNumSchedType'] = $loanType;
+
+	header('location: loanfileform.php');
+	
+}
 ?>
 
 <script  type="text/javascript">

@@ -359,6 +359,11 @@ else
 													<div id="resultfilter">
 															<input type="hidden" value="" name ="myHrs" id="otHRS" class="modal-textarea" >
 															<input type="hidden" value="" name ="myMins" id="otMINS" class="modal-textarea" >
+
+															<input type="hidden" value="" name ="myEndDate" id="myEndDate" class="modal-textarea">
+															<input type="hidden" value="" name ="myEndTime" id="myEndDate" class="modal-textarea">
+
+															<input type="hidden" value="" name ="mySched" id="mySched" class="modal-textarea">
 															
 													</div>
 													<!--
@@ -656,11 +661,13 @@ else
 	function checkHour(SelWorker)
 	{
 		//alert(SelWorker);
+		var Typefilter = document.getElementById("add-type").value;
 
 		var OTStartDateTime =document.getElementById("add-otdate").value + ' ' +document.getElementById("add-ottime").value;
 		var OTEndDateTime = document.getElementById("add-otenddate").value + ' ' +document.getElementById("add-otendtime").value;
 
 		var myOTEndDate = document.getElementById("myEndDate").value;
+		var myShced = document.getElementById("mySched").value;
 
 		var myWKname = document.getElementById("myWkname").value.toString();
 		var locHours = document.getElementById("add-othours").value.toString();
@@ -670,31 +677,81 @@ else
 		var	myOtHrs = document.getElementById("otHRS").value.toString();
 
 		//SelWorker
-			if (OTEndDateTime > myOTEndDate)
+		if (Typefilter == 5)
+		{
+			if (OTStartDateTime < myOTEndDate)
 			{
-				alert("Overtime EndDate and EndTime must be within "+ myWKname+ " attendance. Please remove from the list!");
+				alert("Overtime Start Date and Start Time must be within "+ myWKname+ " attendance. Please remove from the list!");
 				$("#batchsave").prop("disabled", true);
 			}
 			else
 			{
-				if (locHours > myOtHrs)
+				if(OTEndDateTime > myShced)
 				{
-					alert(myWKname+" doesnt reach:" +locHours+ " hours of OT. Please remove from the list!");
-					$("#batchsave").prop("disabled", true);
+					alert('Overtime End Date and End Time must not be Grater than '+ myWKname+ ' Start of Shift Schedule!');
+					return false;
 				}
 				else
 				{
-					if(locMins > myOtMins)
+					if (locHours > myOtHrs)
 					{
-						alert(myWKname+" doesnt reach:" +locMins+ " minutes of OT. Please remove from the list!");
+						alert(myWKname+" doesnt reach:" +locHours+ " hours of OT. Please remove from the list!");
 						$("#batchsave").prop("disabled", true);
 					}
 					else
 					{
-						//alert("Save Enabled!");
+						if(locMins > myOtMins)
+						{
+							alert(myWKname+" doesnt reach:" +locMins+ " minutes of OT. Please remove from the list!");
+							$("#batchsave").prop("disabled", true);
+						}
+						else
+						{
+							//alert("Save Enabled!");
+						}
 					}
 				}
+	
 			}
+		}
+		else
+		{
+			if (OTEndDateTime > myOTEndDate)
+			{
+				alert("Overtime End Date and End Time must be within "+ myWKname+ " attendance. Please remove from the list!");
+				$("#batchsave").prop("disabled", true);
+			}
+			else
+			{
+				if(OTStartDateTime < myShced)
+				{
+					alert('Overtime Start Date and Star Time must not be Less than '+ myWKname+ ' End of Shift Schedule!');
+					return false;
+				}
+				else
+				{
+					if (locHours > myOtHrs)
+					{
+						alert(myWKname+" doesnt reach:" +locHours+ " hours of OT. Please remove from the list!");
+						$("#batchsave").prop("disabled", true);
+					}
+					else
+					{
+						if(locMins > myOtMins)
+						{
+							alert(myWKname+" doesnt reach:" +locMins+ " minutes of OT. Please remove from the list!");
+							$("#batchsave").prop("disabled", true);
+						}
+						else
+						{
+							//alert("Save Enabled!");
+						}
+					}
+				}
+	
+			}
+		}
+			
 	}
 
 	function Save()

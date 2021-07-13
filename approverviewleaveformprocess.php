@@ -173,18 +173,78 @@ else if($_GET["action"]=="revert"){
 				$query2 = "SELECT *
 
 							from portalleavefile 
-							where dataareaid = '$dataareaid' and status = 0 and workerid = '$userid' and leaveid = '$leaveid'";
+							where dataareaid = '$dataareaid' and workerid = '$userid' and leaveid = '$leaveid'";
 
 					$result2 = $conn->query($query2);
 				
 					while ($row2 = $result2->fetch_assoc())
 					{ 
+							
+
+							$userid=$row2["workerid"];
+							$leaveid=$row2["leaveid"];
+							$leavetype=$row2["leavetype"];
 							$Ldaytype = $row2['daytype'];
+
+							$otstart = $row2['starttime'];
+							$otend = $row2['endtime'];
+
+							$status = $row2['status'];
+
+							$query3 = "SELECT format(balance,4) balance,ispaid FROM leavefile 
+							where workerid = '$userid' and dataareaid = '$dataareaid' and leavetype = '$leavetype'";
+							$result3 = $conn->query($query3);
+							while ($row3 = $result3->fetch_assoc())
+							{ 
+									
+
+									$wkvl = $row3['balance'];
+									$ispaid = $row3['ispaid'];
+									
+
+							}
+
+							
+							if($ispaid == 1 && $status == 2)
+							{
+							
+							
+
+								$starttimestamp = strtotime($otstart);
+								$endtimestamp = strtotime($otend);
+								$deduct = abs($endtimestamp - $starttimestamp)/3600;
+								if($deduct >= 9)
+								{
+									$deduct = $deduct - 1;
+								}
+								$deduct = $deduct/8;
+
+
+								$sql2 = "UPDATE leavefile SET
+									balance = balance - $deduct,
+									
+									modifiedby = '$userlogin',
+									modifieddatetime = now()
+									WHERE workerid = '$userid'
+									and dataareaid = '$dataareaid'
+									and leavetype = '$leavetype'";
+
+										if(mysqli_query($conn,$sql2))
+										{
+											echo $sql2;
+										}
+										else
+										{
+											echo "error".$sql2."<br>".$conn->error;
+										}
+							
+
+							}
 							
 
 					}
 
-					$deduct = 1;
+					/*$deduct = 1;
 					if($Ldaytype == 0)
 					{
 						$deduct = 1;
@@ -210,7 +270,7 @@ else if($_GET["action"]=="revert"){
 							else
 							{
 								echo "error".$sql2."<br>".$conn->error;
-							}
+							}*/
 			}
 
 	 $sql = "UPDATE portalleavefile set status = 0, 

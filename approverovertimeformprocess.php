@@ -120,7 +120,7 @@ else if($_GET["action"]=="searchdata"){
 		$overtimedate=$_GET["slocOvertimedate"];
 		$output='';
 		//$output .= '<tbody>';
-		$query = "SELECT *,TIME_FORMAT(ot.starttime,'%H:%i') as timein,TIME_FORMAT(ot.endtime,'%H:%i') as timeout,
+		$query = "SELECT *,date_format(starttime,'%Y-%m-%d %h:%i %p') as timein,date_format(endtime,'%Y-%m-%d %h:%i %p') as timeout,
 									case when ot.status = 0 then 'Created'
 										when ot.status = 1 then 'Approved' 
 										when ot.status = 2 then 'Disapproved' 
@@ -160,8 +160,8 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:11%;">'.$row["overtimedate"].'</td>
 				<td style="width:26%;">'.$row["details"].'</td>
 				<td style="width:13%;">'.$row["overtimetypes"].'</td>
-				<td style="display:none;width:1%;">'.$row["timein"].'</td>
-				<td style="display:none;width:1%;">'.$row["timeout"].'</td>
+				<td style="width:12%;">'.$row["timein"].'</td>
+				<td style="width:12%;">'.$row["timeout"].'</td>
 				<td style="width:6%;">'.$row["hours"].'</td>
 				<td style="width:6%;">'.$row["minutes"].'</td>
 				<td style="width:6%;">'.$row["otstatus"].'</td>
@@ -290,6 +290,7 @@ else if($_GET["action"]=="getOT"){
 
 	 $officialenddate='';
 	 $officialendtime='';
+	 $officialsched ='';
 
 	 if($_GET["OTStartDateTime"] == '' || $_GET["OTEndDateTime"] == '')
 	 {
@@ -341,7 +342,7 @@ else if($_GET["action"]=="getOT"){
 					,ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') field_work 
 					,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
 
-					#,TIME_FORMAT(ss.endtime,'%H:%i') as endtime 
+					,date_format(ss.endtime,'%Y-%m-%d %H:%i') as endtime 
                     #,ss.endtime,ss.starttime
                     #,TIME_FORMAT(subtime(TIMEDIFF(ifnull(outtbl.timeout,outtbl2.timeout), intbl.timein),CONVERT('09:00:00', TIME)),'%H') as renderedtime
                     #,TIMEDIFF('2009-05-05 15:45','2009-05-05 13:40')
@@ -426,7 +427,7 @@ else if($_GET["action"]=="getOT"){
 						,ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') field_work 
 						,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
 
-						,TIME_FORMAT(ss.starttime,'%H:%i') as endtime 
+						,date_format(ss.starttime,'%Y-%m-%d %H:%i') as endtime 
 
 						
                         
@@ -482,7 +483,7 @@ else if($_GET["action"]=="getOT"){
 						left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
 						and lc.dataareaid = ss.Dataareaid and lc.logtype = 0 and lc.status = 1
 						
-						left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid
+						left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid and consol.BioId = wk.BioId
 						
 						
 						left join (select date,concat(date, ' ', MIN(time)) as timein,bioid,type from consolidationtable where type = 0
@@ -503,7 +504,7 @@ else if($_GET["action"]=="getOT"){
 				$officialenddate = $row2['official_outdate'].' '.$row2['official_outdtime'];
 				$officialendtime = $row2['official_outdtime'];
 
-			
+				$officialsched = $row2['endtime'];
 
 		}
 
@@ -515,6 +516,8 @@ else if($_GET["action"]=="getOT"){
 
 				 <input type="hidden" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
 				 <input type="hidden" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
+
+				 <input type="hidden" value="'.$officialsched.'" name ="mySched" id="mySched" class="modal-textarea">
 				 
 				 ';
 

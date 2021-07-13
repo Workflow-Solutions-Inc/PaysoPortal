@@ -224,7 +224,7 @@ else if($_GET["action"]=="searchdata"){
 		$overtimedate=$_GET["slocOvertimedate"];
 		$output='';
 		//$output .= '<tbody>';
-		$query = "SELECT *,TIME_FORMAT(starttime,'%H:%i') as timein,TIME_FORMAT(endtime,'%H:%i') as timeout,
+		$query = "SELECT *,date_format(starttime,'%Y-%m-%d %h:%i %p') as timein,date_format(endtime,'%Y-%m-%d %h:%i %p') as timeout,
 									case when status = 0 then 'Created'
 										when status = 1 then 'Approved' 
 										when status = 2 then 'Disapproved' 
@@ -234,6 +234,7 @@ else if($_GET["action"]=="searchdata"){
                                         when overtimetype = 1 then 'Special Holiday Overtime'
                                         when overtimetype = 2 then 'Regular Holiday Overtime'
                                         when overtimetype = 3 then 'Sunday Overtime'
+                                        when overtimetype = 5 then 'Early Overtime'
                                         end as overtimetypes,
                                         date_format(starttime, '%Y-%m-%d') as starttime,
                                         date_format(endtime, '%Y-%m-%d') as endtime 
@@ -256,12 +257,12 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:10%;">'.$row["overtimeid"].'</td>
 				<td style="width:14%;">'.$row["name"].'</td>
 				<td style="width:10%;">'.$row["overtimedate"].'</td>
-				<td style="width:50%;">'.$row["details"].'</td>
+				<td style="width:30%;">'.$row["details"].'</td>
 				<td style="width:9%;">'.$row["overtimetypes"].'</td>
-				<td style="display:none;width:1%;">'.$row["timein"].'</td>
-				<td style="display:none;width:1%;">'.$row["timeout"].'</td>
-				<td style="width:5%;">'.$row["hours"].'</td>
-				<td style="width:5%;">'.$row["minutes"].'</td>
+				<td style="width:12%;">'.$row["timein"].'</td>
+				<td style="width:12%;">'.$row["timeout"].'</td>
+				<td style="width:4%;">'.$row["hours"].'</td>
+				<td style="width:4%;">'.$row["minutes"].'</td>
 				<td style="width:5%;">'.$row["otstatus"].'</td>
 				<td style="width:7%;">'.$row["datefiled"].'</td>
 				<td style="display:none;width:1%;">'.$row["starttime"].'</td>
@@ -326,6 +327,7 @@ else if($_GET["action"]=="getOT"){
 	 $endtimemins=0;
 	 $officialenddate='';
 	 $officialendtime='';
+	 $officialsched ='';
 	 $late='false';
 	 $leavefilter=$_GET["lfilter"];
 	 $leaveTypefilter=$_GET["Typefilter"];
@@ -376,8 +378,8 @@ else if($_GET["action"]=="getOT"){
 
 					,ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') field_work 
 					,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
-
-					#,TIME_FORMAT(ss.endtime,'%H:%i') as endtime 
+					
+					,date_format(ss.endtime,'%Y-%m-%d %H:%i') as endtime 
                     #,ss.endtime,ss.starttime
                     #,TIME_FORMAT(subtime(TIMEDIFF(ifnull(outtbl.timeout,outtbl2.timeout), intbl.timein),CONVERT('09:00:00', TIME)),'%H') as renderedtime
                     #,TIMEDIFF('2009-05-05 15:45','2009-05-05 13:40')
@@ -461,7 +463,7 @@ else if($_GET["action"]=="getOT"){
 						,ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') field_work 
 						,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
 
-						,TIME_FORMAT(ss.starttime,'%H:%i') as endtime 
+						,date_format(ss.starttime,'%Y-%m-%d %H:%i') as endtime 
 
 						
                         
@@ -538,6 +540,8 @@ else if($_GET["action"]=="getOT"){
 				$officialenddate = $row2['official_outdate'].' '.$row2['official_outdtime'];
 				$officialendtime = $row2['official_outdtime'];
 
+				$officialsched = $row2['endtime'];
+
 			
 
 		}
@@ -550,6 +554,8 @@ else if($_GET["action"]=="getOT"){
 
 				 <input type="hidden" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
 				 <input type="hidden" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
+
+				 <input type="hidden" value="'.$officialsched.'" name ="mySched" id="mySched" class="modal-textarea">
 				 
 				 ';
 

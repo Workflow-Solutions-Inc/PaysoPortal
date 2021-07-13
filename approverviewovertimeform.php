@@ -134,15 +134,16 @@ else
 								<thead>	
 									<tr class="rowtitle">
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
-										<td style="width:5%;">Include</td>
+										<td style="width:5%;">INC</td>
 										<td style="width:10%;">Overtime ID</td>
 										<td style="width:14%;">Name</td>
 										<td style="width:10%;">Overtime Date</td>
 										<td style="width:22%;">Details</td>
 										<td style="width:12%;">Overtime Type</td>
-
-										<td style="width:5%;">Hours</td>
-										<td style="width:5%;">Minutes</td>
+										<td style="width:12%;">Start</td>
+										<td style="width:12%;">End</td>
+										<td style="width:5%;">HRS</td>
+										<td style="width:5%;">MINS</td>
 										<td style="width:5%;">Status</td>
 										<td style="width:7%;">Approval Date</td>
 										<td style="width:10%;">Approved By</td>
@@ -308,11 +309,13 @@ else
 									  </td>
 									  <td><span></span></td>
 									  <td><span></span></td>
+									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
 									<?php					
-									$query = "SELECT *,TIME_FORMAT(ot.starttime,'%h:%i %p') as timein,TIME_FORMAT(ot.endtime,'%h:%i %p') as timeout,
+									$query = "SELECT *,date_format(starttime,'%Y-%m-%d %h:%i %p') as timein,date_format(endtime,'%Y-%m-%d %h:%i %p') as timeout,
 									case when ot.status = 0 then 'Created'
 										when ot.status = 1 then 'Approved' 
 										when ot.status = 2 then 'Disapproved' 
@@ -321,7 +324,7 @@ else
                                         case when ot.overtimetype = 0 then 'Regular Overtime'
                                         when ot.overtimetype = 1 then 'Special Holiday Overtime'
                                         when ot.overtimetype = 2 then 'Regular Holiday Overtime'
-                                        when ot.overtimetype = 3 then 'Sunday Overtime'
+                                        when ot.overtimetype = 3 then 'Rest Day Overtime'
                                         when ot.overtimetype = 5 then 'Early Overtime'
                                         end as overtimetypes 
 
@@ -352,9 +355,8 @@ else
 											<td style="width:10%;"><?php echo $row['overtimedate'];?></td>
 											<td style="width:22%;"><?php echo $row['details'];?></td>
 											<td style="width:12%;"><?php echo $row['overtimetypes'];?></td>
-											<td style="display:none;width:1%;"><?php echo $row['timein'];?></td>
-											<td style="display:none;width:1%;"><?php echo $row['timeout'];?></td><td style="display:none;width:1%;"><?php echo $row['timein'];?></td>
-											<td style="display:none;width:1%;"><?php echo $row['timeout'];?></td>
+											<td style="width:12%;"><?php echo $row['timein'];?></td>
+											<td style="width:12%;"><?php echo $row['timeout'];?></td>
 											<td style="width:5%;"><?php echo $row['hours'];?></td>
 											<td style="width:5%;"><?php echo $row['minutes'];?></td>
 											<td style="width:5%;"><?php echo $row['otstatus'];?></td>

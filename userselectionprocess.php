@@ -151,6 +151,7 @@ else if($_GET["action"]=="getOT"){
 	 $output='';
 	 $endtimehour=0;
 	 $endtimemins=0;
+	 $officialsched ='';
 	 $SelWorker=$_GET["SelWorker"];
 	 $OTdate=$_GET["OTdate"];
 	 $OTtype=$_GET["OTtype"];
@@ -178,7 +179,7 @@ else if($_GET["action"]=="getOT"){
 		}
 	$conn->close();
     include("dbconn.php");
-    $queryconsolidate = "call sp_testing('$userlogin',date_add('$leavefilter', Interval 1 day),'$dataareaid')";
+    $queryconsolidate = "call sp_testing('$userlogin',date_add('$OTdate', Interval 1 day),'$dataareaid')";
 	 if(mysqli_query($conn,$queryconsolidate))
 		{
 			//alert(1);
@@ -211,7 +212,7 @@ else if($_GET["action"]=="getOT"){
 					,ifnull(TIME_FORMAT(pw.endtime,'%H:%i'),'00:00') field_work 
 					,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
 
-					#,TIME_FORMAT(ss.endtime,'%H:%i') as endtime 
+					,date_format(ss.endtime,'%Y-%m-%d %H:%i') as endtime 
                     #,ss.endtime,ss.starttime
                     #,TIME_FORMAT(subtime(TIMEDIFF(ifnull(outtbl.timeout,outtbl2.timeout), intbl.timein),CONVERT('09:00:00', TIME)),'%H') as renderedtime
                     #,TIMEDIFF('2009-05-05 15:45','2009-05-05 13:40')
@@ -295,7 +296,7 @@ else if($_GET["action"]=="getOT"){
 						,ifnull(TIME_FORMAT(pw.starttime,'%H:%i'),'00:00') field_work 
 						,ifnull(TIME_FORMAT(lc.logtime,'%H:%i'),'00:00') log_correction
 
-						,TIME_FORMAT(ss.starttime,'%H:%i') as endtime 
+						,date_format(ss.starttime,'%Y-%m-%d %H:%i') as endtime 
 
 						
                         
@@ -351,13 +352,13 @@ else if($_GET["action"]=="getOT"){
 						left join logcorrection lc on lc.workerid = ss.workerid and lc.invaliddate = ss.Date
 						and lc.dataareaid = ss.Dataareaid and lc.logtype = 0 and lc.status = 1
 						
-						left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid
+						left join consolidationtable consol on consol.date = ss.date  and consol.dataareaid = ss.Dataareaid and consol.BioId = wk.BioId
 						
 						
 						left join (select date,concat(date, ' ', MIN(time)) as timein,bioid,type from consolidationtable where type = 0
 						group by date,bioid,type) intbl on consol.BioId = intbl.bioid and consol.Date = intbl.date
 
-						where wk.bioid = '$logbio' and ss.date = '$leavefilter' and ss.Dataareaid = '$dataareaid'
+						where wk.bioid = '$logbio' and ss.date = '$OTdate' and ss.Dataareaid = '$dataareaid'
 
 						group by ss.date,wk.bioid";
         }
@@ -372,7 +373,7 @@ else if($_GET["action"]=="getOT"){
 				$officialenddate = $row2['official_outdate'].' '.$row2['official_outdtime'];
 				$officialendtime = $row2['official_outdtime'];
 			
-
+				$officialsched = $row2['endtime'];
 		}
 
 		
@@ -395,6 +396,8 @@ else if($_GET["action"]=="getOT"){
 
 				 <input type="hidden" value="'.$officialenddate.'" name ="myEndDate" id="myEndDate" class="modal-textarea">
 				 <input type="hidden" value="'.$officialendtime.'" name ="myEndTime" id="myEndDate" class="modal-textarea">
+
+				 <input type="hidden" value="'.$officialsched.'" name ="mySched" id="mySched" class="modal-textarea">
 				 ';
 
 	

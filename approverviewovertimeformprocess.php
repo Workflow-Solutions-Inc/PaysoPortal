@@ -102,7 +102,7 @@ else if($_GET["action"]=="searchdata"){
 		$overtimedate=$_GET["slocOvertimedate"];
 		$output='';
 		//$output .= '<tbody>';
-		$query = "SELECT *,TIME_FORMAT(ot.starttime,'%h:%i %p') as timein,TIME_FORMAT(ot.endtime,'%h:%i %p') as timeout,
+		$query = "SELECT *,date_format(starttime,'%Y-%m-%d %h:%i %p') as timein,date_format(endtime,'%Y-%m-%d %h:%i %p') as timeout,
 									case when ot.status = 0 then 'Created'
 										when ot.status = 1 then 'Approved' 
 										when ot.status = 2 then 'Disapproved' 
@@ -139,8 +139,8 @@ else if($_GET["action"]=="searchdata"){
 				<td style="width:10%;">'.$row["overtimedate"].'</td>
 				<td style="width:22%;">'.$row["details"].'</td>
 				<td style="width:12%;">'.$row["overtimetypes"].'</td>
-				<td style="display:none;width:1%;">'.$row["timein"].'</td>
-				<td style="display:none;width:1%;">'.$row["timeout"].'</td>
+				<td style="width:12%;">'.$row["timein"].'</td>
+				<td style="width:12%;">'.$row["timeout"].'</td>
 				<td style="width:5%;">'.$row["hours"].'</td>
 				<td style="width:5%;">'.$row["minutes"].'</td>
 				<td style="width:5%;">'.$row["otstatus"].'</td>

@@ -49,11 +49,13 @@ else
 
 		<!-- sub buttons -->
 		<ul class="subbuttons">
-			<!--<div class="leftpanel-title"><b>COMMANDS</b></div>
-			<li><button id="myAddBtn"><span class="fa fa-plus"></span> Create Record</button></li>-->
+			<div class="leftpanel-title"><b>COMMANDS</b></div>
+			<!-- <li><button id="myAddBtn"><span class="fa fa-plus"></span> Create Record</button></li>-->
 			<!--<li><button onClick="Delete();"><span class="fa fa-trash-alt"></span> Delete Record</button></li>
 			<li><button id="myUpdateBtn"><span class="fa fa-edit"></span> Update Record</button></li>
 			<li><button onClick="Cancel();"><span class="fa fa-arrow-circle-left fa-lg"></span> Back</button></li>-->
+			<li><button onClick="Sched();"><span class="fa fa-plus"></span> View Loan Schedule</button></li>
+			<li><button onClick="Trans();"><span class="fa fa-plus"></span> View Loan Transaction</button></li>
 		</ul>
 		
 		<!-- extra buttons -->
@@ -92,7 +94,7 @@ else
 						</div> -->
 						<!-- tableheader -->
 						<div id="container1" class="full">
-							<table width="100%" border="0" id="datatbl" class="table table-striped mainpanel-table">
+							<table width="100%" style="border: 1px solid #d9d9d9;" id="datatbl" class="table table-striped mainpanel-table">
 								<thead>	
 									<tr class="rowtitle">
 										<td style="width:20px;" class="text-center"><span class="fa fa-asterisk fa-xs"></span></td>
@@ -790,6 +792,77 @@ else
 			{
 				alert("Please Select a record you want to delete.");
 			}			
+		}
+
+		function Sched()
+		{
+			
+			modal.style.display = "none";
+			/*var UId = document.getElementById("add-UserId");
+			var UPass = document.getElementById("add-pass");
+			var NM = document.getElementById("add-name");
+			var DT = document.getElementById("add-dataareaid");*/
+			
+			var action = "viewsched";
+			var actionmode = "userform";
+			if(so != '') {
+				$.ajax({	
+						type: 'GET',
+						url: 'loanfileformprocess.php',
+						//data:'action=save&actmode=userform&userno='+UId.value+'&pass='+UPass.value+'&lname='+NM.value+'&darea='+DT.value,
+						data:{action:action, actmode:actionmode, workID:so, locVoucher:locVoucher, locLoantype:locLoantype},
+						beforeSend:function(){
+								
+						$("#datatbl").html('<center><img src="img/loading.gif" width="300" height="300"></center>');
+							
+						},
+						success: function(data){
+						//$('#datatbl').html(data);
+						window.location.href='loanschedform.php';
+						//location.reload();					
+						}
+				});
+			}
+			else 
+			{
+				alert("Please Select a record you want to view.");
+			}
+						
+		}
+		function Trans()
+		{
+			
+			modal.style.display = "none";
+			/*var UId = document.getElementById("add-UserId");
+			var UPass = document.getElementById("add-pass");
+			var NM = document.getElementById("add-name");
+			var DT = document.getElementById("add-dataareaid");*/
+			
+			var action = "viewtrans";
+			var actionmode = "userform";
+			if(so != '') {
+				$.ajax({	
+						type: 'GET',
+						url: 'loanfileformprocess.php',
+						//data:'action=save&actmode=userform&userno='+UId.value+'&pass='+UPass.value+'&lname='+NM.value+'&darea='+DT.value,
+						data:{action:action, actmode:actionmode, workID:so, locVoucher:locVoucher, locLoantype:locLoantype},
+						beforeSend:function(){
+								
+						$("#datatbl").html('<center><img src="img/loading.gif" width="300" height="300"></center>');
+							
+						},
+						success: function(data){
+						//$('#datatbl').html(data);
+						window.location.href='loantransform.php';
+						//location.reload();					
+						}
+				});
+			}
+			else 
+			{
+				alert("Please Select a record you want to view.");
+			}
+						
 		}
 		function Cancel()
 		{

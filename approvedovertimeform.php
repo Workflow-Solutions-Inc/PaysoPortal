@@ -140,9 +140,10 @@ else
 										<td style="width:8%;">Overtime Date</td>
 										<td style="width:22%;">Details</td>
 										<td style="width:12%;">Overtime Type</td>
-										
-										<td style="width:5%;">Hours</td>
-										<td style="width:5%;">Minutes</td>
+										<td style="width:12%;">Start</td>
+										<td style="width:12%;">End</td>
+										<td style="width:4%;">HRS</td>
+										<td style="width:4%;">MINS</td>
 										<td style="width:5%;">Status</td>
 										<td style="width:8%;">Approval Date</td>
 										<td style="width:10%;">Approved By</td>
@@ -309,11 +310,13 @@ else
 									  </td>
 									  <td><span></span></td>
 									  <td><span></span></td>
+									  <td><span></span></td>
+									  <td><span></span></td>
 									</tr>
 								</thead>
 								<tbody id="result">
 									<?php					
-									$query = "SELECT *,TIME_FORMAT(starttime,'%h:%i %p') as timein,TIME_FORMAT(endtime,'%h:%i %p') as timeout,
+									$query = "SELECT *,date_format(starttime,'%Y-%m-%d %h:%i %p') as timein,date_format(endtime,'%Y-%m-%d %h:%i %p') as timeout,
 									case when status = 0 then 'Created'
 										when status = 1 then 'Approved' 
 										when status = 2 then 'Disapproved' 
@@ -348,10 +351,10 @@ else
 											<td style="width:8%;"><?php echo $row['overtimedate'];?></td>
 											<td style="width:22%;"><?php echo $row['details'];?></td>
 											<td style="width:12%;"><?php echo $row['overtimetypes'];?></td>
-											<td style="display:none;width:1%;"><?php echo $row['timein'];?></td>
-											<td style="display:none;width:1%;"><?php echo $row['timeout'];?></td>
-											<td style="width:5%;"><?php echo $row['hours'];?></td>
-											<td style="width:5%;"><?php echo $row['minutes'];?></td>
+											<td style="width:12%;"><?php echo $row['timein'];?></td>
+											<td style="width:12%;"><?php echo $row['timeout'];?></td>
+											<td style="width:4%;"><?php echo $row['hours'];?></td>
+											<td style="width:4%;"><?php echo $row['minutes'];?></td>
 											<td style="width:5%;"><?php echo $row['otstatus'];?></td>
 											<td style="width:8%;"><?php echo $row['datefiled'];?></td>
 											<td style="width:10%;"><?php echo $row['approvedby'];?></td>
